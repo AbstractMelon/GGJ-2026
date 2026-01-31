@@ -1,6 +1,8 @@
 extends CharacterBody3D
 class_name Player
 
+enum Role { NONE, HACKER, DETECTIVE }
+
 @export var move_speed := 5.0
 @export var mouse_sensitivity := 0.002
 @export var acceleration := 10.0
@@ -10,6 +12,7 @@ class_name Player
 @onready var collision_shape: CollisionShape3D = $CollisionShape3D
 @onready var interaction_ray: RayCast3D = $Camera3D/InteractionRay
 @onready var interaction_prompt: Label = $HUD/InteractionPrompt
+@onready var role_label: Label = $HUD/RoleLabel
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 var target_velocity := Vector3.ZERO
@@ -17,6 +20,7 @@ var camera_rotation := Vector2.ZERO
 var _sync_timer := 0.0
 var is_mask_removed := false
 var _e_was_pressed := false
+var player_role: Role = Role.NONE
 
 @onready var skin := $Skin
 
@@ -32,7 +36,7 @@ func _ready() -> void:
 		skin.visible = false
 		interaction_prompt.visible = false
 		interaction_ray.add_exception(self)
-		
+		_update_role_ui()
 	else:
 		# Disable camera for non-local players
 		skin.visible = true
@@ -167,10 +171,15 @@ func _handle_interaction() -> void:
 	if interaction_ray.is_colliding():
 		var collider = interaction_ray.get_collider()
 		if collider is Player and collider != self and not collider.is_mask_removed:
-			interaction_prompt.visible = true
-			# We use KEY_E directly as requested
-			if e_now and not _e_was_pressed:
-				collider.remove_mask.rpc()
+			# Only detective can unmask people
+			if player_role == Role.DETECTIVE:
+				interaction_prompt.text = "Press E to unmask"
+				interaction_prompt.visible = true
+				# We use KEY_E directly as requested
+				if e_now and not _e_was_pressed:
+					_request_unmask.rpc_id(1, collider.name.to_int())
+			else:
+				interaction_prompt.visible = false
 		else:
 			interaction_prompt.visible = false
 	else:
@@ -188,3 +197,46 @@ func remove_mask() -> void:
 	# Wait 2 seconds then hide the mask
 	await get_tree().create_timer(1.0).timeout
 	$Skin/Mask.visible = false
+
+@rpc("any_peer", "call_local", "reliable")
+func _request_unmask(target_player_id: int) -> void:
+	# Only server processes unmask requests
+	if not multiplayer.is_server():
+		return
+	
+	var requester_id = multiplayer.get_remote_sender_id()
+	# If called locally on server, use our own ID
+	if requester_id == 0:
+		requester_id = multiplayer.get_unique_id()
+	
+	var game = get_tree().get_first_node_in_group("game")
+	if game:
+		game.handle_unmask_request(requester_id, target_player_id)
+
+@rpc("any_peer", "call_local", "reliable")
+func set_role(role: Role) -> void:
+	# Only allow server to set roles
+	if not multiplayer.is_server():
+		var sender_id = multiplayer.get_remote_sender_id()
+		if sender_id != 1:
+			return
+	
+	player_role = role
+	if is_multiplayer_authority():
+		_update_role_ui()
+
+func _update_role_ui() -> void:
+	if not role_label:
+		return
+	
+	match player_role:
+		Role.HACKER:
+			role_label.text = "You are the HACKER"
+			role_label.modulate = Color.RED
+		Role.DETECTIVE:
+			role_label.text = "You are the DETECTIVE"
+			role_label.modulate = Color.CYAN
+		_:
+			role_label.text = ""
+	
+	role_label.visible = player_role != Role.NONE
