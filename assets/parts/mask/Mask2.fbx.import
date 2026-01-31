@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://cqkdlic1t1n4y"
-path="res://.godot/imported/Arms3.fbx-83b3b88c8132f02eafe25420fe7724f1.scn"
+uid="uid://bd3ea4oh65u2p"
+path="res://.godot/imported/Mask2.fbx-860bc61e0dca9959e20de4840b6886bd.scn"
 
 [deps]
 
-source_file="res://assets/parts/arms/Arms3.fbx"
-dest_files=["res://.godot/imported/Arms3.fbx-83b3b88c8132f02eafe25420fe7724f1.scn"]
+source_file="res://assets/parts/mask/Mask2.fbx"
+dest_files=["res://.godot/imported/Mask2.fbx-860bc61e0dca9959e20de4840b6886bd.scn"]
 
 [params]
 

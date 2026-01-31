@@ -16,6 +16,7 @@ var _e_was_pressed := false
 var player_role: Role = Role.NONE
 
 func _ready() -> void:
+	super._ready()
 	# Set up authority - only the owning player controls this character
 	if is_multiplayer_authority():
 		camera.current = true
@@ -124,7 +125,10 @@ func _sync_rotation(rot: Vector2) -> void:
 
 func _handle_interaction() -> void:
 	var e_now = Input.is_key_pressed(KEY_E)
-	
+
+	# Hide prompt by default
+	interaction_prompt.visible = false
+
 	if interaction_ray.is_colliding():
 		var collider = interaction_ray.get_collider()
 		if collider is Robot and collider != self and not collider.is_mask_removed:
@@ -132,43 +136,10 @@ func _handle_interaction() -> void:
 			if player_role == Role.DETECTIVE:
 				interaction_prompt.text = "Press E to unmask"
 				interaction_prompt.visible = true
-				# We use KEY_E directly as requested
 				if e_now and not _e_was_pressed:
-					_request_unmask.rpc_id(1, collider.name.to_int())
-			else:
-				interaction_prompt.visible = false
-		else:
-			interaction_prompt.visible = false
-	else:
-		interaction_prompt.visible = false
-	
+					_request_unmask.rpc_id(1, str(collider.get_path()))
+
 	_e_was_pressed = e_now
-
-@rpc("any_peer", "call_local", "reliable")
-func remove_mask() -> void:
-	if is_mask_removed:
-		return
-	is_mask_removed = true
-	animation_player.play("mask-remove")
-	
-	# Wait 2 seconds then hide the mask
-	await get_tree().create_timer(1.0).timeout
-	$Skin/Mask.visible = false
-
-@rpc("any_peer", "call_local", "reliable")
-func _request_unmask(target_player_id: int) -> void:
-	# Only server processes unmask requests
-	if not multiplayer.is_server():
-		return
-	
-	var requester_id = multiplayer.get_remote_sender_id()
-	# If called locally on server, use our own ID
-	if requester_id == 0:
-		requester_id = multiplayer.get_unique_id()
-	
-	var game = get_tree().get_first_node_in_group("game")
-	if game:
-		game.handle_unmask_request(requester_id, target_player_id)
 
 @rpc("any_peer", "call_local", "reliable")
 func set_role(role: Role) -> void:

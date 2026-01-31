@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://dt4hhgmssteme"
-path="res://.godot/imported/Bottom3.fbx-1a13d535f14c440c199e3ef52541a91a.scn"
+uid="uid://c807a52p1cv7h"
+path="res://.godot/imported/Bottom3.fbx-7bc160da5170003d904c4ca8f993bd81.scn"
 
 [deps]
 
-source_file="res://assets/parts/legs/Bottom3.fbx"
-dest_files=["res://.godot/imported/Bottom3.fbx-1a13d535f14c440c199e3ef52541a91a.scn"]
+source_file="res://assets/parts/bottoms/Bottom3.fbx"
+dest_files=["res://.godot/imported/Bottom3.fbx-7bc160da5170003d904c4ca8f993bd81.scn"]
 
 [params]
 

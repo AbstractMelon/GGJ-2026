@@ -8,6 +8,8 @@ class_name NPC
 @export var maximum_wait_time: float = 5.0
 
 func _ready() -> void:
+	super._ready()
+
 	move_timer.wait_time = randf_range(0, maximum_wait_time)
 	move_timer.start()
 	navigation_agent.set_target_position(Vector3(randf() * 20 - 10, 0.5, randf() * 20 - 10))
