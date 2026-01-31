@@ -1,0 +1,26 @@
+// Game: Generic
+// Format: Standard
+// entity 0
+{
+"classname" "worldspawn"
+"_tb_mod" "assets"
+// brush 0
+{
+( -160 64 16 ) ( -160 -64 16 ) ( -160 -64 -16 ) __TB_empty 0 0 0 1 1
+( -160 -64 16 ) ( 384 -64 16 ) ( 384 -64 -16 ) __TB_empty 0 0 0 1 1
+( 384 -64 -16 ) ( 384 64 -16 ) ( -160 64 -16 ) __TB_empty 0 0 0 1 1
+( -160 64 16 ) ( 384 64 16 ) ( 384 -64 16 ) __TB_empty 0 0 0 1 1
+( 384 64 -16 ) ( 384 64 16 ) ( -160 64 16 ) __TB_empty 0 0 0 1 1
+( 384 -64 16 ) ( 384 64 16 ) ( 384 64 -16 ) __TB_empty 0 0 0 1 1
+}
+}
+// entity 1
+{
+"classname" "info_player_start"
+"origin" "-112 0 40"
+}
+// entity 2
+{
+"classname" "info_player_start"
+"origin" "272 0 40"
+}
