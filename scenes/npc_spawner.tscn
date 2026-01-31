@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://crxnpc5pawner"]
+
+[ext_resource type="Script" uid="uid://5vxgawulq7ud" path="res://scripts/npc_spawner.gd" id="1_spawner"]
+
+[node name="NPCSpawner" type="Node3D"]
+script = ExtResource("1_spawner")
+npc_count = 15
+spawn_area_min = Vector3(-45, 0.5, -12)
+spawn_area_max = Vector3(15, 0.5, 12)
+sync_interval = 0.5

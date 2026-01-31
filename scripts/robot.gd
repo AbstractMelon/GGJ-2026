@@ -59,13 +59,13 @@ const ACCESSORIES = [
 	preload("res://assets/parts/accessories/TopHat.fbx"),
 ]
 
-# Transform constants for accessories
-const ACCESSORY_TRANSFORMS = {
-	"Bowtie": Transform3D(Vector3(0, 0, 0.15), Vector3(0, 0.15, 0), Vector3(-0.15, 0, 0), Vector3(0, 1.423, -0.241)),
-	"Crown": Transform3D(Vector3(0, 0, 0.15), Vector3(0, 0.15, 0), Vector3(-0.15, 0, 0), Vector3(0.026, 1.972, -0.028)),
-	"FancyHat": Transform3D(Vector3(0, 0, 0.15), Vector3(0, 0.15, 0), Vector3(-0.15, 0, 0), Vector3(0.035, 1.928, 0)),
-	"Tie": Transform3D(Vector3(0, 0, 0.15), Vector3(0, 0.15, 0), Vector3(-0.15, 0, 0), Vector3(0, 1.398, -0.265)),
-	"TopHat": Transform3D(Vector3(0, 0, 0.15), Vector3(0, 0.15, 0), Vector3(-0.15, 0, 0), Vector3(0, 1.933, 0)),
+# Transform constants for accessories - using static var since Transform3D cannot be in const dict
+static var ACCESSORY_TRANSFORMS: Dictionary = {
+	"Bowtie": Transform3D(Basis(Vector3(0, 0, 0.15), Vector3(0, 0.15, 0), Vector3(-0.15, 0, 0)), Vector3(0, 1.423, -0.241)),
+	"Crown": Transform3D(Basis(Vector3(0, 0, 0.15), Vector3(0, 0.15, 0), Vector3(-0.15, 0, 0)), Vector3(0.026, 1.972, -0.028)),
+	"FancyHat": Transform3D(Basis(Vector3(0, 0, 0.15), Vector3(0, 0.15, 0), Vector3(-0.15, 0, 0)), Vector3(0.035, 1.928, 0)),
+	"Tie": Transform3D(Basis(Vector3(0, 0, 0.15), Vector3(0, 0.15, 0), Vector3(-0.15, 0, 0)), Vector3(0, 1.398, -0.265)),
+	"TopHat": Transform3D(Basis(Vector3(0, 0, 0.15), Vector3(0, 0.15, 0), Vector3(-0.15, 0, 0)), Vector3(0, 1.933, 0)),
 }
 
 func _ready() -> void:
