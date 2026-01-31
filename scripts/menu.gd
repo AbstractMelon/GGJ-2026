@@ -24,6 +24,8 @@ func _ready() -> void:
 	MultiplayerManager.connection_failed.connect(_on_connection_failed)
 	MultiplayerManager.player_connected.connect(_on_player_connected)
 	MultiplayerManager.player_disconnected.connect(_on_player_disconnected)
+	
+	_process_test_flags()
 
 func _show_main_menu() -> void:
 	main_menu.visible = true
@@ -141,3 +143,30 @@ func _update_player_list() -> void:
 @rpc("authority", "reliable", "call_local")
 func _start_game() -> void:
 	get_tree().change_scene_to_file("res://scenes/game.tscn")
+
+func _process_test_flags() -> void:
+	var args := OS.get_cmdline_args()
+	var user_args := OS.get_cmdline_user_args()
+	
+	var is_host := "--test-host" in args or "--test-host" in user_args
+	var is_client := "--test-client" in args or "--test-client" in user_args
+	
+	if is_host:
+		print("Test Host flag detected")
+		player_name_input.text = "TestHost"
+		# Small delay to ensure everything is initialized
+		await get_tree().create_timer(0.2).timeout
+		_on_create_server_button_pressed()
+		
+		# Auto-start game when a player joins
+		MultiplayerManager.player_connected.connect(func(_id):
+			print("Player joined, auto-starting game...")
+			_on_start_button_pressed()
+		, CONNECT_ONE_SHOT)
+		
+	elif is_client:
+		print("Test Client flag detected")
+		player_name_input.text = "TestClient"
+		# Wait for the host to be ready
+		await get_tree().create_timer(1.0).timeout
+		_on_connect_button_pressed()
