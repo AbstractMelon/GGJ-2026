@@ -4,6 +4,7 @@ class_name NPC
 @onready var navigation_agent: NavigationAgent3D = $NavigationAgent
 
 func _ready() -> void:
+	super._ready()
 	navigation_agent.target_position = Vector3(randf() * 20 - 10, 0, randf() * 20 + 10)
 
 

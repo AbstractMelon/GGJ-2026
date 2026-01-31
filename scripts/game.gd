@@ -104,31 +104,39 @@ func _assign_roles() -> void:
 	
 	print("Roles assigned - Hacker: %d, Detective: %d" % [hacker_id, detective_id])
 
-func handle_unmask_request(requester_id: int, target_id: int) -> void:
+func handle_unmask_request(requester_id: int, target_robot_path: String) -> void:
 	if not multiplayer.is_server():
 		return
 	
 	if game_over:
+		print("Game over, ignoring unmask request")
 		return
 	
 	# Verify requester is detective
 	if requester_id != detective_id:
+		print("Requester %d is not detective %d, denying unmask" % [requester_id, detective_id])
 		return
 	
-	# Get target player
-	var target_player = spawned_players.get(target_id)
-	if not target_player or target_player.is_mask_removed:
+	# Get target robot by node path
+	var target_robot = get_node_or_null(target_robot_path)
+	
+	if not target_robot or not target_robot is Robot or target_robot.is_mask_removed:
+		print("Invalid target or already unmasked")
 		return
 	
+	print("Unmasking target robot: %s" % target_robot.name)
 	# Unmask the target
-	target_player.remove_mask.rpc()
+	target_robot.remove_mask.rpc()
 	
 	# Wait 1 second
 	await get_tree().create_timer(1.0).timeout
 	
-	# Check if detective unmasked the hacker
-	if target_id == hacker_id:
-		_detective_wins()
+	# Check if detective unmasked the hacker (only applies to players)
+	# For players, their name is their peer_id
+	if target_robot is Player:
+		var target_id = target_robot.name.to_int()
+		if target_id == hacker_id:
+			_detective_wins()
 	
 func _detective_wins() -> void:
 	if not multiplayer.is_server():

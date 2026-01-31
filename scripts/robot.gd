@@ -14,6 +14,7 @@ var is_mask_removed := false
 @onready var skin := $Skin
 
 func _ready() -> void:
+	add_to_group("robot")
 	ApplySkin(GenerateColorPallete())
 
 func _physics_process(_delta: float) -> void:
@@ -53,6 +54,7 @@ func ApplySkin(colors: Array[Color]):
 	ApplyPartColor($Skin/RobotBody, colors[2])
 	ApplyPartColor($Skin/RobotBottom, colors[3] )
 
+@rpc("any_peer", "call_local", "reliable")
 func remove_mask() -> void:
 	if is_mask_removed:
 		return
@@ -62,3 +64,22 @@ func remove_mask() -> void:
 	# Wait 2 seconds then hide the mask
 	await get_tree().create_timer(1.0).timeout
 	$Skin/Mask.visible = false
+
+@rpc("any_peer", "call_local", "reliable")
+func _request_unmask(target_robot_path: String) -> void:
+	# Only server processes unmask requests
+	if not multiplayer.is_server():
+		return
+	
+	var requester_id = multiplayer.get_remote_sender_id()
+	print("Unmask request for robot path: %s, remote_sender_id: %d" % [target_robot_path, requester_id])
+	
+	# If called locally on server (requester_id is 0), or if it's an RPC to self,
+	# use the server's own ID
+	if requester_id == 0:
+		requester_id = 1  # Server is always peer ID 1
+		print("Local call detected, using server ID: %d" % requester_id)
+	
+	var game = get_tree().get_first_node_in_group("game")
+	if game:
+		game.handle_unmask_request(requester_id, target_robot_path)
