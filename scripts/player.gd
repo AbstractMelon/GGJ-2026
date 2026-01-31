@@ -8,10 +8,15 @@ class_name Player
 
 @onready var camera: Camera3D = $Camera3D
 @onready var collision_shape: CollisionShape3D = $CollisionShape3D
+@onready var interaction_ray: RayCast3D = $Camera3D/InteractionRay
+@onready var interaction_prompt: Label = $HUD/InteractionPrompt
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 var target_velocity := Vector3.ZERO
 var camera_rotation := Vector2.ZERO
 var _sync_timer := 0.0
+var is_mask_removed := false
+var _e_was_pressed := false
 
 @onready var skin := $Skin
 
@@ -25,11 +30,14 @@ func _ready() -> void:
 		)
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 		skin.visible = false
+		interaction_prompt.visible = false
+		interaction_ray.add_exception(self)
 		
 	else:
 		# Disable camera for non-local players
 		skin.visible = true
 		camera.current = false
+		$HUD.visible = false
 	ApplySkin(GenerateColorPallete())
 
 func _enter_tree() -> void:
@@ -69,6 +77,7 @@ func _handle_mouse_look(mouse_delta: Vector2) -> void:
 func _physics_process(delta: float) -> void:
 	if is_multiplayer_authority():
 		_process_movement(delta)
+		_handle_interaction()
 		
 		# Only sync if we've been active for a moment to allow other peers to join/load
 		_sync_timer += delta
@@ -151,3 +160,31 @@ func _sync_rotation(rot: Vector2) -> void:
 		rotation.y = camera_rotation.y
 		camera.rotation.x = camera_rotation.x
 		
+
+func _handle_interaction() -> void:
+	var e_now = Input.is_key_pressed(KEY_E)
+	
+	if interaction_ray.is_colliding():
+		var collider = interaction_ray.get_collider()
+		if collider is Player and collider != self and not collider.is_mask_removed:
+			interaction_prompt.visible = true
+			# We use KEY_E directly as requested
+			if e_now and not _e_was_pressed:
+				collider.remove_mask.rpc()
+		else:
+			interaction_prompt.visible = false
+	else:
+		interaction_prompt.visible = false
+	
+	_e_was_pressed = e_now
+
+@rpc("any_peer", "call_local", "reliable")
+func remove_mask() -> void:
+	if is_mask_removed:
+		return
+	is_mask_removed = true
+	animation_player.play("mask-remove")
+	
+	# Wait 2 seconds then hide the mask
+	await get_tree().create_timer(1.0).timeout
+	$Skin/Mask.visible = false

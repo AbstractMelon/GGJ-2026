@@ -16,8 +16,20 @@ height = 1.8
 radius = 0.4
 height = 1.8
 
-[sub_resource type="Animation" id="Animation_ughn7"]
-resource_name = "walk"
+[sub_resource type="Animation" id="Animation_yqhfp"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Skin/Mask:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 1.8364791, -0.28145194)]
+}
 
 [sub_resource type="Animation" id="Animation_38u2u"]
 resource_name = "idle"
@@ -37,20 +49,8 @@ tracks/0/keys = {
 "values": [Vector3(0, 1.8364791, -0.28145194), Vector3(0, 2.5, -0.281)]
 }
 
-[sub_resource type="Animation" id="Animation_yqhfp"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Skin/Mask:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, 1.8364791, -0.28145194)]
-}
+[sub_resource type="Animation" id="Animation_ughn7"]
+resource_name = "walk"
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_yqhfp"]
 _data = {
@@ -75,6 +75,9 @@ mesh = SubResource("CapsuleMesh_1")
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
 fov = 80.0
+
+[node name="InteractionRay" type="RayCast3D" parent="Camera3D"]
+target_position = Vector3(0, 0, -2)
 
 [node name="Skin" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2806065, 0)
@@ -101,3 +104,20 @@ transform = Transform3D(-6.556708e-09, 0, -0.14999999, 0, 0.14999999, 0, 0.14999
 libraries = {
 &"": SubResource("AnimationLibrary_yqhfp")
 }
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="InteractionPrompt" type="Label" parent="HUD"]
+anchors_preset = -1
+anchor_left = 0.42000002
+anchor_top = 0.934
+anchor_right = 0.58000004
+anchor_bottom = 0.96900004
+offset_left = 0.15997314
+offset_top = -0.23199463
+offset_right = -0.16003418
+offset_bottom = 0.08795166
+grow_horizontal = 2
+grow_vertical = 2
+text = "Press E to remove mask"
+horizontal_alignment = 1
