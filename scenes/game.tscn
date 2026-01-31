@@ -1,11 +1,10 @@
-[gd_scene load_steps=18 format=4 uid="uid://dbjc24t0legjp"]
+[gd_scene load_steps=17 format=4 uid="uid://dbjc24t0legjp"]
 
 [ext_resource type="Script" uid="uid://80kfrand5d44" path="res://scripts/game.gd" id="1_game"]
 [ext_resource type="Script" uid="uid://cwu5cf7a0awcd" path="res://addons/func_godot/src/map/func_godot_map.gd" id="2_lbhrr"]
 [ext_resource type="Resource" uid="uid://bkhxcqsquw1yg" path="res://addons/func_godot/func_godot_default_map_settings.tres" id="3_iywne"]
 [ext_resource type="Texture2D" uid="uid://cyg2snr1w5xw5" path="res://addons/func_godot/textures/default_texture.png" id="4_p57ef"]
 [ext_resource type="AudioStream" uid="uid://bcmselcwx8fek" path="res://assets/music/Tensions.mp3" id="5_iywne"]
-[ext_resource type="PackedScene" uid="uid://c28os4snrymi0" path="res://scenes/entites/player.tscn" id="6_p57ef"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1"]
 sky_top_color = Color(0.02, 0.01, 0.08, 1)
@@ -148,6 +147,3 @@ vertical_alignment = 1
 stream = ExtResource("5_iywne")
 volume_db = -5.0
 autoplay = true
-
-[node name="Player" parent="." instance=ExtResource("6_p57ef")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.0064373, 3.3550825, 9.113993)
