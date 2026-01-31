@@ -12,7 +12,7 @@ func _ready() -> void:
 
 	move_timer.wait_time = randf_range(0, maximum_wait_time)
 	move_timer.start()
-	navigation_agent.set_target_position(Vector3(randf() * 20 - 10, 0.5, randf() * 20 - 10))
+	navigation_agent.set_target_position(Vector3(randf_range(-50, 20), 0.5, randf_range(-15, 15)))
 
 
 func _physics_process(delta: float) -> void:
@@ -44,4 +44,4 @@ func _physics_process(delta: float) -> void:
 
 
 func _on_move_timer_timeout() -> void:
-	navigation_agent.set_target_position(Vector3(randf() * 20 - 10, 0.5, randf() * 20 - 10))
+	navigation_agent.set_target_position(Vector3(randf_range(-50, 20), 0.5, randf_range(-15, 15)))

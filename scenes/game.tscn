@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://dbjc24t0legjp"]
 
 [ext_resource type="Script" uid="uid://80kfrand5d44" path="res://scripts/game.gd" id="1_game"]
-[ext_resource type="PackedScene" uid="uid://byjbirpdumxdk" path="res://scenes/themap.tscn" id="4_lbhrr"]
+[ext_resource type="PackedScene" uid="uid://byjbirpdumxdk" path="res://scenes/map.tscn" id="4_lbhrr"]
 [ext_resource type="PackedScene" uid="uid://bridievmkjshx" path="res://scenes/entites/npc.tscn" id="5_bridiev"]
 [ext_resource type="AudioStream" uid="uid://bcmselcwx8fek" path="res://assets/music/Tensions.mp3" id="6_iywne"]
 
