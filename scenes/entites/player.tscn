@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://c28os4snrymi0"]
+[gd_scene load_steps=15 format=3 uid="uid://c28os4snrymi0"]
 
 [ext_resource type="Script" uid="uid://djbje1k80i0a4" path="res://scripts/player.gd" id="1_player"]
 [ext_resource type="PackedScene" uid="uid://dl73p1pskh7lf" path="res://assets/RobotHead.fbx" id="2_ughn7"]
@@ -24,9 +24,37 @@ resource_name = "idle"
 
 [sub_resource type="Animation" id="Animation_1e23o"]
 resource_name = "mask-remove"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Skin/Mask:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.25, 1),
+"update": 0,
+"values": [Vector3(0, 1.8364791, -0.28145194), Vector3(0, 2.5, -0.281)]
+}
+
+[sub_resource type="Animation" id="Animation_yqhfp"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Skin/Mask:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 1.8364791, -0.28145194)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_yqhfp"]
 _data = {
+&"RESET": SubResource("Animation_yqhfp"),
 &"idle": SubResource("Animation_38u2u"),
 &"mask-remove": SubResource("Animation_1e23o"),
 &"walk": SubResource("Animation_ughn7")
