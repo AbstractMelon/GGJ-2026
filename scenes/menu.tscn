@@ -1,3 +1,199 @@
-[gd_scene format=3 uid="uid://ylnjrwqtjcot"]
+[gd_scene load_steps=2 format=3 uid="uid://ylnjrwqtjcot"]
 
-[node name="Menu" type="Node2D"]
+[ext_resource type="Script" uid="uid://brxbyxpd4j76f" path="res://scripts/menu.gd" id="1_menu"]
+
+[node name="Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_menu")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.15, 0.15, 0.2, 1)
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_top = 50.0
+offset_right = 200.0
+offset_bottom = 100.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 48
+text = "GGJ 2026"
+horizontal_alignment = 1
+
+[node name="MainMenu" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -100.0
+offset_right = 150.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PlayerNameLabel" type="Label" parent="MainMenu"]
+layout_mode = 2
+text = "Player Name:"
+
+[node name="PlayerNameInput" type="LineEdit" parent="MainMenu"]
+layout_mode = 2
+placeholder_text = "Enter your name"
+
+[node name="HSeparator" type="HSeparator" parent="MainMenu"]
+layout_mode = 2
+
+[node name="HostButton" type="Button" parent="MainMenu"]
+layout_mode = 2
+text = "Host Game"
+
+[node name="JoinButton" type="Button" parent="MainMenu"]
+layout_mode = 2
+text = "Join Game"
+
+[node name="HSeparator2" type="HSeparator" parent="MainMenu"]
+layout_mode = 2
+
+[node name="QuitButton" type="Button" parent="MainMenu"]
+layout_mode = 2
+text = "Quit"
+
+[node name="HostMenu" type="VBoxContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -75.0
+offset_right = 150.0
+offset_bottom = 75.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PortLabel" type="Label" parent="HostMenu"]
+layout_mode = 2
+text = "Port (default 7777):"
+
+[node name="PortInput" type="LineEdit" parent="HostMenu"]
+layout_mode = 2
+placeholder_text = "7777"
+
+[node name="HSeparator" type="HSeparator" parent="HostMenu"]
+layout_mode = 2
+
+[node name="CreateServerButton" type="Button" parent="HostMenu"]
+layout_mode = 2
+text = "Create Server"
+
+[node name="BackButton" type="Button" parent="HostMenu"]
+layout_mode = 2
+text = "Back"
+
+[node name="JoinMenu" type="VBoxContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -100.0
+offset_right = 150.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="IPLabel" type="Label" parent="JoinMenu"]
+layout_mode = 2
+text = "Server IP:"
+
+[node name="IPInput" type="LineEdit" parent="JoinMenu"]
+layout_mode = 2
+placeholder_text = "127.0.0.1"
+
+[node name="PortLabel" type="Label" parent="JoinMenu"]
+layout_mode = 2
+text = "Port:"
+
+[node name="PortInput" type="LineEdit" parent="JoinMenu"]
+layout_mode = 2
+placeholder_text = "7777"
+
+[node name="HSeparator" type="HSeparator" parent="JoinMenu"]
+layout_mode = 2
+
+[node name="ConnectButton" type="Button" parent="JoinMenu"]
+layout_mode = 2
+text = "Connect"
+
+[node name="BackButton" type="Button" parent="JoinMenu"]
+layout_mode = 2
+text = "Back"
+
+[node name="LobbyMenu" type="VBoxContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -100.0
+offset_right = 150.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="StatusLabel" type="Label" parent="LobbyMenu"]
+layout_mode = 2
+text = "Status..."
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="LobbyMenu"]
+layout_mode = 2
+
+[node name="PlayerList" type="Label" parent="LobbyMenu"]
+layout_mode = 2
+text = "Players:"
+
+[node name="HSeparator2" type="HSeparator" parent="LobbyMenu"]
+layout_mode = 2
+
+[node name="StartButton" type="Button" parent="LobbyMenu"]
+layout_mode = 2
+text = "Start Game"
+
+[node name="BackButton" type="Button" parent="LobbyMenu"]
+layout_mode = 2
+text = "Leave"
+
+[connection signal="pressed" from="MainMenu/HostButton" to="." method="_on_host_button_pressed"]
+[connection signal="pressed" from="MainMenu/JoinButton" to="." method="_on_join_button_pressed"]
+[connection signal="pressed" from="MainMenu/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="HostMenu/CreateServerButton" to="." method="_on_create_server_button_pressed"]
+[connection signal="pressed" from="HostMenu/BackButton" to="." method="_on_host_back_button_pressed"]
+[connection signal="pressed" from="JoinMenu/ConnectButton" to="." method="_on_connect_button_pressed"]
+[connection signal="pressed" from="JoinMenu/BackButton" to="." method="_on_join_back_button_pressed"]
+[connection signal="pressed" from="LobbyMenu/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="LobbyMenu/BackButton" to="." method="_on_lobby_back_button_pressed"]
