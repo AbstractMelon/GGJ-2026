@@ -124,7 +124,10 @@ func _sync_rotation(rot: Vector2) -> void:
 
 func _handle_interaction() -> void:
 	var e_now = Input.is_key_pressed(KEY_E)
-	
+
+	# Hide prompt by default
+	interaction_prompt.visible = false
+
 	if interaction_ray.is_colliding():
 		var collider = interaction_ray.get_collider()
 		if collider is Robot and collider != self and not collider.is_mask_removed:
@@ -132,16 +135,9 @@ func _handle_interaction() -> void:
 			if player_role == Role.DETECTIVE:
 				interaction_prompt.text = "Press E to unmask"
 				interaction_prompt.visible = true
-				# We use KEY_E directly as requested
 				if e_now and not _e_was_pressed:
 					_request_unmask.rpc_id(1, collider.name.to_int())
-			else:
-				interaction_prompt.visible = false
-		else:
-			interaction_prompt.visible = false
-	else:
-		interaction_prompt.visible = false
-	
+
 	_e_was_pressed = e_now
 
 @rpc("any_peer", "call_local", "reliable")
