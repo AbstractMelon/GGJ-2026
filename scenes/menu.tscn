@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://ylnjrwqtjcot"]
+[gd_scene load_steps=3 format=3 uid="uid://ylnjrwqtjcot"]
 
 [ext_resource type="Script" uid="uid://brxbyxpd4j76f" path="res://scripts/menu.gd" id="1_menu"]
+[ext_resource type="AudioStream" uid="uid://c2pb8i4kxxy5w" path="res://assets/music/Space Conspircy.mp3" id="2_vjb58"]
 
 [node name="Menu" type="Control"]
 layout_mode = 3
@@ -187,6 +188,10 @@ text = "Start Game"
 [node name="BackButton" type="Button" parent="LobbyMenu"]
 layout_mode = 2
 text = "Leave"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_vjb58")
+autoplay = true
 
 [connection signal="pressed" from="MainMenu/HostButton" to="." method="_on_host_button_pressed"]
 [connection signal="pressed" from="MainMenu/JoinButton" to="." method="_on_join_button_pressed"]

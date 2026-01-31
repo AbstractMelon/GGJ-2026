@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://0masay15igrl"
-path="res://.godot/imported/Bowtie.fbx-a4de6ba64a1bfd98c1b2f32b139b45c0.scn"
+uid="uid://1u73rrgn0pmn"
+path="res://.godot/imported/Mask.fbx-bdf9fa2a106f84bb4d82d5b3e5defef7.scn"
 
 [deps]
 
-source_file="res://assets/robotparts/accessories/Bowtie.fbx"
-dest_files=["res://.godot/imported/Bowtie.fbx-a4de6ba64a1bfd98c1b2f32b139b45c0.scn"]
+source_file="res://assets/parts/mask/Mask.fbx"
+dest_files=["res://.godot/imported/Mask.fbx-bdf9fa2a106f84bb4d82d5b3e5defef7.scn"]
 
 [params]
 

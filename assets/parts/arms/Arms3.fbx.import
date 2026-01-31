@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://dwlxbbt0hc54h"
-path="res://.godot/imported/RobotArms.fbx-a46e8fc3da2a0faa4ba021353e9fabb1.scn"
+uid="uid://80igma7xcbii"
+path="res://.godot/imported/Arms3.fbx-83b3b88c8132f02eafe25420fe7724f1.scn"
 
 [deps]
 
-source_file="res://assets/robotparts/RobotArms.fbx"
-dest_files=["res://.godot/imported/RobotArms.fbx-a46e8fc3da2a0faa4ba021353e9fabb1.scn"]
+source_file="res://assets/parts/arms/Arms3.fbx"
+dest_files=["res://.godot/imported/Arms3.fbx-83b3b88c8132f02eafe25420fe7724f1.scn"]
 
 [params]
 

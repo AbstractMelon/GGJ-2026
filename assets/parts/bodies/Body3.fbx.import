@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://1u73rrgn0pmn"
-path="res://.godot/imported/Mask.fbx-c4fcc217db44ec435157ac6b61b7a8ed.scn"
+uid="uid://ce3jek17ettb"
+path="res://.godot/imported/Body3.fbx-dcf1838ea6b81d643a04f0be262c8e3d.scn"
 
 [deps]
 
-source_file="res://assets/robotparts/mask/Mask.fbx"
-dest_files=["res://.godot/imported/Mask.fbx-c4fcc217db44ec435157ac6b61b7a8ed.scn"]
+source_file="res://assets/parts/bodies/Body3.fbx"
+dest_files=["res://.godot/imported/Body3.fbx-dcf1838ea6b81d643a04f0be262c8e3d.scn"]
 
 [params]
 
