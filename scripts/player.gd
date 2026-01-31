@@ -79,7 +79,19 @@ func _physics_process(delta: float) -> void:
 	
 	
 func ApplySkin(colors: Array[Color]):
-	$Skin/RobotHead.find_children("*", "MeshInstance3D", true)[0].modulate = Color(1,0.5,0)
+	# get the MeshInstance3D child
+	var mesh_instance = $Skin/RobotHead.find_children("*", "MeshInstance3D", true)[0]
+
+	# get the material of the first surface
+	var mat = mesh_instance.get_active_material(0)
+
+	if mat:
+		# make a unique copy so other meshes don't change
+		mat = mat.duplicate()
+		mesh_instance.set_surface_material(0, mat)
+
+		# set the color (albedo)
+		mat.albedo_color = Color(1, 0, 0)  # red
 
 func _process_movement(delta: float) -> void:
 	# Get input direction
