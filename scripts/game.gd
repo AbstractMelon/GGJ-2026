@@ -1,6 +1,7 @@
 extends Node3D
 
 const PLAYER_SCENE := preload("res://scenes/entites/player.tscn")
+const NPC_SPAWNER_SCENE := preload("res://scenes/npc_spawner.tscn")
 
 @onready var spawn_points: Array[Node]
 @onready var players_container: Node3D = $Players
@@ -11,6 +12,9 @@ var spawned_players := {}
 var hacker_id: int = -1
 var detective_id: int = -1
 var game_over := false
+
+# NPC Spawner reference
+var npc_spawner: NPCSpawner = null
 
 # Track hacked NPCs for win condition
 var total_npcs := 0
@@ -36,11 +40,19 @@ func _ready() -> void:
 	if MultiplayerManager.is_server() and spawned_players.is_empty():
 		_spawn_player(1)
 	
+	# Create and add the NPC spawner
+	_setup_npc_spawner()
+	
 	# Assign roles after a short delay to ensure all players are spawned
 	if MultiplayerManager.is_server():
 		get_tree().create_timer(0.5).timeout.connect(_assign_roles)
-		# Count NPCs after they've spawned
-		get_tree().create_timer(1.0).timeout.connect(_count_npcs)
+		# Count NPCs after they've spawned (give more time for NPC spawner)
+		get_tree().create_timer(2.0).timeout.connect(_count_npcs)
+
+func _setup_npc_spawner() -> void:
+	# Instantiate the NPC spawner
+	npc_spawner = NPC_SPAWNER_SCENE.instantiate() as NPCSpawner
+	add_child(npc_spawner)
 
 func _on_player_connected(peer_id: int) -> void:
 	# Only the server initiates spawning for everyone
@@ -154,10 +166,15 @@ func _detective_wins() -> void:
 	print("Detective wins by unmasking the hacker!")
 
 func _count_npcs() -> void:
-	var npcs = get_tree().get_nodes_in_group("robot")
-	for robot in npcs:
-		if robot is NPC:
-			total_npcs += 1
+	# Use the NPC spawner's count if available
+	if npc_spawner:
+		total_npcs = npc_spawner.get_valid_npc_count()
+	else:
+		# Fallback: count from robot group
+		var npcs = get_tree().get_nodes_in_group("robot")
+		for robot in npcs:
+			if robot is NPC:
+				total_npcs += 1
 	print("Total NPCs counted: %d" % total_npcs)
 
 func handle_hack_request(requester_id: int, target_robot_path: String, hacker_robot_path: String) -> void:

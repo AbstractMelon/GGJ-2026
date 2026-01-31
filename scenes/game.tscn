@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://80kfrand5d44" path="res://scripts/game.gd" id="1_game"]
 [ext_resource type="PackedScene" uid="uid://byjbirpdumxdk" path="res://scenes/map.tscn" id="4_lbhrr"]
-[ext_resource type="PackedScene" uid="uid://bridievmkjshx" path="res://scenes/entites/npc.tscn" id="5_bridiev"]
 [ext_resource type="AudioStream" uid="uid://bcmselcwx8fek" path="res://assets/music/Tensions.mp3" id="6_iywne"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1"]
@@ -41,9 +40,6 @@ script = ExtResource("1_game")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_1")
-
-[node name="NPC" parent="." instance=ExtResource("5_bridiev")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.835414, 1.1483724, 4.9605484)
 
 [node name="GameOverUI" type="CanvasLayer" parent="."]
 

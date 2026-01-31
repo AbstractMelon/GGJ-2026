@@ -7,19 +7,33 @@ class_name NPC
 @export var minimum_wait_time: float = 1.0
 @export var maximum_wait_time: float = 5.0
 
-func _ready() -> void:
-	super._ready()
+# When true, this NPC is controlled by server and only receives sync updates
+var is_remote_controlled: bool = false
 
-	move_timer.wait_time = randf_range(0, maximum_wait_time)
-	move_timer.start()
-	navigation_agent.set_target_position(Vector3(randf_range(-50, 20), 0.5, randf_range(-15, 15)))
+func _ready() -> void:
+	# Check if we should skip randomization (spawned by NPCSpawner)
+	if not has_meta("skip_randomize"):
+		super._ready()
+	else:
+		# Still call base _ready but mark for custom cosmetics
+		add_to_group("robot")
+		_create_hacked_indicator()
+	
+	# Only server controls NPC navigation
+	is_remote_controlled = not MultiplayerManager.is_server()
+	
+	if not is_remote_controlled:
+		move_timer.wait_time = randf_range(0, maximum_wait_time)
+		move_timer.start()
+		navigation_agent.set_target_position(Vector3(randf_range(-50, 20), 0.5, randf_range(-15, 15)))
 
 
 func _physics_process(delta: float) -> void:
 	var direction = Vector3.ZERO
 	
 	if navigation_agent.is_navigation_finished():
-		if move_timer.is_stopped():
+		# Only server handles timer-based target selection
+		if not is_remote_controlled and move_timer.is_stopped():
 			move_timer.wait_time = randf_range(minimum_wait_time, maximum_wait_time)
 			move_timer.start()
 	
@@ -44,4 +58,6 @@ func _physics_process(delta: float) -> void:
 
 
 func _on_move_timer_timeout() -> void:
-	navigation_agent.set_target_position(Vector3(randf_range(-50, 20), 0.5, randf_range(-15, 15)))
+	# Only server generates new targets
+	if not is_remote_controlled:
+		navigation_agent.set_target_position(Vector3(randf_range(-50, 20), 0.5, randf_range(-15, 15)))
