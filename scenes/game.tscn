@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=4 uid="uid://dbjc24t0legjp"]
+[gd_scene load_steps=19 format=4 uid="uid://dbjc24t0legjp"]
 
 [ext_resource type="Script" uid="uid://80kfrand5d44" path="res://scripts/game.gd" id="1_game"]
 [ext_resource type="Script" uid="uid://cwu5cf7a0awcd" path="res://addons/func_godot/src/map/func_godot_map.gd" id="2_lbhrr"]
@@ -35,6 +35,12 @@ volumetric_fog_density = 0.02
 volumetric_fog_albedo = Color(0.3, 0.2, 0.5, 1)
 volumetric_fog_emission = Color(0.1, 0.05, 0.2, 1)
 volumetric_fog_emission_energy = 0.5
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_p57ef"]
+vertices = PackedVector3Array(-16.751144, 30.5, -33.001564, -16.751144, 30.5, 35.998436, 16.998856, 30.5, 35.998436, 16.998856, 30.5, -33.001564, -16.751144, 1, -31.751564, -16.751144, 1, 34.998436, 16.998856, 1, 34.998436, 16.998856, 1, -31.751564)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1), PackedInt32Array(7, 6, 4), PackedInt32Array(4, 6, 5)]
+geometry_collision_mask = 4294967041
+agent_height = 2.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lbhrr"]
 albedo_texture = ExtResource("4_p57ef")
@@ -74,9 +80,6 @@ points = PackedVector3Array(-17.5, 31, 36, -17.5, -4.5, 36, -18.5, 31, 36, -18.5
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_kvpfn"]
 points = PackedVector3Array(18.5, 31, 36, 18.5, -4.5, 36, 17.5, 31, 36, 17.5, -4.5, 36, 18.5, 31, -34, 18.5, -4.5, -34, 17.5, 31, -34, 17.5, -4.5, -34)
 
-[sub_resource type="NavigationMesh" id="NavigationMesh_lbhrr"]
-geometry_collision_mask = 4294967041
-
 [node name="Game" type="Node3D"]
 script = ExtResource("1_game")
 
@@ -85,45 +88,45 @@ script = ExtResource("1_game")
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_1")
 
-[node name="FuncGodotMap" type="Node3D" parent="."]
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("NavigationMesh_p57ef")
+
+[node name="FuncGodotMap" type="Node3D" parent="NavigationRegion3D"]
 script = ExtResource("2_lbhrr")
 local_map_file = "uid://dwudxqun8fi23"
 map_settings = ExtResource("3_iywne")
 metadata/_custom_type_script = "uid://cwu5cf7a0awcd"
 
-[node name="entity_0_worldspawn" type="StaticBody3D" parent="FuncGodotMap"]
+[node name="entity_0_worldspawn" type="StaticBody3D" parent="NavigationRegion3D/FuncGodotMap"]
 collision_mask = 0
 
-[node name="entity_0_mesh_instance" type="MeshInstance3D" parent="FuncGodotMap/entity_0_worldspawn"]
+[node name="entity_0_mesh_instance" type="MeshInstance3D" parent="NavigationRegion3D/FuncGodotMap/entity_0_worldspawn"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0011434555, 0.019573212, -0.0015621185)
 mesh = SubResource("ArrayMesh_iywne")
 
-[node name="entity_0_brush_0_collision_shape" type="CollisionShape3D" parent="FuncGodotMap/entity_0_worldspawn"]
+[node name="entity_0_brush_0_collision_shape" type="CollisionShape3D" parent="NavigationRegion3D/FuncGodotMap/entity_0_worldspawn"]
 shape = SubResource("ConvexPolygonShape3D_p57ef")
 
-[node name="entity_0_brush_1_collision_shape" type="CollisionShape3D" parent="FuncGodotMap/entity_0_worldspawn"]
+[node name="entity_0_brush_1_collision_shape" type="CollisionShape3D" parent="NavigationRegion3D/FuncGodotMap/entity_0_worldspawn"]
 shape = SubResource("ConvexPolygonShape3D_u5sy4")
 
-[node name="entity_0_brush_2_collision_shape" type="CollisionShape3D" parent="FuncGodotMap/entity_0_worldspawn"]
+[node name="entity_0_brush_2_collision_shape" type="CollisionShape3D" parent="NavigationRegion3D/FuncGodotMap/entity_0_worldspawn"]
 shape = SubResource("ConvexPolygonShape3D_gee14")
 
-[node name="entity_0_brush_3_collision_shape" type="CollisionShape3D" parent="FuncGodotMap/entity_0_worldspawn"]
+[node name="entity_0_brush_3_collision_shape" type="CollisionShape3D" parent="NavigationRegion3D/FuncGodotMap/entity_0_worldspawn"]
 shape = SubResource("ConvexPolygonShape3D_0tnpc")
 
-[node name="entity_0_brush_4_collision_shape" type="CollisionShape3D" parent="FuncGodotMap/entity_0_worldspawn"]
+[node name="entity_0_brush_4_collision_shape" type="CollisionShape3D" parent="NavigationRegion3D/FuncGodotMap/entity_0_worldspawn"]
 shape = SubResource("ConvexPolygonShape3D_vtaks")
 
-[node name="entity_0_brush_5_collision_shape" type="CollisionShape3D" parent="FuncGodotMap/entity_0_worldspawn"]
+[node name="entity_0_brush_5_collision_shape" type="CollisionShape3D" parent="NavigationRegion3D/FuncGodotMap/entity_0_worldspawn"]
 shape = SubResource("ConvexPolygonShape3D_kvpfn")
 
-[node name="entity_1_info_player_start" type="Marker3D" parent="FuncGodotMap"]
+[node name="entity_1_info_player_start" type="Marker3D" parent="NavigationRegion3D/FuncGodotMap"]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 1.25, -3.5)
 
-[node name="entity_2_info_player_start" type="Marker3D" parent="FuncGodotMap"]
+[node name="entity_2_info_player_start" type="Marker3D" parent="NavigationRegion3D/FuncGodotMap"]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 1.25, 8.5)
-
-[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
-navigation_mesh = SubResource("NavigationMesh_lbhrr")
 
 [node name="NPC" parent="." instance=ExtResource("5_bridiev")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.835414, 1.1483724, 4.9605484)
