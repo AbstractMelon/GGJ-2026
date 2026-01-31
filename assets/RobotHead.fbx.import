@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://dl73p1pskh7lf"
-path="res://.godot/imported/RobotHead.fbx-1d7888d080a6bedc45736ac9c6aa0ff3.scn"
+path="res://.godot/imported/RobotHead.fbx-f324367f0a1d7874d7b050b0b3b58a60.scn"
 
 [deps]
 
-source_file="res://assets/robotparts/RobotHead.fbx"
-dest_files=["res://.godot/imported/RobotHead.fbx-1d7888d080a6bedc45736ac9c6aa0ff3.scn"]
+source_file="res://assets/RobotHead.fbx"
+dest_files=["res://.godot/imported/RobotHead.fbx-f324367f0a1d7874d7b050b0b3b58a60.scn"]
 
 [params]
 

@@ -13,17 +13,27 @@ var target_velocity := Vector3.ZERO
 var camera_rotation := Vector2.ZERO
 var _sync_timer := 0.0
 
+@onready var skin := $Skin
+
 func _ready() -> void:
 	# Set up authority - only the owning player controls this character
 	if is_multiplayer_authority():
 		camera.current = true
+<<<<<<< HEAD
 		# Small delay for mouse capture to work reliably
 		get_tree().create_timer(0.1).timeout.connect(func():
 			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 		)
+=======
+		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+		skin.visible = false
+		
+>>>>>>> 96284a7 (its a thing)
 	else:
 		# Disable camera for non-local players
+		skin.visible = true
 		camera.current = false
+	ApplySkin([])
 
 func _enter_tree() -> void:
 	# Set multiplayer authority based on the node name (which is the peer ID)
@@ -69,6 +79,10 @@ func _physics_process(delta: float) -> void:
 			_sync_position.rpc(global_position, velocity)
 	
 	move_and_slide()
+	
+	
+func ApplySkin(colors: Array[Color]):
+	$Skin/RobotHead.find_children("*", "MeshInstance3D", true)[0].modulate = Color(1,0.5,0)
 
 func _process_movement(delta: float) -> void:
 	# Get input direction
@@ -109,3 +123,4 @@ func _sync_rotation(rot: Vector2) -> void:
 		camera_rotation = rot
 		rotation.y = camera_rotation.y
 		camera.rotation.x = camera_rotation.x
+		
