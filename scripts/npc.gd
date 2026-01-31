@@ -29,7 +29,8 @@ func _physics_process(delta: float) -> void:
 	
 		direction = position.direction_to(target)
 		
-		look_at(target)
+		if target.distance_to(position) > 0.1:
+			look_at(target)
 	
 	if direction.length() > 0:
 		velocity = velocity.lerp(direction * move_speed, acceleration * delta)

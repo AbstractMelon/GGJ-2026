@@ -2,11 +2,11 @@
 
 [ext_resource type="Script" uid="uid://lpnsfjaqpraw" path="res://scripts/npc.gd" id="1_ytfeu"]
 [ext_resource type="PackedScene" uid="uid://1u73rrgn0pmn" path="res://assets/parts/mask/Mask.fbx" id="2_m3lgo"]
-[ext_resource type="PackedScene" uid="uid://dl73p1pskh7lf" path="res://assets/parts/heads/RobotHead.fbx" id="3_fvdeh"]
+[ext_resource type="PackedScene" uid="uid://c64j1n74qle7m" path="res://assets/parts/heads/Head1.fbx" id="3_fvdeh"]
 [ext_resource type="PackedScene" uid="uid://0masay15igrl" path="res://assets/parts/accessories/Bowtie.fbx" id="4_efthq"]
-[ext_resource type="PackedScene" uid="uid://dwlxbbt0hc54h" path="res://assets/parts/arms/RobotArms.fbx" id="5_f348p"]
-[ext_resource type="PackedScene" uid="uid://dnnq65xd1m5co" path="res://assets/parts/bodies/RobotBody.fbx" id="6_r3lq0"]
-[ext_resource type="PackedScene" uid="uid://hf3uka81ebbp" path="res://assets/parts/legs/RobotBottom.fbx" id="7_p4h8k"]
+[ext_resource type="PackedScene" uid="uid://c07q5pi8ksut5" path="res://assets/parts/arms/Arms1.fbx" id="5_f348p"]
+[ext_resource type="PackedScene" uid="uid://8xchb8bxuh8j" path="res://assets/parts/bodies/Body1.fbx" id="6_r3lq0"]
+[ext_resource type="PackedScene" uid="uid://c1jkwv2pbtd8m" path="res://assets/parts/bottoms/Bottom1.fbx" id="7_p4h8k"]
 [ext_resource type="PackedScene" uid="uid://cw5qmvt7xvqxw" path="res://scenes/entites/robot_model.tscn" id="8_robot_model"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1"]

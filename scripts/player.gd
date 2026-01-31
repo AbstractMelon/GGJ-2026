@@ -131,9 +131,15 @@ func _handle_interaction() -> void:
 
 	if interaction_ray.is_colliding():
 		var collider = interaction_ray.get_collider()
-		if collider is Robot and collider != self and not collider.is_mask_removed:
-			# Only detective can unmask people
-			if player_role == Role.DETECTIVE:
+		if collider is Robot and collider != self:
+			# Hacker can hack non-hacked robots
+			if player_role == Role.HACKER and not collider.is_hacked:
+				interaction_prompt.text = "Press E to hack"
+				interaction_prompt.visible = true
+				if e_now and not _e_was_pressed:
+					_request_hack.rpc_id(1, str(collider.get_path()))
+			# Detective can unmask people
+			elif player_role == Role.DETECTIVE and not collider.is_mask_removed:
 				interaction_prompt.text = "Press E to unmask"
 				interaction_prompt.visible = true
 				if e_now and not _e_was_pressed:

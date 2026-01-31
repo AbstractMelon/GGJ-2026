@@ -12,6 +12,11 @@ var hacker_id: int = -1
 var detective_id: int = -1
 var game_over := false
 
+# Track hacked NPCs for win condition
+var total_npcs := 0
+var hacked_npcs := 0
+const HACK_WIN_PERCENTAGE := 0.7
+
 func _ready() -> void:
 	add_to_group("game")
 	spawn_points = $NavigationRegion3D/FuncGodotMap.find_children("*_info_player_start", "Marker3D", true)
@@ -34,6 +39,8 @@ func _ready() -> void:
 	# Assign roles after a short delay to ensure all players are spawned
 	if MultiplayerManager.is_server():
 		get_tree().create_timer(0.5).timeout.connect(_assign_roles)
+		# Count NPCs after they've spawned
+		get_tree().create_timer(1.0).timeout.connect(_count_npcs)
 
 func _on_player_connected(peer_id: int) -> void:
 	# Only the server initiates spawning for everyone
@@ -145,6 +152,80 @@ func _detective_wins() -> void:
 	game_over = true
 	_show_game_over.rpc("Detective Wins!")
 	print("Detective wins by unmasking the hacker!")
+
+func _count_npcs() -> void:
+	var npcs = get_tree().get_nodes_in_group("robot")
+	for robot in npcs:
+		if robot is NPC:
+			total_npcs += 1
+	print("Total NPCs counted: %d" % total_npcs)
+
+func handle_hack_request(requester_id: int, target_robot_path: String, hacker_robot_path: String) -> void:
+	if not multiplayer.is_server():
+		return
+	
+	if game_over:
+		print("Game over, ignoring hack request")
+		return
+	
+	# Verify requester is hacker
+	if requester_id != hacker_id:
+		print("Requester %d is not hacker %d, denying hack" % [requester_id, hacker_id])
+		return
+	
+	# Get target robot by node path
+	var target_robot = get_node_or_null(target_robot_path)
+	var hacker_robot = get_node_or_null(hacker_robot_path)
+	
+	if not target_robot or not target_robot is Robot or target_robot.is_hacked:
+		print("Invalid target or already hacked")
+		return
+	
+	if not hacker_robot or not hacker_robot is Robot:
+		print("Invalid hacker robot")
+		return
+	
+	print("Hacking target robot: %s" % target_robot.name)
+	
+	# Convert colors to a regular array for RPC
+	var hacker_colors_array: Array = []
+	for color in hacker_robot.current_colors:
+		hacker_colors_array.append(color)
+	
+	# Apply hack to target with hacker's attributes
+	target_robot.apply_hack.rpc(
+		hacker_robot.current_head_idx,
+		hacker_robot.current_arms_idx,
+		hacker_robot.current_body_idx,
+		hacker_robot.current_bottom_idx,
+		hacker_robot.current_accessory_idx,
+		hacker_colors_array
+	)
+	
+	# Track hacked NPCs
+	if target_robot is NPC:
+		hacked_npcs += 1
+		print("NPCs hacked: %d / %d (%.1f%%)" % [hacked_npcs, total_npcs, (float(hacked_npcs) / max(total_npcs, 1)) * 100])
+		_check_hacker_win()
+
+func _check_hacker_win() -> void:
+	if not multiplayer.is_server():
+		return
+	
+	if total_npcs <= 0:
+		return
+	
+	var hack_percentage = float(hacked_npcs) / float(total_npcs)
+	if hack_percentage >= HACK_WIN_PERCENTAGE:
+		_hacker_wins()
+
+func _hacker_wins() -> void:
+	if not multiplayer.is_server():
+		return
+	
+	game_over = true
+	_show_game_over.rpc("Hacker Wins!\nHacked %d%% of NPCs" % [int((float(hacked_npcs) / float(total_npcs)) * 100)])
+	print("Hacker wins by hacking %.1f%% of NPCs!" % [(float(hacked_npcs) / float(total_npcs)) * 100])
 
 @rpc("authority", "call_local", "reliable")
 func _show_game_over(message: String) -> void:
