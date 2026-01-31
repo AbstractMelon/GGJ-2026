@@ -1,10 +1,11 @@
-[gd_scene load_steps=20 format=4 uid="uid://dbjc24t0legjp"]
+[gd_scene load_steps=21 format=4 uid="uid://dbjc24t0legjp"]
 
 [ext_resource type="Script" uid="uid://80kfrand5d44" path="res://scripts/game.gd" id="1_game"]
 [ext_resource type="Script" uid="uid://cwu5cf7a0awcd" path="res://addons/func_godot/src/map/func_godot_map.gd" id="2_lbhrr"]
 [ext_resource type="Resource" uid="uid://bkhxcqsquw1yg" path="res://addons/func_godot/func_godot_default_map_settings.tres" id="3_iywne"]
 [ext_resource type="Texture2D" uid="uid://cyg2snr1w5xw5" path="res://addons/func_godot/textures/default_texture.png" id="4_p57ef"]
-[ext_resource type="AudioStream" uid="uid://bcmselcwx8fek" path="res://assets/music/Tensions.mp3" id="5_iywne"]
+[ext_resource type="PackedScene" uid="uid://bridievmkjshx" path="res://scenes/entites/npc.tscn" id="5_bridiev"]
+[ext_resource type="AudioStream" uid="uid://bcmselcwx8fek" path="res://assets/music/Tensions.mp3" id="6_iywne"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1"]
 sky_top_color = Color(0.02, 0.01, 0.08, 1)
@@ -124,8 +125,9 @@ transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 1
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 navigation_mesh = SubResource("NavigationMesh_lbhrr")
 
-[node name="NPC" parent="." instance=ExtResource("5_iywne")]
+[node name="NPC" parent="." instance=ExtResource("5_bridiev")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.835414, 1.1483724, 4.9605484)
+
 [node name="GameOverUI" type="CanvasLayer" parent="."]
 
 [node name="Panel" type="Panel" parent="GameOverUI"]
