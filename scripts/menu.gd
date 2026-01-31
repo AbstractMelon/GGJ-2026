@@ -158,9 +158,10 @@ func _process_test_flags() -> void:
 		await get_tree().create_timer(0.2).timeout
 		_on_create_server_button_pressed()
 		
-		# Auto-start game when a player joins
+		# Auto-start game when a player joins, but wait for client to load
 		MultiplayerManager.player_connected.connect(func(_id):
-			print("Player joined, auto-starting game...")
+			print("Player joined, waiting for client handshake...")
+			await get_tree().create_timer(1.0).timeout
 			_on_start_button_pressed()
 		, CONNECT_ONE_SHOT)
 		

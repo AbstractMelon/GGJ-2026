@@ -21,14 +21,9 @@ func _ready() -> void:
 		_spawn_player(1)
 
 func _on_player_connected(peer_id: int) -> void:
-	# Only the server spawns players
+	# Only the server initiates spawning for everyone
 	if multiplayer.is_server():
-		_spawn_player(peer_id)
-		
-		# Tell the new player to spawn all existing players
-		for existing_id in spawned_players.keys():
-			if existing_id != peer_id:
-				_spawn_player_remote.rpc_id(peer_id, existing_id)
+		_spawn_player_remote.rpc(peer_id)
 
 func _on_player_disconnected(peer_id: int) -> void:
 	_remove_player(peer_id)
@@ -40,14 +35,14 @@ func _spawn_player(peer_id: int) -> void:
 	var player := PLAYER_SCENE.instantiate()
 	player.name = str(peer_id)
 	
+	players_container.add_child(player, true)
+	spawned_players[peer_id] = player
+	
 	# Get spawn position
 	var spawn_index := spawned_players.size() % spawn_points.get_child_count()
 	var spawn_point := spawn_points.get_child(spawn_index) as Node3D
 	if spawn_point:
 		player.global_position = spawn_point.global_position
-	
-	players_container.add_child(player, true)
-	spawned_players[peer_id] = player
 	
 	print("Spawned player %d" % peer_id)
 

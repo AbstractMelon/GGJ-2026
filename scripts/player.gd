@@ -11,12 +11,16 @@ class_name Player
 
 var target_velocity := Vector3.ZERO
 var camera_rotation := Vector2.ZERO
+var _sync_timer := 0.0
 
 func _ready() -> void:
 	# Set up authority - only the owning player controls this character
 	if is_multiplayer_authority():
 		camera.current = true
-		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+		# Small delay for mouse capture to work reliably
+		get_tree().create_timer(0.1).timeout.connect(func():
+			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+		)
 	else:
 		# Disable camera for non-local players
 		camera.current = false
@@ -52,11 +56,17 @@ func _handle_mouse_look(mouse_delta: Vector2) -> void:
 	camera.rotation.x = camera_rotation.x
 	
 	# Sync rotation to other players
-	_sync_rotation.rpc(camera_rotation)
+	if _sync_timer > 1.0:
+		_sync_rotation.rpc(camera_rotation)
 
 func _physics_process(delta: float) -> void:
 	if is_multiplayer_authority():
 		_process_movement(delta)
+		
+		# Only sync if we've been active for a moment to allow other peers to join/load
+		_sync_timer += delta
+		if _sync_timer > 1.0:
+			_sync_position.rpc(global_position, velocity)
 	
 	move_and_slide()
 
@@ -85,9 +95,6 @@ func _process_movement(delta: float) -> void:
 	# Apply gravity
 	if not is_on_floor():
 		velocity.y -= 9.8 * delta
-	
-	# Sync position to other players
-	_sync_position.rpc(global_position, velocity)
 
 @rpc("unreliable_ordered")
 func _sync_position(pos: Vector3, vel: Vector3) -> void:
