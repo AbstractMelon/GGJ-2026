@@ -123,6 +123,9 @@ func handle_unmask_request(requester_id: int, target_id: int) -> void:
 	# Unmask the target
 	target_player.remove_mask.rpc()
 	
+	# Delay 2 seconds
+	await get_tree().create_timer(2.0).timeout
+	
 	# Check if detective unmasked the hacker
 	if target_id == hacker_id:
 		_detective_wins()
