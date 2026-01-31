@@ -16,6 +16,7 @@ var _e_was_pressed := false
 var player_role: Role = Role.NONE
 
 func _ready() -> void:
+	super._ready()
 	# Set up authority - only the owning player controls this character
 	if is_multiplayer_authority():
 		camera.current = true

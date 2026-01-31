@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://bd3ea4oh65u2p"
-path="res://.godot/imported/Mask2.fbx-b2bd8c331cb769428dc2722f13676302.scn"
+path="res://.godot/imported/Mask2.fbx-860bc61e0dca9959e20de4840b6886bd.scn"
 
 [deps]
 
-source_file="res://assets/parts/accessories/Mask2.fbx"
-dest_files=["res://.godot/imported/Mask2.fbx-b2bd8c331cb769428dc2722f13676302.scn"]
+source_file="res://assets/parts/mask/Mask2.fbx"
+dest_files=["res://.godot/imported/Mask2.fbx-860bc61e0dca9959e20de4840b6886bd.scn"]
 
 [params]
 
