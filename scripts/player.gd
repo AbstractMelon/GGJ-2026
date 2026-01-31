@@ -30,7 +30,7 @@ func _ready() -> void:
 		# Disable camera for non-local players
 		skin.visible = true
 		camera.current = false
-	ApplySkin([])
+	ApplySkin(GenerateColorPallete())
 
 func _enter_tree() -> void:
 	# Set multiplayer authority based on the node name (which is the peer ID)
@@ -78,9 +78,9 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	
 	
-func ApplySkin(colors: Array[Color]):
+func ApplyPartColor(node, color):
 	# get the MeshInstance3D child
-	var mesh_instance = $Skin/RobotHead.find_children("*", "MeshInstance3D", true)[0]
+	var mesh_instance = node.find_children("*", "MeshInstance3D", true)[0]
 
 	# get the material of the first surface
 	var mat = mesh_instance.get_active_material(0)
@@ -89,9 +89,29 @@ func ApplySkin(colors: Array[Color]):
 		# make a unique copy so other meshes don't change
 		mat = mat.duplicate()
 		mesh_instance.set_surface_override_material(0, mat)
-
 		# set the color (albedo)
-		mat.albedo_color = Color(1, 0, 0)  # red
+		mat.albedo_color = color
+	
+	
+	
+var preset_colors = {
+	"red": Color(1,0,0),
+	"green": Color(0,1,0),
+	"blue": Color(0,0,1),
+}
+func GenerateColorPallete(count: int = 5) -> Array[Color]:
+	var colors: Array[Color] = []
+	for i in count:
+		colors.append(preset_colors.values().pick_random())
+	return colors
+
+
+func ApplySkin(colors: Array[Color]):
+	ApplyPartColor($Skin/RobotHead, colors[0] )
+	ApplyPartColor($Skin/RobotArms, colors[1] )
+	ApplyPartColor($Skin/RobotBody, colors[2])
+	ApplyPartColor($Skin/RobotBottom, colors[3] )
+
 
 func _process_movement(delta: float) -> void:
 	# Get input direction
