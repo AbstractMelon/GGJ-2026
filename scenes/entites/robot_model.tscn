@@ -1,15 +1,11 @@
-[gd_scene load_steps=16 format=3 uid="uid://cw5qmvt7xvqxw"]
+[gd_scene load_steps=12 format=3 uid="uid://cw5qmvt7xvqxw"]
 
 [ext_resource type="PackedScene" uid="uid://1u73rrgn0pmn" path="res://assets/parts/mask/Mask.fbx" id="1_mask"]
 [ext_resource type="PackedScene" uid="uid://c64j1n74qle7m" path="res://assets/parts/heads/Head1.fbx" id="2_head"]
 [ext_resource type="PackedScene" uid="uid://0masay15igrl" path="res://assets/parts/accessories/Bowtie.fbx" id="3_bowtie"]
 [ext_resource type="PackedScene" uid="uid://c07q5pi8ksut5" path="res://assets/parts/arms/Arms1.fbx" id="4_arms"]
 [ext_resource type="PackedScene" uid="uid://8xchb8bxuh8j" path="res://assets/parts/bodies/Body1.fbx" id="5_body"]
-[ext_resource type="PackedScene" uid="uid://c16ya4iuud1ha" path="res://assets/parts/accessories/TopHat.fbx" id="6_0reu4"]
-[ext_resource type="PackedScene" uid="uid://bii888snchu0c" path="res://assets/parts/accessories/Tie.fbx" id="7_job8x"]
-[ext_resource type="PackedScene" uid="uid://bd3ea4oh65u2p" path="res://assets/parts/mask/Mask2.fbx" id="8_rvuy1"]
-[ext_resource type="PackedScene" uid="uid://bo4edmb1gj7l2" path="res://assets/parts/accessories/FancyHat.fbx" id="9_1p8ay"]
-[ext_resource type="PackedScene" uid="uid://vliaio286vyi" path="res://assets/parts/accessories/Crown.fbx" id="10_bed78"]
+[ext_resource type="PackedScene" uid="uid://c1jkwv2pbtd8m" path="res://assets/parts/bottoms/Bottom1.fbx" id="6_omsra"]
 
 [sub_resource type="Animation" id="Animation_yqhfp"]
 length = 0.001
@@ -75,32 +71,11 @@ transform = Transform3D(-6.556708e-09, 0, -0.14999999, 0, 0.14999999, 0, 0.14999
 [node name="RobotBody" parent="Skin" instance=ExtResource("5_body")]
 transform = Transform3D(-6.556708e-09, 0, -0.14999999, 0, 0.14999999, 0, 0.14999999, 0, -6.556708e-09, 0.018463492, 0.45061553, -0.0031025559)
 
-[node name="RobotBottom" parent="Skin" instance=ExtResource("5_body")]
-transform = Transform3D(-6.556708e-09, 0, -0.14999999, 0, 0.14999999, 0, 0.14999999, 0, -6.556708e-09, 0.018463492, 0.45061553, -0.0031025559)
+[node name="RobotBottom" parent="Skin" instance=ExtResource("6_omsra")]
+transform = Transform3D(-6.5567085e-09, 0, -0.15, 0, 0.15, 0, 0.15, 0, -6.5567085e-09, 0.018, 0.451, -0.003)
 
-[node name="TopHat" parent="Skin" instance=ExtResource("6_0reu4")]
-transform = Transform3D(-6.556709e-09, 0, 0.15000002, 0, 0.14999999, 0, -0.15000002, 0, -6.556709e-09, 0, 1.9332567, 0)
-visible = false
-
-[node name="Tie" parent="Skin" instance=ExtResource("7_job8x")]
-transform = Transform3D(-6.556709e-09, 0, 0.15000002, 0, 0.14999999, 0, -0.15000002, 0, -6.556709e-09, 0, 1.3984958, -0.26509234)
-visible = false
-
-[node name="Mask2" parent="Skin" instance=ExtResource("8_rvuy1")]
-transform = Transform3D(-6.556709e-09, 0, 0.15000002, 0, 0.14999999, 0, -0.15000002, 0, -6.556709e-09, 0.016414046, 1.8301595, -0.2756015)
-visible = false
-
-[node name="FancyHat" parent="Skin" instance=ExtResource("9_1p8ay")]
-transform = Transform3D(-6.556709e-09, 0, 0.15000002, 0, 0.14999999, 0, -0.15000002, 0, -6.556709e-09, 0.03494948, 1.9283959, 0)
-visible = false
-
-[node name="Crown" parent="Skin" instance=ExtResource("10_bed78")]
-transform = Transform3D(-6.556709e-09, 0, 0.15000002, 0, 0.14999999, 0, -0.15000002, 0, -6.556709e-09, 0.025561571, 1.972153, -0.028035149)
-visible = false
-
-[node name="Bowtie" parent="Skin" instance=ExtResource("3_bowtie")]
-transform = Transform3D(-6.556709e-09, 0, 0.15000002, 0, 0.14999999, 0, -0.15000002, 0, -6.556709e-09, 0, 1.4233457, -0.24096322)
-visible = false
+[node name="Accessory2" parent="Skin" instance=ExtResource("3_bowtie")]
+transform = Transform3D(-6.556708e-09, 0, 0.14999999, 0, 0.14999999, 0, -0.14999999, 0, -6.556708e-09, 0.018463492, 1.4035587, -0.23889923)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

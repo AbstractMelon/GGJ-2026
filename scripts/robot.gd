@@ -34,6 +34,10 @@ const BOTTOMS = [
 	preload("res://assets/parts/bottoms/Bottom2.fbx"),
 	preload("res://assets/parts/bottoms/Bottom3.fbx"),
 ]
+const MASKS = [
+	preload("res://assets/parts/mask/Mask.fbx"),
+	preload("res://assets/parts/mask/Mask2.fbx"),
+]
 const ACCESSORIES = [
 	preload("res://assets/parts/accessories/Bowtie.fbx"),
 	preload("res://assets/parts/accessories/Crown.fbx"),
@@ -41,6 +45,15 @@ const ACCESSORIES = [
 	preload("res://assets/parts/accessories/Tie.fbx"),
 	preload("res://assets/parts/accessories/TopHat.fbx"),
 ]
+
+# Transform constants for accessories
+const ACCESSORY_TRANSFORMS = {
+	"Bowtie": Transform3D(Vector3(0, 0, 0.15), Vector3(0, 0.15, 0), Vector3(-0.15, 0, 0), Vector3(0, 1.423, -0.241)),
+	"Crown": Transform3D(Vector3(0, 0, 0.15), Vector3(0, 0.15, 0), Vector3(-0.15, 0, 0), Vector3(0.026, 1.972, -0.028)),
+	"FancyHat": Transform3D(Vector3(0, 0, 0.15), Vector3(0, 0.15, 0), Vector3(-0.15, 0, 0), Vector3(0.035, 1.928, 0)),
+	"Tie": Transform3D(Vector3(0, 0, 0.15), Vector3(0, 0.15, 0), Vector3(-0.15, 0, 0), Vector3(0, 1.398, -0.265)),
+	"TopHat": Transform3D(Vector3(0, 0, 0.15), Vector3(0, 0.15, 0), Vector3(-0.15, 0, 0), Vector3(0, 1.933, 0)),
+}
 
 func _ready() -> void:
 	add_to_group("robot")
@@ -59,7 +72,7 @@ func RandomizeParts() -> void:
 	var arms_transform = $RobotModel/Skin/RobotArms.transform
 	var body_transform = $RobotModel/Skin/RobotBody.transform
 	var bottom_transform = $RobotModel/Skin/RobotBottom.transform
-	var accessory_transform = $RobotModel/Skin/Accessory.transform
+	var mask_transform = $RobotModel/Skin/Mask.transform
 	
 	# Remove old parts immediately (not queued)
 	var old_head = $RobotModel/Skin/RobotHead
@@ -77,6 +90,10 @@ func RandomizeParts() -> void:
 	var old_bottom = $RobotModel/Skin/RobotBottom
 	$RobotModel/Skin.remove_child(old_bottom)
 	old_bottom.free()
+	
+	var old_mask = $RobotModel/Skin/Mask
+	$RobotModel/Skin.remove_child(old_mask)
+	old_mask.free()
 	
 	var old_accessory = $RobotModel/Skin/Accessory
 	$RobotModel/Skin.remove_child(old_accessory)
@@ -103,9 +120,18 @@ func RandomizeParts() -> void:
 	new_bottom.transform = bottom_transform
 	$RobotModel/Skin.add_child(new_bottom)
 	
-	var new_accessory = ACCESSORIES.pick_random().instantiate()
+	var new_mask = MASKS.pick_random().instantiate()
+	new_mask.name = "Mask"
+	new_mask.transform = mask_transform
+	$RobotModel/Skin.add_child(new_mask)
+	
+	var accessory_scene = ACCESSORIES.pick_random()
+	var new_accessory = accessory_scene.instantiate()
 	new_accessory.name = "Accessory"
-	new_accessory.transform = accessory_transform
+	# Get the proper transform based on accessory type
+	var accessory_filename = accessory_scene.resource_path.get_file().get_basename()
+	if ACCESSORY_TRANSFORMS.has(accessory_filename):
+		new_accessory.transform = ACCESSORY_TRANSFORMS[accessory_filename]
 	$RobotModel/Skin.add_child(new_accessory)
 
 func ApplyPartColor(node, color):
