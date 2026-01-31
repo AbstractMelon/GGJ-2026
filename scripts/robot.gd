@@ -6,12 +6,12 @@ class_name Robot
 @export var friction := 8.0
 
 @onready var collision_shape: CollisionShape3D = $CollisionShape3D
-@onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var animation_player: AnimationPlayer = $RobotModel/AnimationPlayer
 
 var target_velocity := Vector3.ZERO
 var is_mask_removed := false
 
-@onready var skin := $Skin
+@onready var skin := $RobotModel/Skin
 
 func _ready() -> void:
 	add_to_group("robot")
@@ -49,10 +49,10 @@ func GenerateColorPallete(count: int = 5) -> Array[Color]:
 
 
 func ApplySkin(colors: Array[Color]):
-	ApplyPartColor($Skin/RobotHead, colors[0] )
-	ApplyPartColor($Skin/RobotArms, colors[1] )
-	ApplyPartColor($Skin/RobotBody, colors[2])
-	ApplyPartColor($Skin/RobotBottom, colors[3] )
+	ApplyPartColor($RobotModel/Skin/RobotHead, colors[0] )
+	ApplyPartColor($RobotModel/Skin/RobotArms, colors[1] )
+	ApplyPartColor($RobotModel/Skin/RobotBody, colors[2])
+	ApplyPartColor($RobotModel/Skin/RobotBottom, colors[3] )
 
 @rpc("any_peer", "call_local", "reliable")
 func remove_mask() -> void:
@@ -63,7 +63,7 @@ func remove_mask() -> void:
 	
 	# Wait 2 seconds then hide the mask
 	await get_tree().create_timer(1.0).timeout
-	$Skin/Mask.visible = false
+	$RobotModel/Skin/Mask.visible = false
 
 @rpc("any_peer", "call_local", "reliable")
 func _request_unmask(target_robot_path: String) -> void:
