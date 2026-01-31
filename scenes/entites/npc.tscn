@@ -1,7 +1,13 @@
 [gd_scene load_steps=5 format=3 uid="uid://bridievmkjshx"]
 
 [ext_resource type="Script" uid="uid://lpnsfjaqpraw" path="res://scripts/npc.gd" id="1_ytfeu"]
-[ext_resource type="PackedScene" uid="uid://cw5qmvt7xvqxw" path="res://scenes/entites/robot_model.tscn" id="2_robot_model"]
+[ext_resource type="PackedScene" uid="uid://1u73rrgn0pmn" path="res://assets/parts/mask/Mask.fbx" id="2_m3lgo"]
+[ext_resource type="PackedScene" uid="uid://dl73p1pskh7lf" path="res://assets/parts/heads/RobotHead.fbx" id="3_fvdeh"]
+[ext_resource type="PackedScene" uid="uid://0masay15igrl" path="res://assets/parts/accessories/Bowtie.fbx" id="4_efthq"]
+[ext_resource type="PackedScene" uid="uid://dwlxbbt0hc54h" path="res://assets/parts/arms/RobotArms.fbx" id="5_f348p"]
+[ext_resource type="PackedScene" uid="uid://dnnq65xd1m5co" path="res://assets/parts/bodies/RobotBody.fbx" id="6_r3lq0"]
+[ext_resource type="PackedScene" uid="uid://hf3uka81ebbp" path="res://assets/parts/legs/RobotBottom.fbx" id="7_p4h8k"]
+[ext_resource type="PackedScene" uid="uid://cw5qmvt7xvqxw" path="res://scenes/entites/robot_model.tscn" id="8_robot_model"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1"]
 radius = 0.4
@@ -31,7 +37,13 @@ fov = 80.0
 [node name="InteractionRay" type="RayCast3D" parent="Camera3D"]
 target_position = Vector3(0, 0, -2)
 
-[node name="RobotModel" parent="." instance=ExtResource("2_robot_model")]
+[node name="RobotModel" parent="." instance=ExtResource("8_robot_model")]
 
 [node name="NavigationAgent" type="NavigationAgent3D" parent="."]
+avoidance_enabled = true
 debug_enabled = true
+
+[node name="MoveTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="MoveTimer" to="." method="_on_move_timer_timeout"]

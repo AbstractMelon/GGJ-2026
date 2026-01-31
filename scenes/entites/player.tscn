@@ -13,6 +13,8 @@ height = 1.8
 
 [node name="Player" type="CharacterBody3D"]
 collision_layer = 2
+axis_lock_angular_x = true
+axis_lock_angular_z = true
 script = ExtResource("1_player")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]

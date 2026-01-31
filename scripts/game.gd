@@ -14,7 +14,7 @@ var game_over := false
 
 func _ready() -> void:
 	add_to_group("game")
-	spawn_points = $FuncGodotMap.find_children("*_info_player_start", "Marker3D", true)
+	spawn_points = $NavigationRegion3D/FuncGodotMap.find_children("*_info_player_start", "Marker3D", true)
 	# Connect to multiplayer signals
 	MultiplayerManager.player_connected.connect(_on_player_connected)
 	MultiplayerManager.player_disconnected.connect(_on_player_disconnected)
