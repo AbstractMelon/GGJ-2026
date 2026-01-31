@@ -15,14 +15,14 @@ run/main_scene="res://scenes/menu.tscn"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+MultiplayerManager="*res://scripts/multiplayer_manager.gd"
+
 [display]
 
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
-
-[autoload]
-
-MultiplayerManager="*res://scripts/multiplayer_manager.gd"
 
 [editor_plugins]
 

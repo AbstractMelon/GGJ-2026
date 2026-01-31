@@ -1,24 +1,15 @@
-extends CharacterBody3D
+extends Robot
 class_name Player
 
-@export var move_speed := 5.0
 @export var mouse_sensitivity := 0.002
-@export var acceleration := 10.0
-@export var friction := 8.0
 
 @onready var camera: Camera3D = $Camera3D
-@onready var collision_shape: CollisionShape3D = $CollisionShape3D
 @onready var interaction_ray: RayCast3D = $Camera3D/InteractionRay
 @onready var interaction_prompt: Label = $HUD/InteractionPrompt
-@onready var animation_player: AnimationPlayer = $AnimationPlayer
 
-var target_velocity := Vector3.ZERO
 var camera_rotation := Vector2.ZERO
 var _sync_timer := 0.0
-var is_mask_removed := false
 var _e_was_pressed := false
-
-@onready var skin := $Skin
 
 func _ready() -> void:
 	# Set up authority - only the owning player controls this character
@@ -85,40 +76,6 @@ func _physics_process(delta: float) -> void:
 			_sync_position.rpc(global_position, velocity)
 	
 	move_and_slide()
-	
-	
-func ApplyPartColor(node, color):
-	# get the MeshInstance3D child
-	var mesh_instance = node.find_children("*", "MeshInstance3D", true)[0]
-
-	# get the material of the first surface
-	var mat = mesh_instance.get_active_material(0)
-
-	if mat:
-		# make a unique copy so other meshes don't change
-		mat = mat.duplicate()
-		mesh_instance.set_surface_override_material(0, mat)
-		# set the color (albedo)
-		mat.albedo_color = color
-	
-var preset_colors = {
-	"red": Color(1,0,0),
-	"green": Color(0,1,0),
-	"blue": Color(0,0,1),
-}
-func GenerateColorPallete(count: int = 5) -> Array[Color]:
-	var colors: Array[Color] = []
-	for i in count:
-		colors.append(preset_colors.values().pick_random())
-	return colors
-
-
-func ApplySkin(colors: Array[Color]):
-	ApplyPartColor($Skin/RobotHead, colors[0] )
-	ApplyPartColor($Skin/RobotArms, colors[1] )
-	ApplyPartColor($Skin/RobotBody, colors[2])
-	ApplyPartColor($Skin/RobotBottom, colors[3] )
-
 
 func _process_movement(delta: float) -> void:
 	# Get input direction
@@ -166,7 +123,7 @@ func _handle_interaction() -> void:
 	
 	if interaction_ray.is_colliding():
 		var collider = interaction_ray.get_collider()
-		if collider is Player and collider != self and not collider.is_mask_removed:
+		if collider is Robot and collider != self and not collider.is_mask_removed:
 			interaction_prompt.visible = true
 			# We use KEY_E directly as requested
 			if e_now and not _e_was_pressed:
