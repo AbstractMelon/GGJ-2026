@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://hf3uka81ebbp"
-path="res://.godot/imported/RobotBottom.fbx-c7d313f04ce177d8ae219ce224bcb9b9.scn"
+uid="uid://0masay15igrl"
+path="res://.godot/imported/Bowtie.fbx-bfe6f090590271547166f8bd2f8dd692.scn"
 
 [deps]
 
-source_file="res://assets/robotparts/RobotBottom.fbx"
-dest_files=["res://.godot/imported/RobotBottom.fbx-c7d313f04ce177d8ae219ce224bcb9b9.scn"]
+source_file="res://assets/parts/accessories/Bowtie.fbx"
+dest_files=["res://.godot/imported/Bowtie.fbx-bfe6f090590271547166f8bd2f8dd692.scn"]
 
 [params]
 

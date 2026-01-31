@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://dnnq65xd1m5co"
-path="res://.godot/imported/RobotBody.fbx-6aae94e96d45eafd17bbf4bf19f3c108.scn"
+uid="uid://hf3uka81ebbp"
+path="res://.godot/imported/RobotBottom.fbx-40f46e12441859eebcb7f177e4faafeb.scn"
 
 [deps]
 
-source_file="res://assets/robotparts/RobotBody.fbx"
-dest_files=["res://.godot/imported/RobotBody.fbx-6aae94e96d45eafd17bbf4bf19f3c108.scn"]
+source_file="res://assets/parts/legs/RobotBottom.fbx"
+dest_files=["res://.godot/imported/RobotBottom.fbx-40f46e12441859eebcb7f177e4faafeb.scn"]
 
 [params]
 
