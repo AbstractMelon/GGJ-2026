@@ -76,6 +76,8 @@ func _ready() -> void:
 	current_colors = GenerateColorPallete()
 	ApplySkin(current_colors)
 	_create_hacked_indicator()
+	var animation_tree: AnimationTree = $RobotModel/AnimationTree
+	animation_tree.set("parameters/HoverSeek/seek_request", randf())
 
 func _physics_process(_delta: float) -> void:
 	

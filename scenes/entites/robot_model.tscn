@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://cw5qmvt7xvqxw"]
+[gd_scene load_steps=20 format=3 uid="uid://cw5qmvt7xvqxw"]
 
 [ext_resource type="PackedScene" uid="uid://1u73rrgn0pmn" path="res://assets/parts/mask/Mask.fbx" id="1_mask"]
 [ext_resource type="PackedScene" uid="uid://c64j1n74qle7m" path="res://assets/parts/heads/Head1.fbx" id="2_head"]
@@ -21,6 +21,13 @@ tracks/0/keys = {
 "update": 0,
 "values": [Vector3(0, 1.8364791, -0.28145194)]
 }
+tracks/1/type = "position_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Skin")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0, -0.2806065, 0)
 
 [sub_resource type="Animation" id="Animation_38u2u"]
 resource_name = "idle"
@@ -43,13 +50,57 @@ tracks/0/keys = {
 [sub_resource type="Animation" id="Animation_ughn7"]
 resource_name = "walk"
 
+[sub_resource type="Animation" id="Animation_omsra"]
+resource_name = "hover"
+loop_mode = 1
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Skin")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0.1, 0, 0.46666667, 1, 0, -0.1, 0)
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_yqhfp"]
 _data = {
 &"RESET": SubResource("Animation_yqhfp"),
+&"hover": SubResource("Animation_omsra"),
 &"idle": SubResource("Animation_38u2u"),
 &"mask-remove": SubResource("Animation_1e23o"),
 &"walk": SubResource("Animation_ughn7")
 }
+
+[sub_resource type="AnimationNodeAdd2" id="AnimationNodeAdd2_omsra"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_iaxnm"]
+animation = &"hover"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_0gd7r"]
+animation = &"RESET"
+
+[sub_resource type="AnimationNodeTimeSeek" id="AnimationNodeTimeSeek_omsra"]
+
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_0gd7r"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_s65b7"]
+animation = &"mask-remove"
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_0reu4"]
+graph_offset = Vector2(-1017.8982, -27.899048)
+nodes/output/position = Vector2(360, 60)
+nodes/RemoveMask/node = SubResource("AnimationNodeAnimation_s65b7")
+nodes/RemoveMask/position = Vector2(-360, 340)
+nodes/OneShot/node = SubResource("AnimationNodeOneShot_0gd7r")
+nodes/OneShot/position = Vector2(-20, 160)
+"nodes/Animation 3/node" = SubResource("AnimationNodeAnimation_iaxnm")
+"nodes/Animation 3/position" = Vector2(-360, -100)
+nodes/HoverSeek/node = SubResource("AnimationNodeTimeSeek_omsra")
+nodes/HoverSeek/position = Vector2(-40, -180)
+nodes/Animation/node = SubResource("AnimationNodeAnimation_0gd7r")
+nodes/Animation/position = Vector2(-360, 120)
+nodes/Add2/node = SubResource("AnimationNodeAdd2_omsra")
+nodes/Add2/position = Vector2(140, -80)
+node_connections = [&"output", 0, &"Add2", &"OneShot", 0, &"Animation", &"OneShot", 1, &"RemoveMask", &"HoverSeek", 0, &"Animation 3", &"Add2", 0, &"HoverSeek", &"Add2", 1, &"OneShot"]
 
 [node name="RobotModel" type="Node3D"]
 
@@ -81,3 +132,12 @@ transform = Transform3D(-6.556708e-09, 0, 0.14999999, 0, 0.14999999, 0, -0.14999
 libraries = {
 &"": SubResource("AnimationLibrary_yqhfp")
 }
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeBlendTree_0reu4")
+anim_player = NodePath("../AnimationPlayer")
+parameters/OneShot/active = false
+parameters/OneShot/internal_active = false
+parameters/OneShot/request = 0
+parameters/HoverSeek/seek_request = -1.0
+parameters/Add2/add_amount = 1.0
