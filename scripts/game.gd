@@ -2,12 +2,13 @@ extends Node3D
 
 const PLAYER_SCENE := preload("res://scenes/entites/player.tscn")
 
-@onready var spawn_points: Node3D = $SpawnPoints
+@onready var spawn_points: Array[Node]
 @onready var players_container: Node3D = $Players
 
 var spawned_players := {}
 
 func _ready() -> void:
+	spawn_points = $FuncGodotMap.find_children("*_info_player_start", "Marker3D", true)
 	# Connect to multiplayer signals
 	MultiplayerManager.player_connected.connect(_on_player_connected)
 	MultiplayerManager.player_disconnected.connect(_on_player_disconnected)
@@ -39,8 +40,8 @@ func _spawn_player(peer_id: int) -> void:
 	spawned_players[peer_id] = player
 	
 	# Get spawn position
-	var spawn_index := spawned_players.size() % spawn_points.get_child_count()
-	var spawn_point := spawn_points.get_child(spawn_index) as Node3D
+	var spawn_index := spawned_players.size() % spawn_points.size()
+	var spawn_point := spawn_points[spawn_index]
 	if spawn_point:
 		player.global_position = spawn_point.global_position
 	
