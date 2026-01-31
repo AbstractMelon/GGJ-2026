@@ -92,8 +92,6 @@ func ApplyPartColor(node, color):
 		# set the color (albedo)
 		mat.albedo_color = color
 	
-	
-	
 var preset_colors = {
 	"red": Color(1,0,0),
 	"green": Color(0,1,0),
