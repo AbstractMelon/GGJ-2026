@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dbjc24t0legjp"]
+[gd_scene load_steps=7 format=3 uid="uid://dbjc24t0legjp"]
 
 [ext_resource type="Script" uid="uid://80kfrand5d44" path="res://scripts/game.gd" id="1_game"]
 [ext_resource type="PackedScene" uid="uid://byjbirpdumxdk" path="res://scenes/map.tscn" id="4_lbhrr"]
@@ -72,4 +72,4 @@ stream = ExtResource("6_iywne")
 volume_db = -5.0
 autoplay = true
 
-[node name="TheMap" parent="." instance=ExtResource("4_lbhrr")]
+[node name="Map" parent="." instance=ExtResource("4_lbhrr")]
