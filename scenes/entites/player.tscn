@@ -1,12 +1,12 @@
 [gd_scene load_steps=15 format=3 uid="uid://c28os4snrymi0"]
 
 [ext_resource type="Script" uid="uid://djbje1k80i0a4" path="res://scripts/player.gd" id="1_player"]
-[ext_resource type="PackedScene" uid="uid://dl73p1pskh7lf" path="res://assets/parts/heads/RobotHead.fbx" id="2_ughn7"]
+[ext_resource type="PackedScene" uid="uid://c64j1n74qle7m" path="res://assets/parts/heads/Head1.fbx" id="2_ughn7"]
 [ext_resource type="PackedScene" uid="uid://0masay15igrl" path="res://assets/parts/accessories/Bowtie.fbx" id="3_38u2u"]
 [ext_resource type="PackedScene" uid="uid://1u73rrgn0pmn" path="res://assets/parts/mask/Mask.fbx" id="4_1e23o"]
-[ext_resource type="PackedScene" uid="uid://dwlxbbt0hc54h" path="res://assets/parts/arms/RobotArms.fbx" id="5_yqhfp"]
-[ext_resource type="PackedScene" uid="uid://dnnq65xd1m5co" path="res://assets/parts/bodies/RobotBody.fbx" id="6_13ywu"]
-[ext_resource type="PackedScene" uid="uid://hf3uka81ebbp" path="res://assets/parts/legs/RobotBottom.fbx" id="7_xv54s"]
+[ext_resource type="PackedScene" uid="uid://c07q5pi8ksut5" path="res://assets/parts/arms/Arms1.fbx" id="5_yqhfp"]
+[ext_resource type="PackedScene" uid="uid://8xchb8bxuh8j" path="res://assets/parts/bodies/Body1.fbx" id="6_13ywu"]
+[ext_resource type="PackedScene" uid="uid://8xchb8bxuh8j" path="res://assets/parts/bodies/Body1.fbx" id="7_xv54s"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1"]
 radius = 0.4
