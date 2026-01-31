@@ -88,7 +88,7 @@ func ApplySkin(colors: Array[Color]):
 	if mat:
 		# make a unique copy so other meshes don't change
 		mat = mat.duplicate()
-		mesh_instance.set_surface_material(0, mat)
+		mesh_instance.set_surface_override_material(0, mat)
 
 		# set the color (albedo)
 		mat.albedo_color = Color(1, 0, 0)  # red
