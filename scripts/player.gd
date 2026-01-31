@@ -19,16 +19,13 @@ func _ready() -> void:
 	# Set up authority - only the owning player controls this character
 	if is_multiplayer_authority():
 		camera.current = true
-<<<<<<< HEAD
 		# Small delay for mouse capture to work reliably
 		get_tree().create_timer(0.1).timeout.connect(func():
 			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 		)
-=======
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 		skin.visible = false
 		
->>>>>>> 96284a7 (its a thing)
 	else:
 		# Disable camera for non-local players
 		skin.visible = true
