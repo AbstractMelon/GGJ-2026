@@ -27,7 +27,10 @@ func _ready() -> void:
 	if not is_remote_controlled:
 		move_timer.wait_time = randf_range(0, maximum_wait_time)
 		move_timer.start()
-		navigation_agent.set_target_position(Vector3(randf_range(-50, 20), 0.5, randf_range(-15, 15)))
+		randomize_target()
+
+func randomize_target() -> void:
+	navigation_agent.set_target_position(Vector3(randf_range(-16, 28), 0.5, randf_range(-28, 28)))
 
 func _apply_spawner_cosmetics() -> void:
 	if not has_meta("cosmetic_data"):
@@ -156,4 +159,4 @@ func _physics_process(delta: float) -> void:
 func _on_move_timer_timeout() -> void:
 	# Only server generates new targets
 	if not is_remote_controlled:
-		navigation_agent.set_target_position(Vector3(randf_range(-50, 20), 0.5, randf_range(-15, 15)))
+		randomize_target()

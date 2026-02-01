@@ -86,16 +86,16 @@ animation = &"mask-remove"
 [sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_0gd7r"]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_0reu4"]
-graph_offset = Vector2(-978.2475, 73.449005)
+graph_offset = Vector2(-1029.9824, -166.54727)
 nodes/output/position = Vector2(360, 60)
 nodes/RemoveMask/node = SubResource("AnimationNodeAnimation_s65b7")
 nodes/RemoveMask/position = Vector2(-360, 340)
 nodes/RevealMask/node = SubResource("AnimationNodeOneShot_0gd7r")
-nodes/RevealMask/position = Vector2(-20, 160)
+nodes/RevealMask/position = Vector2(-100, 160)
 "nodes/Animation 3/node" = SubResource("AnimationNodeAnimation_iaxnm")
 "nodes/Animation 3/position" = Vector2(-360, -100)
 nodes/HoverSeek/node = SubResource("AnimationNodeTimeSeek_omsra")
-nodes/HoverSeek/position = Vector2(-40, -180)
+nodes/HoverSeek/position = Vector2(-100, -180)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_0gd7r")
 nodes/Animation/position = Vector2(-360, 120)
 nodes/Add2/node = SubResource("AnimationNodeAdd2_omsra")
