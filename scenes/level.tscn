@@ -1,84 +1,39 @@
-[gd_scene load_steps=2 format=3 uid="uid://c7rfhkaa7h6bj"]
+[gd_scene format=3 uid="uid://c7rfhkaa7h6bj"]
 
-[ext_resource type="PackedScene" uid="uid://biooqy51hqhwh" path="res://assets/Level.fbx" id="1_2q6dc"]
+[ext_resource type="PackedScene" uid="uid://cl0fe36cx5akj" path="res://assets/Level.fbx" id="1_2q6dc"]
+[ext_resource type="Texture2D" uid="uid://bi1aepb3vu5mh" path="res://assets/images/checker-pattern.jpg" id="2_w7c3h"]
 
-[node name="Level" instance=ExtResource("1_2q6dc")]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_w8frs"]
+albedo_texture = ExtResource("2_w7c3h")
+uv1_scale = Vector3(3, 3, 3)
+uv2_scale = Vector3(3, 3, 3)
+
+[node name="Level" unique_id=1338814092 instance=ExtResource("1_2q6dc")]
 transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, 0, 0, 0)
 
-[node name="Curtin-col" parent="." index="17"]
+[node name="Curtin1" parent="." index="25" unique_id=943950936]
 visible = false
 
-[node name="Curtin1" parent="." index="23"]
+[node name="Curtin2" parent="." index="26" unique_id=1789763223]
 visible = false
 
-[node name="Curtin2" parent="." index="24"]
+[node name="Curtin3" parent="." index="27" unique_id=2091363928]
 visible = false
 
-[node name="Curtin3" parent="." index="25"]
+[node name="Curtin4" parent="." index="28" unique_id=1427246719]
 visible = false
 
-[node name="Curtin4" parent="." index="26"]
+[node name="Curtin5" parent="." index="29" unique_id=1215741657]
 visible = false
 
-[node name="Curtin5" parent="." index="27"]
+[node name="Pillar1" parent="." index="54" unique_id=1838068310]
 visible = false
 
-[node name="Fountin-col" parent="." index="51"]
+[node name="Pillar2" parent="." index="65" unique_id=1342129789]
 visible = false
 
-[node name="Pillar1" parent="." index="52"]
+[node name="Stage" parent="." index="96" unique_id=501429481]
 visible = false
 
-[node name="Pillar10-col" parent="." index="54"]
-visible = false
-
-[node name="Pillar11-col" parent="." index="56"]
-visible = false
-
-[node name="Pillar12-col" parent="." index="58"]
-visible = false
-
-[node name="Pillar13-col" parent="." index="60"]
-visible = false
-
-[node name="Pillar14-col" parent="." index="62"]
-visible = false
-
-[node name="Pillar2" parent="." index="63"]
-visible = false
-
-[node name="Pillar3-col" parent="." index="65"]
-visible = false
-
-[node name="Pillar4-col" parent="." index="67"]
-visible = false
-
-[node name="Pillar5-col" parent="." index="69"]
-visible = false
-
-[node name="Pillar6-col" parent="." index="71"]
-visible = false
-
-[node name="Pillar7-col" parent="." index="73"]
-visible = false
-
-[node name="Pillar8-col" parent="." index="75"]
-visible = false
-
-[node name="Pillar9-col" parent="." index="77"]
-visible = false
-
-[node name="Stage" parent="." index="94"]
-visible = false
-
-[node name="Table-col" parent="." index="96"]
-visible = false
-
-[node name="Table2-col" parent="." index="98"]
-visible = false
-
-[node name="Table3-col" parent="." index="100"]
-visible = false
-
-[node name="Table4-col" parent="." index="102"]
-visible = false
+[node name="Walls" parent="." index="105" unique_id=1291312121]
+surface_material_override/2 = SubResource("StandardMaterial3D_w8frs")
