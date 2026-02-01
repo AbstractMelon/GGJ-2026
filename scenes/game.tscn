@@ -14,16 +14,19 @@ ground_horizon_color = Color(0.05, 0.02, 0.1, 1)
 sky_material = SubResource("ProceduralSkyMaterial_1")
 
 [sub_resource type="Environment" id="Environment_1"]
+background_energy_multiplier = 4.0
 sky = SubResource("Sky_1")
 tonemap_mode = 2
 tonemap_exposure = 1.2
+ssao_enabled = true
+glow_enabled = true
+glow_normalized = true
 glow_strength = 0.6
 glow_bloom = 0.2
 glow_blend_mode = 0
 glow_hdr_threshold = 0.8
+volumetric_fog_enabled = true
 volumetric_fog_density = 0.02
-volumetric_fog_albedo = Color(0.3, 0.2, 0.5, 1)
-volumetric_fog_emission = Color(0.1, 0.05, 0.2, 1)
 volumetric_fog_emission_energy = 0.5
 
 [node name="Game" type="Node3D"]

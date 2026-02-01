@@ -14,25 +14,30 @@ size = Vector3(3.4794617, 3.312622, 0.92578125)
 navigation_mesh = SubResource("NavigationMesh_f8cpn")
 
 [node name="entity_1_info_player_start" type="Marker3D" parent="."]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -6.5, 1.25, -32.5)
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -6.5, 1.25, -31.235939)
 
 [node name="entity_2_info_player_start" type="Marker3D" parent="."]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -7.5, 1.25, 9)
 
+[node name="entity_3_info_player_start" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 1.7484555e-07, 0, 1, 0, -1.7484555e-07, 0, 1, -1.774724, 3.450616, -38.35141)
+
 [node name="Level" parent="." instance=ExtResource("1_4xfga")]
 
-[node name="OmniLight3D2" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.454677, 6.2728305, -16.697842)
-light_energy = 8.0
-light_indirect_energy = 10.0
+[node name="Light" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.019569, 4.5412936, -16.919651)
+light_energy = 4.0
+light_indirect_energy = 2.0
 light_size = 1.0
+shadow_enabled = true
 omni_range = 4096.0
 
-[node name="OmniLight3D" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6673851, 6.389503, -1.8485308)
-light_energy = 8.0
-light_indirect_energy = 10.0
+[node name="Light2" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6673851, 4.872592, -1.8485308)
+light_energy = 4.0
+light_indirect_energy = 2.0
 light_size = 1.0
+shadow_enabled = true
 omni_range = 4096.0
 
 [node name="Node3D" type="Node3D" parent="."]
