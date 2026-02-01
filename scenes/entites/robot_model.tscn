@@ -169,10 +169,10 @@ transform = Transform3D(-6.556708e-09, 0, -0.14999999, 0, 0.14999999, 0, 0.14999
 
 [node name="Skeleton3D" parent="Skin/RobotArms/Armature" index="0"]
 bones/8/position = Vector3(4.197636e-19, 0.017588526, 2.0907176e-09)
-bones/8/rotation = Quaternion(-0.49056444, -2.3080165e-08, -1.4544714e-09, 0.871405)
+bones/8/rotation = Quaternion(-0.5186278, -2.4271182e-08, -1.5295291e-09, 0.8550002)
 bones/8/scale = Vector3(0.99999994, 1.0000005, 1.0000017)
 bones/11/position = Vector3(8.497549e-12, 0.017588513, -5.2941658e-08)
-bones/11/rotation = Quaternion(0.48385838, 1.9964254e-08, -2.2366178e-06, 0.8751464)
+bones/11/rotation = Quaternion(0.5137598, 2.119884e-08, -2.3748357e-06, 0.8579342)
 bones/11/scale = Vector3(0.9999999, 1, 1.0000002)
 
 [node name="RobotBody" parent="Skin" unique_id=933761109 instance=ExtResource("5_body")]

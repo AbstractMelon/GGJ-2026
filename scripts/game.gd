@@ -296,6 +296,10 @@ func handle_hack_request(requester_id: int, target_robot_path: String, hacker_ro
 	for color in hacker_robot.current_colors:
 		hacker_colors_array.append(color)
 	
+	var swapped_parts: Array = ["head", "arms", "body", "bottom", "accessory", "color"]
+	swapped_parts.shuffle()
+	swapped_parts.resize(randi_range(1, 2))
+	
 	# Apply hack to target with hacker's attributes
 	target_robot.apply_hack.rpc(
 		hacker_robot.current_head_idx,
@@ -303,7 +307,9 @@ func handle_hack_request(requester_id: int, target_robot_path: String, hacker_ro
 		hacker_robot.current_body_idx,
 		hacker_robot.current_bottom_idx,
 		hacker_robot.current_accessory_idx,
-		hacker_colors_array
+		hacker_colors_array,
+		randf_range(1.5, 3),
+		swapped_parts
 	)
 	
 	# Track hacked NPCs

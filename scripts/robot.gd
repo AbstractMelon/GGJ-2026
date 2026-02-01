@@ -266,7 +266,7 @@ func _request_hack(target_robot_path: String) -> void:
 
 @rpc("authority", "call_local", "reliable")
 func apply_hack(hacker_head_idx: int, hacker_arms_idx: int, hacker_body_idx: int, 
-				hacker_bottom_idx: int, hacker_accessory_idx: int, hacker_colors: Array) -> void:
+				hacker_bottom_idx: int, hacker_accessory_idx: int, hacker_colors: Array, random_delay: float, to_transfer: Array) -> void:
 	if is_hacked:
 		return
 	
@@ -274,12 +274,12 @@ func apply_hack(hacker_head_idx: int, hacker_arms_idx: int, hacker_body_idx: int
 	
 	# Start the hack sequence: delay -> glitch -> warning -> attribute transfer
 	_start_hack_sequence(hacker_head_idx, hacker_arms_idx, hacker_body_idx, 
-						 hacker_bottom_idx, hacker_accessory_idx, hacker_colors)
+						 hacker_bottom_idx, hacker_accessory_idx, hacker_colors, random_delay, to_transfer)
 
 func _start_hack_sequence(hacker_head_idx: int, hacker_arms_idx: int, hacker_body_idx: int,
-						  hacker_bottom_idx: int, hacker_accessory_idx: int, hacker_colors: Array) -> void:
+						  hacker_bottom_idx: int, hacker_accessory_idx: int, hacker_colors: Array, random_delay: float, to_transfer: Array) -> void:
 	# Wait a few seconds before visible effects
-	await get_tree().create_timer(randf_range(1.5, 3.0)).timeout
+	await get_tree().create_timer(random_delay).timeout
 	
 	# Glitch effect for 1 second
 	await _play_glitch_effect()
@@ -290,7 +290,7 @@ func _start_hack_sequence(hacker_head_idx: int, hacker_arms_idx: int, hacker_bod
 	
 	# Transfer 1-2 random attributes from hacker
 	_transfer_hacker_attributes(hacker_head_idx, hacker_arms_idx, hacker_body_idx,
-								hacker_bottom_idx, hacker_accessory_idx, hacker_colors)
+								hacker_bottom_idx, hacker_accessory_idx, hacker_colors, to_transfer)
 
 func _play_glitch_effect() -> void:
 	is_glitching = true
@@ -316,19 +316,15 @@ func _play_glitch_effect() -> void:
 	is_glitching = false
 
 func _transfer_hacker_attributes(hacker_head_idx: int, hacker_arms_idx: int, hacker_body_idx: int,
-								 hacker_bottom_idx: int, hacker_accessory_idx: int, hacker_colors: Array) -> void:
-	# Decide how many attributes to transfer (1 or 2)
-	var num_transfers = randi_range(1, 2)
+								 hacker_bottom_idx: int, hacker_accessory_idx: int, hacker_colors: Array, to_transfer: Array) -> void:
 	
-	# Available attribute types
-	var attribute_types = ["head", "arms", "body", "bottom", "accessory", "color"]
-	attribute_types.shuffle()
 	
-	for i in num_transfers:
-		if i >= attribute_types.size():
+	print(to_transfer)
+	for i in range(len(to_transfer)):
+		if i >= to_transfer.size():
 			break
 		
-		var attr_type = attribute_types[i]
+		var attr_type = to_transfer[i]
 		match attr_type:
 			"head":
 				if hacker_colors.size() > 0: 
