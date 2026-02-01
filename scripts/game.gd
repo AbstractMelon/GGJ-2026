@@ -3,10 +3,14 @@ extends Node3D
 const PLAYER_SCENE := preload("res://scenes/entites/player.tscn")
 const NPC_SPAWNER_SCENE := preload("res://scenes/npc_spawner.tscn")
 
+const SFX_INCORRECT := preload("res://assets/sfx/incorrect.mp3")
+const SFX_WIN := preload("res://assets/sfx/win.mp3")
+
 @onready var spawn_points: Array[Node]
 @onready var players_container: Node3D = $Players
 @onready var game_over_label: Label = $GameOverUI/GameOverLabel
 @onready var game_over_ui: CanvasLayer = $GameOverUI
+@onready var sfx_player: AudioStreamPlayer = $SFXPlayer
 
 var spawned_players := {}
 var hacker_id: int = -1
@@ -54,6 +58,11 @@ func _setup_npc_spawner() -> void:
 	# Instantiate the NPC spawner
 	npc_spawner = NPC_SPAWNER_SCENE.instantiate() as NPCSpawner
 	add_child(npc_spawner)
+	
+	# If there's a SpawnRegion in the scene, use it
+	var spawn_region = get_node_or_null("SpawnRegion")
+	if spawn_region:
+		npc_spawner.spawn_area = spawn_region
 
 func _on_player_connected(peer_id: int) -> void:
 	# Only the server initiates spawning for everyone
@@ -161,28 +170,37 @@ func handle_unmask_request(requester_id: int, target_robot_path: String) -> void
 	# Decrement guesses
 	detective_guesses_remaining -= 1
 	
-	# Notify detective of remaining guesses
+	# Sync remaining guesses
 	if spawned_players.has(detective_id):
 		spawned_players[detective_id].update_guesses.rpc_id(detective_id, detective_guesses_remaining)
 		
 	print("Unmasking target robot: %s. Guesses remaining: %d" % [target_robot.name, detective_guesses_remaining])
+	
+	# Determine if this is the hacker
+	var is_hacker = false
+	if target_robot is Player and target_robot.name.to_int() == hacker_id:
+		is_hacker = true
+	
+	# Play appropriate sound
+	_play_sfx.rpc(is_hacker)
+	
 	# Unmask the target
 	target_robot.remove_mask.rpc()
 	
 	# Wait 1 second
 	await get_tree().create_timer(1.0).timeout
 	
-	# Check if detective unmasked the hacker (only applies to players)
-	# For players, their name is their peer_id
-	var unmasked_hacker = false
-	if target_robot is Player:
-		var target_id = target_robot.name.to_int()
-		if target_id == hacker_id:
-			unmasked_hacker = true
-			_detective_wins()
-	
-	if not unmasked_hacker and detective_guesses_remaining <= 0 and not game_over:
+	# Check if detective unmasked the hacker
+	if is_hacker:
+		_detective_wins()
+	elif detective_guesses_remaining <= 0 and not game_over:
 		_hacker_wins_no_guesses()
+
+@rpc("authority", "call_local", "reliable")
+func _play_sfx(is_win: bool) -> void:
+	if sfx_player:
+		sfx_player.stream = SFX_WIN if is_win else SFX_INCORRECT
+		sfx_player.play()
 
 func _hacker_wins_no_guesses() -> void:
 	if not multiplayer.is_server():
@@ -266,8 +284,9 @@ func _sync_hacker_progress() -> void:
 	if spawned_players.has(hacker_id):
 		print("Syncing hacker progress to %d: %d/%d" % [hacker_id, hacked_npcs, total_npcs])
 		spawned_players[hacker_id].update_infection_progress.rpc_id(hacker_id, hacked_npcs, total_npcs, HACK_WIN_PERCENTAGE)
-	else:
-		print("Cannot sync hacker progress, hacker_id %d not in spawned_players" % hacker_id)
+	
+	if spawned_players.has(detective_id):
+		spawned_players[detective_id].update_infection_progress.rpc_id(detective_id, hacked_npcs, total_npcs, HACK_WIN_PERCENTAGE)
 
 func _check_hacker_win() -> void:
 	if not multiplayer.is_server():

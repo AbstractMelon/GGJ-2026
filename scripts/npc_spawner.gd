@@ -3,9 +3,8 @@ class_name NPCSpawner
 
 const NPC_SCENE := preload("res://scenes/entites/npc.tscn")
 
-@export var npc_count: int = 15
-@export var spawn_area_min: Vector3 = Vector3(-15, 0.5, -30)
-@export var spawn_area_max: Vector3 = Vector3(25, 0.5, 12)
+@export var npc_count: int = 20
+@export var spawn_area: Node3D
 
 # Sync properties
 @export var sync_interval: float = 0.5  # How often to sync target positions
@@ -36,17 +35,44 @@ func _spawn_all_npcs() -> void:
 		return
 	
 	for i in npc_count:
-		var spawn_pos = Vector3(
-			randf_range(spawn_area_min.x, spawn_area_max.x),
-			spawn_area_min.y,
-			randf_range(spawn_area_min.z, spawn_area_max.z)
-		)
+		var spawn_pos = _get_random_spawn_position()
 		
 		# Generate random cosmetic data
 		var cosmetic_data = _generate_random_cosmetics()
 		
 		# Spawn on all clients
 		_spawn_npc_remote.rpc(i, spawn_pos, cosmetic_data)
+
+func _get_random_spawn_position() -> Vector3:
+	if spawn_area:
+		# Find the CollisionShape3D child
+		var collision_shape: CollisionShape3D = null
+		for child in spawn_area.get_children():
+			if child is CollisionShape3D:
+				collision_shape = child
+				break
+		
+		if collision_shape and collision_shape.shape is BoxShape3D:
+			var box_shape := collision_shape.shape as BoxShape3D
+			var box_size := box_shape.size
+			
+			# Generate random point within the box (local space)
+			var local_point = Vector3(
+				randf_range(-box_size.x / 2, box_size.x / 2),
+				randf_range(-box_size.y / 2, box_size.y / 2),
+				randf_range(-box_size.z / 2, box_size.z / 2)
+			)
+			
+			# Transform to global space (respects parent rotation and scale)
+			var global_point = collision_shape.global_transform * local_point
+			
+			# Optionally keep Y fixed (adjust to desired height)
+			global_point.y = spawn_area.global_position.y
+			
+			return global_point
+	
+	# Fallback if no valid spawn area/collision shape found
+	return Vector3(randf_range(-15, 25), 0.5, randf_range(-30, 12))
 
 func _generate_random_cosmetics() -> Dictionary:
 	return {
@@ -92,12 +118,8 @@ func _on_npc_target_reached(npc_index: int) -> void:
 	if not MultiplayerManager.is_server():
 		return
 	
-	# Generate new random target
-	var new_target = Vector3(
-		randf_range(spawn_area_min.x, spawn_area_max.x),
-		spawn_area_min.y,
-		randf_range(spawn_area_min.z, spawn_area_max.z)
-	)
+	# Generate new random target using the same area logic
+	var new_target = _get_random_spawn_position()
 	npc_targets[npc_index] = new_target
 
 func _start_target_sync() -> void:

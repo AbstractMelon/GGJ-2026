@@ -12,6 +12,7 @@ enum Role { NONE, HACKER, DETECTIVE }
 @onready var guesses_label: Label = $HUD/TopUI/VBoxContainer/GuessesLabel
 @onready var infection_container: Control = $HUD/TopUI/VBoxContainer/InfectionUI
 @onready var infection_label: Label = $HUD/TopUI/VBoxContainer/InfectionUI/InfectionLabel
+@onready var infection_label_detective: Label = $HUD/TopUI/VBoxContainer/InfectionLabelDetective
 @onready var infection_progress: ProgressBar = $HUD/TopUI/VBoxContainer/InfectionUI/InfectionProgress
 
 var camera_rotation := Vector2.ZERO
@@ -75,9 +76,14 @@ func _handle_mouse_look(mouse_delta: Vector2) -> void:
 		_sync_rotation.rpc(camera_rotation)
 
 func _physics_process(delta: float) -> void:
+	super._physics_process(delta)
+	
 	if is_multiplayer_authority():
-		_process_movement(delta)
-		_handle_interaction()
+		if stun_timer > 0:
+			velocity = velocity.lerp(Vector3.ZERO, friction * delta)
+		else:
+			_process_movement(delta)
+			_handle_interaction()
 		
 		# Only sync if we've been active for a moment to allow other peers to join/load
 		_sync_timer += delta
@@ -166,8 +172,6 @@ func set_role(role: Role) -> void:
 	
 	# Detective walks faster
 	if player_role == Role.DETECTIVE:
-		move_speed = 6.5
-	else:
 		move_speed = 5.0
 		
 	if is_multiplayer_authority():
@@ -189,16 +193,24 @@ func update_infection_progress(hacked: int, total: int, win_percentage: float) -
 		return
 	if is_multiplayer_authority():
 		print("Client %d received infection progress: %d/%d" % [multiplayer.get_unique_id(), hacked, total])
+		var percent = (float(hacked) / max(total, 1)) * 100
+		
 		if infection_container:
 			infection_container.visible = player_role == Role.HACKER
-			var percent = (float(hacked) / max(total, 1)) * 100
 			infection_label.text = "Infection Progress: %.0f%%" % percent
 			# hacker needs win_percentage * total to win
 			infection_progress.max_value = max(total * win_percentage, 1)
 			infection_progress.value = hacked
 			print("Updated hacking bar: value=%f, max=%f" % [infection_progress.value, infection_progress.max_value])
-		else:
-			print("Warning: infection_container is null in update_infection_progress")
+		
+		if infection_label_detective:
+			infection_label_detective.visible = player_role == Role.DETECTIVE
+			infection_label_detective.text = "Infection Level: %d/%d (%.0f%%)" % [hacked, total, percent]
+			# Make it more alarming as it grows
+			if percent > 50:
+				infection_label_detective.modulate = Color.ORANGE
+			if percent > 80:
+				infection_label_detective.modulate = Color.RED
 
 func _update_role_ui() -> void:
 	if not role_label:
@@ -210,14 +222,17 @@ func _update_role_ui() -> void:
 			role_label.modulate = Color.RED
 			if guesses_label: guesses_label.visible = false
 			if infection_container: infection_container.visible = true
+			if infection_label_detective: infection_label_detective.visible = false
 		Role.DETECTIVE:
 			role_label.text = "You are the DETECTIVE"
 			role_label.modulate = Color.CYAN
 			if guesses_label: guesses_label.visible = true
 			if infection_container: infection_container.visible = false
+			if infection_label_detective: infection_label_detective.visible = true
 		_:
 			role_label.text = ""
 			if guesses_label: guesses_label.visible = false
 			if infection_container: infection_container.visible = false
+			if infection_label_detective: infection_label_detective.visible = false
 	
 	role_label.visible = player_role != Role.NONE

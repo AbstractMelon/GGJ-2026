@@ -1,8 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://dbjc24t0legjp"]
+[gd_scene load_steps=8 format=3 uid="uid://dbjc24t0legjp"]
 
 [ext_resource type="Script" uid="uid://80kfrand5d44" path="res://scripts/game.gd" id="1_lnu2h"]
 [ext_resource type="PackedScene" uid="uid://byjbirpdumxdk" path="res://scenes/map.tscn" id="4_lbhrr"]
 [ext_resource type="AudioStream" uid="uid://bcmselcwx8fek" path="res://assets/music/Tensions.mp3" id="6_iywne"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lnu2h"]
+size = Vector3(33.45616, 1, 56.17334)
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1"]
 sky_top_color = Color(0.02, 0.01, 0.08, 1)
@@ -65,7 +68,16 @@ stream = ExtResource("6_iywne")
 volume_db = -5.0
 autoplay = true
 
+[node name="SFXPlayer" type="AudioStreamPlayer" parent="."]
+volume_db = -2.0
+
 [node name="Map" parent="." instance=ExtResource("4_lbhrr")]
+
+[node name="SpawnRegion" type="Node3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SpawnRegion"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2140961, 0.5534319, -0.21557617)
+shape = SubResource("BoxShape3D_lnu2h")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_1")

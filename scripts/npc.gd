@@ -32,11 +32,7 @@ func _ready() -> void:
 func randomize_target() -> void:
 	var spawner = get_tree().get_first_node_in_group("npc_spawner")
 	if spawner:
-		navigation_agent.set_target_position(Vector3(
-			randf_range(spawner.spawn_area_min.x, spawner.spawn_area_max.x),
-			spawner.spawn_area_min.y,
-			randf_range(spawner.spawn_area_min.z, spawner.spawn_area_max.z)
-		))
+		navigation_agent.set_target_position(spawner._get_random_spawn_position())
 	else:
 		navigation_agent.set_target_position(Vector3(randf_range(-15, 25), 0.5, randf_range(-30, 12)))
 
@@ -136,6 +132,13 @@ func _apply_specific_parts() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	super._physics_process(delta)
+	
+	if stun_timer > 0:
+		velocity = velocity.lerp(Vector3.ZERO, friction * delta)
+		move_and_slide()
+		return
+		
 	var direction = Vector3.ZERO
 	
 	if navigation_agent.is_navigation_finished():

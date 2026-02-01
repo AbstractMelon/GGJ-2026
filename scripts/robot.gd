@@ -12,6 +12,7 @@ var target_velocity := Vector3.ZERO
 var is_mask_removed := false
 var is_hacked := false
 var is_glitching := false
+var stun_timer := 0.0
 
 # Store current part indices for attribute transfer
 var current_head_idx := 0
@@ -59,13 +60,13 @@ const ACCESSORIES = [
 	preload("res://assets/parts/accessories/TopHat.fbx"),
 ]
 
-# Transform constants for accessories - using static var since Transform3D cannot be in const dict
+# Transform constants for accessories
 static var ACCESSORY_TRANSFORMS: Dictionary = {
-	"Bowtie": Transform3D(Basis(Vector3(0, 0, 0.15), Vector3(0, 0.15, 0), Vector3(-0.15, 0, 0)), Vector3(0, 1.423, -0.241)),
-	"Crown": Transform3D(Basis(Vector3(0, 0, 0.15), Vector3(0, 0.15, 0), Vector3(-0.15, 0, 0)), Vector3(0.026, 1.972, -0.028)),
-	"FancyHat": Transform3D(Basis(Vector3(0, 0, 0.15), Vector3(0, 0.15, 0), Vector3(-0.15, 0, 0)), Vector3(0.035, 1.928, 0)),
-	"Tie": Transform3D(Basis(Vector3(0, 0, 0.15), Vector3(0, 0.15, 0), Vector3(-0.15, 0, 0)), Vector3(0, 1.398, -0.265)),
-	"TopHat": Transform3D(Basis(Vector3(0, 0, 0.15), Vector3(0, 0.15, 0), Vector3(-0.15, 0, 0)), Vector3(0, 1.933, 0)),
+	"Bowtie": Transform3D(Basis(Vector3(0.0, 0.0, 0.15), Vector3(0.0, 0.15, 0.0), Vector3(-0.15, 0.0, 0.0)), Vector3(0.0, 1.423, -0.241)),
+	"Crown": Transform3D(Basis(Vector3(0.0, 0.0, 0.15), Vector3(0.0, 0.15, 0.0), Vector3(-0.15, 0.0, 0.0)), Vector3(0.026, 1.972, -0.028)),
+	"FancyHat": Transform3D(Basis(Vector3(0.0, 0.0, 0.15), Vector3(0.0, 0.15, 0.0), Vector3(-0.15, 0.0, 0.0)), Vector3(0.035, 1.928, 0.0)),
+	"Tie": Transform3D(Basis(Vector3(0.0, 0.0, 0.15), Vector3(0.0, 0.15, 0.0), Vector3(-0.15, 0.0, 0.0)), Vector3(0.0, 1.398, -0.265)),
+	"TopHat": Transform3D(Basis(Vector3(0.0, 0.0, 0.15), Vector3(0.0, 0.15, 0.0), Vector3(-0.15, 0.0, 0.0)), Vector3(0.0, 1.933, 0.0)),
 }
 
 func _ready() -> void:
@@ -79,8 +80,11 @@ func _ready() -> void:
 	var animation_tree: AnimationTree = $RobotModel/AnimationTree
 	animation_tree.set("parameters/HoverSeek/seek_request", randf())
 
-func _physics_process(_delta: float) -> void:
-	
+func _physics_process(delta: float) -> void:
+	if stun_timer > 0:
+		stun_timer -= delta
+		return # Stop all movement if stunned
+		
 	move_and_slide()
 
 func _create_hacked_indicator() -> void:
@@ -217,9 +221,10 @@ func remove_mask() -> void:
 	if is_mask_removed:
 		return
 	is_mask_removed = true
+	stun_timer = 2.0 # Stun for 2 seconds
 	$RobotModel/AnimationTree.set("parameters/RevealMask/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 	
-	# Wait 2 seconds then hide the mask
+	# Wait 1 second then hide the mask
 	await get_tree().create_timer(1.0).timeout
 	$RobotModel/Skin/Mask.visible = false
 
