@@ -93,3 +93,13 @@ collision_mask = 4
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D4" unique_id=637383354]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.322442, 1.156311, -27.380257)
 shape = SubResource("BoxShape3D_4xfga")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1380465833]
+transform = Transform3D(0.96225125, -0.07584885, -0.26137996, 0, 0.9603813, -0.27868938, 0.27216274, 0.26816922, 0.9241281, -2.9964547, 1.7368331, -16.701843)
+light_color = Color(1, 1, 0.85490197, 1)
+light_energy = 0.5
+
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="." unique_id=828431686]
+transform = Transform3D(0.90138716, 0.12067645, 0.41585866, 5.840775e-09, 0.9603813, -0.27868944, -0.43301412, 0.25120708, 0.86567533, 2.8767316, 1.7368331, -16.701843)
+light_color = Color(1, 1, 0.85490197, 1)
+light_energy = 0.5

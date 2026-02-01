@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://bridievmkjshx"]
+
+[ext_resource type="Script" uid="uid://lpnsfjaqpraw" path="res://scripts/npc.gd" id="1_ytfeu"]
+[ext_resource type="PackedScene" uid="uid://cw5qmvt7xvqxw" path="res://scenes/entites/robot_model.tscn" id="8_robot_model"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1"]
+radius = 0.4
+height = 1.8
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_1"]
+radius = 0.4
+height = 1.8
+
+[node name="NPC" type="CharacterBody3D" unique_id=1472247599]
+collision_layer = 2
+script = ExtResource("1_ytfeu")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1999649456]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("CapsuleShape3D_1")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1416544389]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+visible = false
+mesh = SubResource("CapsuleMesh_1")
+
+[node name="RobotModel" parent="." unique_id=1863981878 instance=ExtResource("8_robot_model")]
+
+[node name="NavigationAgent" type="NavigationAgent3D" parent="." unique_id=1313138502]
+path_desired_distance = 2.0
+target_desired_distance = 2.0
+path_postprocessing = 2
+debug_enabled = true
+
+[node name="MoveTimer" type="Timer" parent="." unique_id=1746261304]
+one_shot = true
+
+[connection signal="timeout" from="MoveTimer" to="." method="_on_move_timer_timeout"]
