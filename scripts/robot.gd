@@ -78,7 +78,7 @@ func _ready() -> void:
 	ApplySkin(current_colors)
 	_create_hacked_indicator()
 	var animation_tree: AnimationTree = $RobotModel/AnimationTree
-	animation_tree.set("parameters/HoverSeek/seek_request", randf())
+	animation_tree.set("parameters/hover_seek/seek_request", randf())
 
 func _physics_process(delta: float) -> void:
 	if stun_timer > 0:
@@ -222,7 +222,7 @@ func remove_mask() -> void:
 		return
 	is_mask_removed = true
 	stun_timer = 2.0 # Stun for 2 seconds
-	$RobotModel/AnimationTree.set("parameters/RevealMask/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+	$RobotModel/AnimationTree.set("parameters/reveal_mask/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 	
 	# Wait 1 second then hide the mask
 	await get_tree().create_timer(1.0).timeout

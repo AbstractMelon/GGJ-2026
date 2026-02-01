@@ -75,6 +75,21 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_ughn7"]
 resource_name = "walk"
+loop_mode = 1
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Skin/RobotArms/Armature/Skeleton3D:ArmL1")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, -0.45283848, 0.2602651, 0.18011315, 0.83352184, 0.5, 1, -0.45141602, -0.2674963, -0.18511741, 0.83090365)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Skin/RobotArms/Armature/Skeleton3D:ArmR2")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0.44774196, 0.25049415, -0.17018475, 0.84131867, 0.5, 1, 0.44599518, -0.25998294, 0.17662726, 0.83803344)
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_yqhfp"]
 _data = {
@@ -95,36 +110,45 @@ animation = &"idle"
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_iaxnm"]
 animation = &"hover"
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_omsra"]
+animation = &"walk"
+
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_0gd7r"]
 animation = &"RESET"
-
-[sub_resource type="AnimationNodeTimeSeek" id="AnimationNodeTimeSeek_omsra"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_s65b7"]
 animation = &"mask-remove"
 
+[sub_resource type="AnimationNodeTimeSeek" id="AnimationNodeTimeSeek_omsra"]
+
 [sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_0gd7r"]
 
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_iaxnm"]
+
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_0reu4"]
-graph_offset = Vector2(-1171.4055, -102.51553)
+graph_offset = Vector2(-980.8536, 141.83725)
 nodes/output/position = Vector2(660, 80)
 nodes/RemoveMask/node = SubResource("AnimationNodeAnimation_s65b7")
 nodes/RemoveMask/position = Vector2(-360, 340)
-nodes/RevealMask/node = SubResource("AnimationNodeOneShot_0gd7r")
-nodes/RevealMask/position = Vector2(-100, 160)
+nodes/reveal_mask/node = SubResource("AnimationNodeOneShot_0gd7r")
+nodes/reveal_mask/position = Vector2(-100, 160)
 "nodes/Animation 3/node" = SubResource("AnimationNodeAnimation_iaxnm")
-"nodes/Animation 3/position" = Vector2(-360, -100)
-nodes/HoverSeek/node = SubResource("AnimationNodeTimeSeek_omsra")
-nodes/HoverSeek/position = Vector2(-100, -180)
+"nodes/Animation 3/position" = Vector2(-360, -200)
+nodes/hover_seek/node = SubResource("AnimationNodeTimeSeek_omsra")
+nodes/hover_seek/position = Vector2(-100, -220)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_0gd7r")
 nodes/Animation/position = Vector2(-360, 120)
 nodes/Add2/node = SubResource("AnimationNodeAdd2_omsra")
 nodes/Add2/position = Vector2(140, -80)
 "nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_0reu4")
-"nodes/Animation 2/position" = Vector2(160, 300)
+"nodes/Animation 2/position" = Vector2(-120, 560)
 "nodes/Add2 2/node" = SubResource("AnimationNodeAdd2_iaxnm")
 "nodes/Add2 2/position" = Vector2(440, 80)
-node_connections = [&"output", 0, &"Add2 2", &"RevealMask", 0, &"Animation", &"RevealMask", 1, &"RemoveMask", &"HoverSeek", 0, &"Animation 3", &"Add2", 0, &"HoverSeek", &"Add2", 1, &"RevealMask", &"Add2 2", 0, &"Add2", &"Add2 2", 1, &"Animation 2"]
+nodes/walk_blend/node = SubResource("AnimationNodeBlend2_iaxnm")
+nodes/walk_blend/position = Vector2(140, 460)
+"nodes/Animation 4/node" = SubResource("AnimationNodeAnimation_omsra")
+"nodes/Animation 4/position" = Vector2(-120, 800)
+node_connections = [&"output", 0, &"Add2 2", &"reveal_mask", 0, &"Animation", &"reveal_mask", 1, &"RemoveMask", &"hover_seek", 0, &"Animation 3", &"Add2", 0, &"hover_seek", &"Add2", 1, &"reveal_mask", &"Add2 2", 0, &"Add2", &"Add2 2", 1, &"walk_blend", &"walk_blend", 0, &"Animation 2", &"walk_blend", 1, &"Animation 4"]
 
 [node name="RobotModel" type="Node3D" unique_id=465963011]
 
@@ -145,11 +169,11 @@ transform = Transform3D(-6.556708e-09, 0, -0.14999999, 0, 0.14999999, 0, 0.14999
 
 [node name="Skeleton3D" parent="Skin/RobotArms/Armature" index="0"]
 bones/8/position = Vector3(4.197636e-19, 0.017588526, 2.0907176e-09)
-bones/8/rotation = Quaternion(-0.51969135, -2.4316275e-08, -1.5323708e-09, 0.85435414)
-bones/8/scale = Vector3(1, 1.0000001, 1.000001)
+bones/8/rotation = Quaternion(-0.49056444, -2.3080165e-08, -1.4544714e-09, 0.871405)
+bones/8/scale = Vector3(0.99999994, 1.0000005, 1.0000017)
 bones/11/position = Vector3(8.497549e-12, 0.017588513, -5.2941658e-08)
-bones/11/rotation = Quaternion(0.5148925, 2.1245116e-08, -2.3800717e-06, 0.8572547)
-bones/11/scale = Vector3(1, 1.0000001, 1.0000002)
+bones/11/rotation = Quaternion(0.48385838, 1.9964254e-08, -2.2366178e-06, 0.8751464)
+bones/11/scale = Vector3(0.9999999, 1, 1.0000002)
 
 [node name="RobotBody" parent="Skin" unique_id=933761109 instance=ExtResource("5_body")]
 transform = Transform3D(-6.556708e-09, 0, -0.14999999, 0, 0.14999999, 0, 0.14999999, 0, -6.556708e-09, 0.018463492, 0.45061553, -0.0031025559)
@@ -163,11 +187,12 @@ libraries/ = SubResource("AnimationLibrary_yqhfp")
 [node name="AnimationTree" type="AnimationTree" parent="." unique_id=511225235]
 tree_root = SubResource("AnimationNodeBlendTree_0reu4")
 anim_player = NodePath("../AnimationPlayer")
-parameters/RevealMask/active = false
-parameters/RevealMask/internal_active = false
-parameters/RevealMask/request = 0
-parameters/HoverSeek/seek_request = -1.0
+parameters/reveal_mask/active = false
+parameters/reveal_mask/internal_active = false
+parameters/reveal_mask/request = 0
+parameters/hover_seek/seek_request = -1.0
 parameters/Add2/add_amount = 1.0
 "parameters/Add2 2/add_amount" = 1.0
+parameters/walk_blend/blend_amount = 0.0
 
 [editable path="Skin/RobotArms"]

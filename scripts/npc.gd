@@ -138,12 +138,14 @@ func _physics_process(delta: float) -> void:
 	var direction = Vector3.ZERO
 	
 	if navigation_agent.is_navigation_finished():
+		$RobotModel/AnimationTree.set("parameters/walk_blend/blend_amount", 0)
 		# Only server handles timer-based target selection
 		if not is_remote_controlled and move_timer.is_stopped():
 			move_timer.wait_time = randf_range(minimum_wait_time, maximum_wait_time)
 			move_timer.start()
 	
 	else:
+		$RobotModel/AnimationTree.set("parameters/walk_blend/blend_amount", 1)
 		var target = navigation_agent.get_next_path_position()
 		target.y = position.y
 	

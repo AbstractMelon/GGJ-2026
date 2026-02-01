@@ -118,6 +118,11 @@ func _process_movement(delta: float) -> void:
 func _sync_position(pos: Vector3, vel: Vector3) -> void:
 	if not is_multiplayer_authority():
 		# Interpolate to the synced position
+		if vel.length() <= 0.1:
+			$RobotModel/AnimationTree.set("parameters/walk_blend/blend_amount", 0)
+		else:
+			$RobotModel/AnimationTree.set("parameters/walk_blend/blend_amount", 1)
+			
 		global_position = global_position.lerp(pos, 0.5)
 		velocity = vel
 
