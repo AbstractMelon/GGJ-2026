@@ -217,7 +217,7 @@ func remove_mask() -> void:
 	if is_mask_removed:
 		return
 	is_mask_removed = true
-	animation_player.play("mask-remove")
+	$RobotModel/AnimationTree.set("parameters/RevealMask/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 	
 	# Wait 2 seconds then hide the mask
 	await get_tree().create_timer(1.0).timeout
