@@ -1,7 +1,7 @@
 extends CharacterBody3D
 class_name Robot
 
-@export var move_speed := 5.0
+@export var move_speed := 3.0
 @export var acceleration := 10.0
 @export var friction := 8.0
 
