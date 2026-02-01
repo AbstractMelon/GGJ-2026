@@ -1,365 +1,311 @@
-[gd_scene load_steps=3 format=3 uid="uid://ylnjrwqtjcot"]
+[gd_scene format=3 uid="uid://bici4r0tv4ku2"]
 
-[ext_resource type="Script" uid="uid://brxbyxpd4j76f" path="res://scripts/menu.gd" id="1_menu"]
+[ext_resource type="Script" uid="uid://dur4nj4fsxy30" path="res://scripts/menu.gd" id="1_menu"]
 [ext_resource type="AudioStream" uid="uid://c2pb8i4kxxy5w" path="res://assets/music/Space Conspircy.mp3" id="2_vjb58"]
-[ext_resource type="PackedScene" path="res://scenes/settings_menu.tscn" id="3_settings"]
+[ext_resource type="PackedScene" uid="uid://bvst5veqdf0wi" path="res://scenes/UI/settings_menu.tscn" id="3_settings"]
+[ext_resource type="Theme" uid="uid://byrc5skrtbyt3" path="res://assets/ui_theme.tres" id="4_theme"]
+[ext_resource type="PackedScene" path="res://scenes/menu_panorama.tscn" id="5_panorama"]
 
-[node name="Menu" type="Control"]
+[node name="Menu" type="Control" unique_id=1992037657]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("4_theme")
 script = ExtResource("1_menu")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="Panorama3D" type="SubViewportContainer" parent="." unique_id=1275596157]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.05, 0.05, 0.1, 1)
+stretch = true
 
-[node name="BackgroundPattern" type="ColorRect" parent="."]
+[node name="SubViewport" type="SubViewport" parent="Panorama3D" unique_id=1518741474]
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="MenuPanorama" parent="Panorama3D/SubViewport" unique_id=1024963622 instance=ExtResource("5_panorama")]
+
+[node name="Vignette" type="ColorRect" parent="." unique_id=653575655]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(1, 1, 1, 0.02)
+mouse_filter = 2
+color = Color(0.05, 0.02, 0.08, 0.4)
 
-[node name="Title" type="Label" parent="."]
+[node name="LeftSidebar" type="PanelContainer" parent="." unique_id=1890847349]
 layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.17400001
-anchor_top = 0.096
-anchor_right = 0.82600003
-anchor_bottom = 0.24800001
-offset_left = 0.5519867
-offset_top = -17.208
-offset_right = -0.552063
-offset_bottom = -16.70401
-grow_horizontal = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 12
-theme_override_font_sizes/font_size = 72
-text = "Machine Masquerade"
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 450.0
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="LeftSidebar" unique_id=596836123]
+layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 40
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LeftSidebar/MarginContainer" unique_id=2140719902]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Title" type="Label" parent="LeftSidebar/MarginContainer/VBoxContainer" unique_id=1211663002]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.6, 1)
+theme_override_font_sizes/font_size = 48
+text = "Machine
+Masquerade"
 horizontal_alignment = 1
 
-[node name="Subtitle" type="Label" parent="Title"]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -200.0
-offset_top = -10.0
-offset_right = 200.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+[node name="Subtitle" type="Label" parent="LeftSidebar/MarginContainer/VBoxContainer" unique_id=807544228]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.65, 0.45, 1)
 theme_override_font_sizes/font_size = 18
-text = "There is a Hacker among us..."
+text = "A Hacker lurks among the guests..."
 horizontal_alignment = 1
+autowrap_mode = 2
 
-[node name="MainMenu" type="VBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -160.0
-offset_top = -120.0
-offset_right = 160.0
-offset_bottom = 150.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="HSeparator" type="HSeparator" parent="LeftSidebar/MarginContainer/VBoxContainer" unique_id=1089439639]
+layout_mode = 2
+
+[node name="MainMenu" type="VBoxContainer" parent="LeftSidebar/MarginContainer/VBoxContainer" unique_id=718720108]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="HostButton" type="Button" parent="LeftSidebar/MarginContainer/VBoxContainer/MainMenu" unique_id=15502516]
+custom_minimum_size = Vector2(0, 55)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Host Masquerade"
+
+[node name="JoinButton" type="Button" parent="LeftSidebar/MarginContainer/VBoxContainer/MainMenu" unique_id=1242038612]
+custom_minimum_size = Vector2(0, 55)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Join Masquerade"
+
+[node name="SettingsButton" type="Button" parent="LeftSidebar/MarginContainer/VBoxContainer/MainMenu" unique_id=1983322888]
+custom_minimum_size = Vector2(0, 55)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Settings"
+
+[node name="Spacer" type="Control" parent="LeftSidebar/MarginContainer/VBoxContainer/MainMenu" unique_id=1826163388]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="QuitButton" type="Button" parent="LeftSidebar/MarginContainer/VBoxContainer/MainMenu" unique_id=948089513]
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+text = "Exit"
+
+[node name="Spacer2" type="Control" parent="LeftSidebar/MarginContainer/VBoxContainer" unique_id=1037335045]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HostMenu" type="PanelContainer" parent="LeftSidebar/MarginContainer/VBoxContainer" unique_id=158427339]
+visible = false
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="LeftSidebar/MarginContainer/VBoxContainer/HostMenu" unique_id=61761534]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LeftSidebar/MarginContainer/VBoxContainer/HostMenu/MarginContainer" unique_id=308701280]
+layout_mode = 2
 theme_override_constants/separation = 15
 
-[node name="PanelContainer" type="PanelContainer" parent="MainMenu"]
+[node name="TitleLabel" type="Label" parent="LeftSidebar/MarginContainer/VBoxContainer/HostMenu/MarginContainer/VBoxContainer" unique_id=1581198359]
 layout_mode = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="MainMenu/PanelContainer"]
-layout_mode = 2
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 20
-
-[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu/PanelContainer/MarginContainer"]
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="PlayerNameLabel" type="Label" parent="MainMenu/PanelContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "ENTER NAME"
+theme_override_colors/font_color = Color(1, 0.9, 0.6, 1)
+theme_override_font_sizes/font_size = 28
+text = "Host Server"
 horizontal_alignment = 1
 
-[node name="PlayerNameInput" type="LineEdit" parent="MainMenu/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="PortLabel" type="Label" parent="LeftSidebar/MarginContainer/VBoxContainer/HostMenu/MarginContainer/VBoxContainer" unique_id=143341465]
 layout_mode = 2
-placeholder_text = "Anonymous"
-alignment = 1
-
-[node name="ActionButtons" type="VBoxContainer" parent="MainMenu"]
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="HostButton" type="Button" parent="MainMenu/ActionButtons"]
-custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "HOST GAME"
-
-[node name="JoinButton" type="Button" parent="MainMenu/ActionButtons"]
-custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "JOIN GAME"
-
-[node name="SettingsButton" type="Button" parent="MainMenu/ActionButtons"]
-custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "SETTINGS"
-
-[node name="Spacer" type="Control" parent="MainMenu/ActionButtons"]
-custom_minimum_size = Vector2(0, 10)
-layout_mode = 2
-
-[node name="QuitButton" type="Button" parent="MainMenu/ActionButtons"]
-custom_minimum_size = Vector2(0, 40)
-layout_mode = 2
-text = "EXIT"
-
-[node name="HostMenu" type="PanelContainer" parent="."]
-visible = false
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -150.0
-offset_top = -100.0
-offset_right = 150.0
-offset_bottom = 100.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="HostMenu"]
-layout_mode = 2
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 20
-
-[node name="VBoxContainer" type="VBoxContainer" parent="HostMenu/MarginContainer"]
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="PortLabel" type="Label" parent="HostMenu/MarginContainer/VBoxContainer"]
-layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.85, 0.6, 1)
 text = "Server Port:"
 
-[node name="PortInput" type="LineEdit" parent="HostMenu/MarginContainer/VBoxContainer"]
+[node name="PortInput" type="LineEdit" parent="LeftSidebar/MarginContainer/VBoxContainer/HostMenu/MarginContainer/VBoxContainer" unique_id=1862730502]
 layout_mode = 2
 text = "7777"
 placeholder_text = "7777"
 alignment = 1
 
-[node name="Control" type="Control" parent="HostMenu/MarginContainer/VBoxContainer"]
+[node name="CreateServerButton" type="Button" parent="LeftSidebar/MarginContainer/VBoxContainer/HostMenu/MarginContainer/VBoxContainer" unique_id=2132863173]
+custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
-size_flags_vertical = 3
+theme_override_font_sizes/font_size = 22
+text = "Begin Hosting"
 
-[node name="CreateServerButton" type="Button" parent="HostMenu/MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 40)
+[node name="BackButton" type="Button" parent="LeftSidebar/MarginContainer/VBoxContainer/HostMenu/MarginContainer/VBoxContainer" unique_id=2053268905]
 layout_mode = 2
-text = "CONFIRM HOST"
+text = "Back"
 
-[node name="BackButton" type="Button" parent="HostMenu/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "BACK"
-
-[node name="JoinMenu" type="PanelContainer" parent="."]
+[node name="JoinMenu" type="PanelContainer" parent="LeftSidebar/MarginContainer/VBoxContainer" unique_id=947539880]
 visible = false
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -150.0
-offset_top = -120.0
-offset_right = 150.0
-offset_bottom = 120.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="JoinMenu"]
+[node name="MarginContainer" type="MarginContainer" parent="LeftSidebar/MarginContainer/VBoxContainer/JoinMenu" unique_id=1802727341]
 layout_mode = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="VBoxContainer" type="VBoxContainer" parent="JoinMenu/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="LeftSidebar/MarginContainer/VBoxContainer/JoinMenu/MarginContainer" unique_id=2128372128]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 15
 
-[node name="IPLabel" type="Label" parent="JoinMenu/MarginContainer/VBoxContainer"]
+[node name="TitleLabel" type="Label" parent="LeftSidebar/MarginContainer/VBoxContainer/JoinMenu/MarginContainer/VBoxContainer" unique_id=294875375]
 layout_mode = 2
-text = "IP Address:"
+theme_override_colors/font_color = Color(1, 0.9, 0.6, 1)
+theme_override_font_sizes/font_size = 28
+text = "Join Server"
+horizontal_alignment = 1
 
-[node name="IPInput" type="LineEdit" parent="JoinMenu/MarginContainer/VBoxContainer"]
+[node name="IPLabel" type="Label" parent="LeftSidebar/MarginContainer/VBoxContainer/JoinMenu/MarginContainer/VBoxContainer" unique_id=1407830312]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.85, 0.6, 1)
+text = "Host Address:"
+
+[node name="IPInput" type="LineEdit" parent="LeftSidebar/MarginContainer/VBoxContainer/JoinMenu/MarginContainer/VBoxContainer" unique_id=411808508]
 layout_mode = 2
 text = "127.0.0.1"
 placeholder_text = "127.0.0.1"
 alignment = 1
 
-[node name="PortLabel" type="Label" parent="JoinMenu/MarginContainer/VBoxContainer"]
+[node name="PortLabel" type="Label" parent="LeftSidebar/MarginContainer/VBoxContainer/JoinMenu/MarginContainer/VBoxContainer" unique_id=1456637573]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.85, 0.6, 1)
 text = "Port:"
 
-[node name="PortInput" type="LineEdit" parent="JoinMenu/MarginContainer/VBoxContainer"]
+[node name="PortInput" type="LineEdit" parent="LeftSidebar/MarginContainer/VBoxContainer/JoinMenu/MarginContainer/VBoxContainer" unique_id=1562053001]
 layout_mode = 2
 text = "7777"
 placeholder_text = "7777"
 alignment = 1
 
-[node name="Control" type="Control" parent="JoinMenu/MarginContainer/VBoxContainer"]
+[node name="ConnectButton" type="Button" parent="LeftSidebar/MarginContainer/VBoxContainer/JoinMenu/MarginContainer/VBoxContainer" unique_id=729916515]
+custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
-size_flags_vertical = 3
+theme_override_font_sizes/font_size = 22
+text = "Connect"
 
-[node name="ConnectButton" type="Button" parent="JoinMenu/MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 40)
+[node name="BackButton" type="Button" parent="LeftSidebar/MarginContainer/VBoxContainer/JoinMenu/MarginContainer/VBoxContainer" unique_id=474022782]
 layout_mode = 2
-text = "CONNECT"
+text = "Back"
 
-[node name="BackButton" type="Button" parent="JoinMenu/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "BACK"
-
-[node name="LobbyMenu" type="PanelContainer" parent="."]
+[node name="LobbyMenu" type="PanelContainer" parent="LeftSidebar/MarginContainer/VBoxContainer" unique_id=444606231]
 visible = false
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -200.0
-offset_top = -150.0
-offset_right = 200.0
-offset_bottom = 150.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="LobbyMenu"]
+[node name="MarginContainer" type="MarginContainer" parent="LeftSidebar/MarginContainer/VBoxContainer/LobbyMenu" unique_id=67859569]
 layout_mode = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="VBoxContainer" type="VBoxContainer" parent="LobbyMenu/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="LeftSidebar/MarginContainer/VBoxContainer/LobbyMenu/MarginContainer" unique_id=1009039210]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 12
 
-[node name="StatusLabel" type="Label" parent="LobbyMenu/MarginContainer/VBoxContainer"]
+[node name="TitleLabel" type="Label" parent="LeftSidebar/MarginContainer/VBoxContainer/LobbyMenu/MarginContainer/VBoxContainer" unique_id=115700207]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.4, 0.8, 1, 1)
-text = "Status..."
+theme_override_colors/font_color = Color(1, 0.9, 0.6, 1)
+theme_override_font_sizes/font_size = 28
+text = "Lobby"
 horizontal_alignment = 1
 
-[node name="IPLabel" type="Label" parent="LobbyMenu/MarginContainer/VBoxContainer"]
+[node name="StatusLabel" type="Label" parent="LeftSidebar/MarginContainer/VBoxContainer/LobbyMenu/MarginContainer/VBoxContainer" unique_id=1140649210]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_colors/font_color = Color(0.7, 0.85, 1, 1)
+theme_override_font_sizes/font_size = 16
+text = "Status..."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="IPLabel" type="Label" parent="LeftSidebar/MarginContainer/VBoxContainer/LobbyMenu/MarginContainer/VBoxContainer" unique_id=596649423]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.5, 1)
+theme_override_font_sizes/font_size = 16
 text = "IP: 127.0.0.1"
 horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="LobbyMenu/MarginContainer/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="LeftSidebar/MarginContainer/VBoxContainer/LobbyMenu/MarginContainer/VBoxContainer" unique_id=1716085343]
 layout_mode = 2
 
-[node name="PlayerList" type="Label" parent="LobbyMenu/MarginContainer/VBoxContainer"]
+[node name="PlayerList" type="Label" parent="LeftSidebar/MarginContainer/VBoxContainer/LobbyMenu/MarginContainer/VBoxContainer" unique_id=1388832524]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.9, 0.85, 0.7, 1)
+theme_override_font_sizes/font_size = 16
 text = "Players:"
 
-[node name="HSeparator2" type="HSeparator" parent="LobbyMenu/MarginContainer/VBoxContainer"]
+[node name="HSeparator2" type="HSeparator" parent="LeftSidebar/MarginContainer/VBoxContainer/LobbyMenu/MarginContainer/VBoxContainer" unique_id=647995344]
 layout_mode = 2
 
-[node name="StartButton" type="Button" parent="LobbyMenu/MarginContainer/VBoxContainer"]
+[node name="StartButton" type="Button" parent="LeftSidebar/MarginContainer/VBoxContainer/LobbyMenu/MarginContainer/VBoxContainer" unique_id=1627974854]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
-text = "START GAME"
+text = "Begin Masquerade"
 
-[node name="BackButton" type="Button" parent="LobbyMenu/MarginContainer/VBoxContainer"]
+[node name="BackButton" type="Button" parent="LeftSidebar/MarginContainer/VBoxContainer/LobbyMenu/MarginContainer/VBoxContainer" unique_id=1167082907]
 layout_mode = 2
-text = "LEAVE LOBBY"
+text = "Leave Lobby"
 
-[node name="Footer" type="Control" parent="."]
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -60.0
-grow_horizontal = 2
-grow_vertical = 0
+[node name="PlayerInfo" type="HBoxContainer" parent="LeftSidebar/MarginContainer/VBoxContainer" unique_id=283797273]
+layout_mode = 2
 
-[node name="VersionLabel" type="Label" parent="Footer"]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 20.0
-offset_top = -30.0
-offset_right = 100.0
-offset_bottom = -7.0
-grow_vertical = 0
-theme_override_font_sizes/font_size = 14
-text = "v1.0.0"
+[node name="Label" type="Label" parent="LeftSidebar/MarginContainer/VBoxContainer/PlayerInfo" unique_id=866707983]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.7, 0.5, 1)
+text = "Designation:"
 
-[node name="AuthorsLabel" type="Label" parent="Footer"]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -220.0
-offset_top = -30.0
-offset_right = -20.0
-offset_bottom = -7.0
-grow_horizontal = 0
-grow_vertical = 0
-theme_override_font_sizes/font_size = 14
-text = "Built for Global Game Jam 2026"
-horizontal_alignment = 2
+[node name="PlayerNameLabel" type="Label" parent="LeftSidebar/MarginContainer/VBoxContainer/PlayerInfo" unique_id=1752793020]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.9, 0.6, 1)
+text = "Anonymous"
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="EditButton" type="Button" parent="LeftSidebar/MarginContainer/VBoxContainer/PlayerInfo" unique_id=922799981]
+layout_mode = 2
+text = "Edit"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=618546911]
 stream = ExtResource("2_vjb58")
 autoplay = true
 bus = &"Music"
 
-[node name="SettingsMenu" parent="." instance=ExtResource("3_settings")]
+[node name="SettingsMenu" parent="." unique_id=1770349916 instance=ExtResource("3_settings")]
 visible = false
 layout_mode = 1
 
-[connection signal="pressed" from="MainMenu/ActionButtons/HostButton" to="." method="_on_host_button_pressed"]
-[connection signal="pressed" from="MainMenu/ActionButtons/JoinButton" to="." method="_on_join_button_pressed"]
-[connection signal="pressed" from="MainMenu/ActionButtons/SettingsButton" to="." method="_on_settings_button_pressed"]
-[connection signal="pressed" from="MainMenu/ActionButtons/QuitButton" to="." method="_on_quit_button_pressed"]
-[connection signal="pressed" from="HostMenu/MarginContainer/VBoxContainer/CreateServerButton" to="." method="_on_create_server_button_pressed"]
-[connection signal="pressed" from="HostMenu/MarginContainer/VBoxContainer/BackButton" to="." method="_on_host_back_button_pressed"]
-[connection signal="pressed" from="JoinMenu/MarginContainer/VBoxContainer/ConnectButton" to="." method="_on_connect_button_pressed"]
-[connection signal="pressed" from="JoinMenu/MarginContainer/VBoxContainer/BackButton" to="." method="_on_join_back_button_pressed"]
-[connection signal="pressed" from="LobbyMenu/MarginContainer/VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
-[connection signal="pressed" from="LobbyMenu/MarginContainer/VBoxContainer/BackButton" to="." method="_on_lobby_back_button_pressed"]
+[connection signal="pressed" from="LeftSidebar/MarginContainer/VBoxContainer/MainMenu/HostButton" to="." method="_on_host_button_pressed"]
+[connection signal="pressed" from="LeftSidebar/MarginContainer/VBoxContainer/MainMenu/JoinButton" to="." method="_on_join_button_pressed"]
+[connection signal="pressed" from="LeftSidebar/MarginContainer/VBoxContainer/MainMenu/SettingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="pressed" from="LeftSidebar/MarginContainer/VBoxContainer/MainMenu/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="LeftSidebar/MarginContainer/VBoxContainer/HostMenu/MarginContainer/VBoxContainer/CreateServerButton" to="." method="_on_create_server_button_pressed"]
+[connection signal="pressed" from="LeftSidebar/MarginContainer/VBoxContainer/HostMenu/MarginContainer/VBoxContainer/BackButton" to="." method="_on_host_back_button_pressed"]
+[connection signal="pressed" from="LeftSidebar/MarginContainer/VBoxContainer/JoinMenu/MarginContainer/VBoxContainer/ConnectButton" to="." method="_on_connect_button_pressed"]
+[connection signal="pressed" from="LeftSidebar/MarginContainer/VBoxContainer/JoinMenu/MarginContainer/VBoxContainer/BackButton" to="." method="_on_join_back_button_pressed"]
+[connection signal="pressed" from="LeftSidebar/MarginContainer/VBoxContainer/LobbyMenu/MarginContainer/VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="LeftSidebar/MarginContainer/VBoxContainer/LobbyMenu/MarginContainer/VBoxContainer/BackButton" to="." method="_on_lobby_back_button_pressed"]
+[connection signal="pressed" from="LeftSidebar/MarginContainer/VBoxContainer/PlayerInfo/EditButton" to="." method="_on_edit_name_button_pressed"]

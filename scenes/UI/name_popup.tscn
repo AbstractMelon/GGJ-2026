@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://cijww6mihg0rr"]
+
+[ext_resource type="Theme" uid="uid://byrc5skrtbyt3" path="res://assets/ui_theme.tres" id="1_k27mk"]
+[ext_resource type="Script" uid="uid://b10jfy1hmfdxa" path="res://scripts/name_popup.gd" id="2_c6r8r"]
+
+[node name="NamePopup" type="AcceptDialog" unique_id=396000408]
+oversampling_override = 1.0
+title = "Welcome to Machine Masquerade!"
+initial_position = 2
+size = Vector2i(400, 165)
+visible = true
+theme = ExtResource("1_k27mk")
+ok_button_text = "Name is Adequate"
+script = ExtResource("2_c6r8r")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1269529486]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 392.0
+offset_bottom = 115.0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=417849586]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer" unique_id=324693857]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.85, 0.6, 1)
+theme_override_font_sizes/font_size = 20
+text = "Enter Your Designation:"
+horizontal_alignment = 1
+
+[node name="NameInput" type="LineEdit" parent="MarginContainer/VBoxContainer" unique_id=2114940366]
+layout_mode = 2
+placeholder_text = "Your Name"
+alignment = 1
+
+[connection signal="confirmed" from="." to="." method="_on_confirmed"]

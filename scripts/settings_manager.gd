@@ -7,6 +7,8 @@ var music_volume: float = 0.5
 var fullscreen: bool = false
 var vsync: bool = true
 var resolution: Vector2i = Vector2i(1280, 720)
+var player_name: String = ""
+var first_time: bool = true
 
 func _ready() -> void:
 	load_settings()
@@ -42,6 +44,8 @@ func save_settings() -> void:
 	config.set_value("display", "fullscreen", fullscreen)
 	config.set_value("display", "vsync", vsync)
 	config.set_value("display", "resolution", resolution)
+	config.set_value("player", "name", player_name)
+	config.set_value("player", "first_time", first_time)
 	config.save(SETTINGS_FILE)
 
 func load_settings() -> void:
@@ -55,6 +59,8 @@ func load_settings() -> void:
 	fullscreen = config.get_value("display", "fullscreen", false)
 	vsync = config.get_value("display", "vsync", true)
 	resolution = config.get_value("display", "resolution", Vector2i(1280, 720))
+	player_name = config.get_value("player", "name", "")
+	first_time = config.get_value("player", "first_time", true)
 
 func get_ip_address() -> String:
 	var ips = IP.get_local_addresses()

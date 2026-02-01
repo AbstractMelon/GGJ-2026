@@ -1,35 +1,23 @@
 extends Control
 
-const NAME_POPUP = preload("res://scenes/UI/name_popup.tscn")
+# Main Menu - Handles hosting and joining games
 
-# Left sidebar elements
-@onready var main_menu: VBoxContainer = $LeftSidebar/MarginContainer/VBoxContainer/MainMenu
-@onready var host_menu: PanelContainer = $LeftSidebar/MarginContainer/VBoxContainer/HostMenu
-@onready var join_menu: PanelContainer = $LeftSidebar/MarginContainer/VBoxContainer/JoinMenu
-@onready var lobby_menu: PanelContainer = $LeftSidebar/MarginContainer/VBoxContainer/LobbyMenu
+@onready var main_menu: VBoxContainer = $MainMenu
+@onready var host_menu: PanelContainer = $HostMenu
+@onready var join_menu: PanelContainer = $JoinMenu
+@onready var lobby_menu: PanelContainer = $LobbyMenu
 @onready var settings_menu: Control = $SettingsMenu
-@onready var player_name_label: Label = $LeftSidebar/MarginContainer/VBoxContainer/PlayerInfo/PlayerNameLabel
 
-# Host menu
-@onready var port_input_host: LineEdit = $LeftSidebar/MarginContainer/VBoxContainer/HostMenu/MarginContainer/VBoxContainer/PortInput
-
-# Join menu
-@onready var ip_input: LineEdit = $LeftSidebar/MarginContainer/VBoxContainer/JoinMenu/MarginContainer/VBoxContainer/IPInput
-@onready var port_input_join: LineEdit = $LeftSidebar/MarginContainer/VBoxContainer/JoinMenu/MarginContainer/VBoxContainer/PortInput
-
-# Lobby menu
-@onready var status_label: Label = $LeftSidebar/MarginContainer/VBoxContainer/LobbyMenu/MarginContainer/VBoxContainer/StatusLabel
-@onready var ip_label: Label = $LeftSidebar/MarginContainer/VBoxContainer/LobbyMenu/MarginContainer/VBoxContainer/IPLabel
-@onready var player_list: Label = $LeftSidebar/MarginContainer/VBoxContainer/LobbyMenu/MarginContainer/VBoxContainer/PlayerList
-@onready var start_button: Button = $LeftSidebar/MarginContainer/VBoxContainer/LobbyMenu/MarginContainer/VBoxContainer/StartButton
+@onready var player_name_input: LineEdit = $MainMenu/PanelContainer/MarginContainer/VBoxContainer/PlayerNameInput
+@onready var port_input_host: LineEdit = $HostMenu/MarginContainer/VBoxContainer/PortInput
+@onready var ip_input: LineEdit = $JoinMenu/MarginContainer/VBoxContainer/IPInput
+@onready var port_input_join: LineEdit = $JoinMenu/MarginContainer/VBoxContainer/PortInput
+@onready var status_label: Label = $LobbyMenu/MarginContainer/VBoxContainer/StatusLabel
+@onready var ip_label: Label = $LobbyMenu/MarginContainer/VBoxContainer/IPLabel
+@onready var player_list: Label = $LobbyMenu/MarginContainer/VBoxContainer/PlayerList
+@onready var start_button: Button = $LobbyMenu/MarginContainer/VBoxContainer/StartButton
 
 func _ready() -> void:
-	# Check for first time setup
-	if SettingsManager.first_time:
-		call_deferred("_show_name_popup")
-	else:
-		_update_player_name_display()
-	
 	if MultiplayerManager.in_lobby:
 		_show_lobby()
 		if MultiplayerManager.is_server():
@@ -54,19 +42,6 @@ func _ready() -> void:
 	MultiplayerManager.player_disconnected.connect(_on_player_disconnected)
 	
 	_process_test_flags()
-
-func _show_name_popup() -> void:
-	var popup = NAME_POPUP.instantiate()
-	add_child(popup)
-	popup.popup_centered()
-	await popup.tree_exited
-	_update_player_name_display()
-
-func _update_player_name_display() -> void:
-	if SettingsManager.player_name == "":
-		player_name_label.text = "Anonymous"
-	else:
-		player_name_label.text = SettingsManager.player_name
 
 func _show_main_menu() -> void:
 	main_menu.visible = true
@@ -116,17 +91,13 @@ func _on_settings_button_pressed() -> void:
 
 func _on_settings_back_pressed() -> void:
 	_show_main_menu()
-	_update_player_name_display()
-
-func _on_edit_name_button_pressed() -> void:
-	_show_name_popup()
 
 func _on_quit_button_pressed() -> void:
 	get_tree().quit()
 
 # Host Menu buttons
 func _on_create_server_button_pressed() -> void:
-	var player_name := SettingsManager.player_name if SettingsManager.player_name != "" else "Host"
+	var player_name := player_name_input.text if player_name_input.text != "" else "Host"
 	MultiplayerManager.local_player_name = player_name
 	
 	var port := port_input_host.text.to_int()
@@ -144,7 +115,7 @@ func _on_host_back_button_pressed() -> void:
 
 # Join Menu buttons
 func _on_connect_button_pressed() -> void:
-	var player_name := SettingsManager.player_name if SettingsManager.player_name != "" else "Client"
+	var player_name := player_name_input.text if player_name_input.text != "" else "Client"
 	MultiplayerManager.local_player_name = player_name
 	
 	var ip := ip_input.text if ip_input.text != "" else "127.0.0.1"
@@ -205,7 +176,7 @@ func _update_player_list() -> void:
 	for player_id in MultiplayerManager.player_info:
 		var info: Dictionary = MultiplayerManager.player_info[player_id]
 		var name_str: String = info.get("name", "Unknown")
-		text += "• %s\n" % name_str
+		text += "- %s (ID: %d)\n" % [name_str, player_id]
 	player_list.text = text
 
 @rpc("authority", "reliable", "call_local")
@@ -221,14 +192,12 @@ func _process_test_flags() -> void:
 	
 	if is_host:
 		print("Test Host flag detected")
-		SettingsManager.player_name = "TestHost"
-		SettingsManager.first_time = false
-		SettingsManager.save_settings()
-		_update_player_name_display()
+		player_name_input.text = "TestHost"
+		# Small delay to ensure everything is initialized
 		await get_tree().create_timer(0.2).timeout
 		_on_create_server_button_pressed()
 		
-		# Auto-start game when a player joins
+		# Auto-start game when a player joins, but wait for client to load
 		MultiplayerManager.player_connected.connect(func(_id):
 			print("Player joined, waiting for client handshake...")
 			await get_tree().create_timer(1.0).timeout
@@ -237,10 +206,7 @@ func _process_test_flags() -> void:
 		
 	elif is_client:
 		print("Test Client flag detected")
-		SettingsManager.player_name = "TestClient"
-		SettingsManager.first_time = false
-		SettingsManager.save_settings()
-		_update_player_name_display()
+		player_name_input.text = "TestClient"
 		# Wait for the host to be ready
 		await get_tree().create_timer(1.0).timeout
 		_on_connect_button_pressed()

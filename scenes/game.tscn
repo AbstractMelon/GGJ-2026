@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://80kfrand5d44" path="res://scripts/game.gd" id="1_lnu2h"]
 [ext_resource type="PackedScene" uid="uid://byjbirpdumxdk" path="res://scenes/map.tscn" id="4_lbhrr"]
 [ext_resource type="AudioStream" uid="uid://bcmselcwx8fek" path="res://assets/music/Tensions.mp3" id="6_iywne"]
-[ext_resource type="PackedScene" path="res://scenes/pause_menu.tscn" id="7_pause"]
+[ext_resource type="PackedScene" uid="uid://co5y8qkn77nwg" path="res://scenes/UI/pause_menu.tscn" id="7_pause"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_lnu2h"]
 size = Vector3(33.45616, 1, 44.29904)
@@ -102,6 +102,6 @@ environment = SubResource("Environment_1")
 wait_time = 3.0
 one_shot = true
 
-[node name="PauseMenu" parent="." instance=ExtResource("7_pause")]
+[node name="PauseMenu" parent="." unique_id=2109648205 instance=ExtResource("7_pause")]
 
 [connection signal="timeout" from="MenuTimer" to="." method="_on_menu_timer_timeout"]

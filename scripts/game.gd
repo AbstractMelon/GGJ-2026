@@ -1,7 +1,7 @@
 extends Node3D
 
 const PLAYER_SCENE := preload("res://scenes/entites/player.tscn")
-const NPC_SPAWNER_SCENE := preload("res://scenes/npc_spawner.tscn")
+const NPC_SPAWNER_SCENE := preload("res://scenes/components/npc_spawner.tscn")
 
 const SFX_INCORRECT := preload("res://assets/sfx/incorrect.mp3")
 const SFX_WIN := preload("res://assets/sfx/win.mp3")

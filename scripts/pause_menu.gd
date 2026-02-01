@@ -55,6 +55,3 @@ func _on_back_to_lobby_button_pressed() -> void:
 
 func _on_quit_button_pressed() -> void:
 	get_tree().quit()
-
-
-

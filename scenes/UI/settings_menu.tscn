@@ -1,0 +1,137 @@
+[gd_scene format=3 uid="uid://bvst5veqdf0wi"]
+
+[ext_resource type="Theme" uid="uid://byrc5skrtbyt3" path="res://assets/ui_theme.tres" id="1_yk8t3"]
+[ext_resource type="Script" uid="uid://ny6mbjtne3tw" path="res://scripts/settings_menu.gd" id="2_son7u"]
+
+[node name="SettingsMenu" type="Control" unique_id=852563456]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_yk8t3")
+script = ExtResource("2_son7u")
+
+[node name="Panel" type="Panel" parent="." unique_id=1325071206]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BackgroundTint" type="ColorRect" parent="." unique_id=1766238663]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.05, 0.02, 0.08, 0.6)
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=39171047]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=452210957]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer" unique_id=2095638525]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.6, 1)
+theme_override_font_sizes/font_size = 52
+text = "Settings"
+horizontal_alignment = 1
+
+[node name="SFXContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer" unique_id=324783673]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/SFXContainer" unique_id=841750951]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.85, 0.6, 1)
+theme_override_font_sizes/font_size = 20
+text = "SFX Volume"
+
+[node name="SFXSlider" type="HSlider" parent="CenterContainer/VBoxContainer/SFXContainer" unique_id=1175998497]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.05
+value = 0.8
+
+[node name="MusicContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer" unique_id=902665871]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/MusicContainer" unique_id=1278740572]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.85, 0.6, 1)
+theme_override_font_sizes/font_size = 20
+text = "Music Volume"
+
+[node name="MusicSlider" type="HSlider" parent="CenterContainer/VBoxContainer/MusicContainer" unique_id=2085865761]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.05
+value = 0.5
+
+[node name="FullscreenContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer" unique_id=287739422]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/FullscreenContainer" unique_id=2062998055]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.85, 0.6, 1)
+theme_override_font_sizes/font_size = 20
+text = "Fullscreen"
+
+[node name="FullscreenCheck" type="CheckButton" parent="CenterContainer/VBoxContainer/FullscreenContainer" unique_id=353024865]
+layout_mode = 2
+
+[node name="VSyncContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer" unique_id=2031752220]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/VSyncContainer" unique_id=1664458529]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.85, 0.6, 1)
+theme_override_font_sizes/font_size = 20
+text = "VSync"
+
+[node name="VSyncCheck" type="CheckButton" parent="CenterContainer/VBoxContainer/VSyncContainer" unique_id=577504372]
+layout_mode = 2
+
+[node name="ResolutionContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer" unique_id=657404584]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/ResolutionContainer" unique_id=2039957108]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.85, 0.6, 1)
+theme_override_font_sizes/font_size = 20
+text = "Resolution"
+
+[node name="ResolutionOption" type="OptionButton" parent="CenterContainer/VBoxContainer/ResolutionContainer" unique_id=47095434]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BackButton" type="Button" parent="CenterContainer/VBoxContainer" unique_id=418784055]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "« Return"
+
+[connection signal="value_changed" from="CenterContainer/VBoxContainer/SFXContainer/SFXSlider" to="." method="_on_sfx_slider_value_changed"]
+[connection signal="value_changed" from="CenterContainer/VBoxContainer/MusicContainer/MusicSlider" to="." method="_on_music_slider_value_changed"]
+[connection signal="toggled" from="CenterContainer/VBoxContainer/FullscreenContainer/FullscreenCheck" to="." method="_on_fullscreen_check_toggled"]
+[connection signal="toggled" from="CenterContainer/VBoxContainer/VSyncContainer/VSyncCheck" to="." method="_on_vsync_check_toggled"]
+[connection signal="item_selected" from="CenterContainer/VBoxContainer/ResolutionContainer/ResolutionOption" to="." method="_on_resolution_option_item_selected"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/BackButton" to="." method="_on_back_button_pressed"]
