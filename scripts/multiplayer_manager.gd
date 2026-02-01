@@ -11,6 +11,7 @@ const MAX_PLAYERS := 2
 
 var player_info := {}
 var local_player_name := "Player"
+var in_lobby: bool = false
 
 func _ready() -> void:
 	multiplayer.peer_connected.connect(_on_peer_connected)
@@ -29,6 +30,7 @@ func host_game(port: int = DEFAULT_PORT) -> Error:
 	
 	multiplayer.multiplayer_peer = peer
 	player_info[1] = {"name": local_player_name}
+	in_lobby = true
 	
 	print("Server created on port %d" % port)
 	server_created.emit()
@@ -51,6 +53,7 @@ func disconnect_from_game() -> void:
 		multiplayer.multiplayer_peer.close()
 		multiplayer.multiplayer_peer = null
 	player_info.clear()
+	in_lobby = false
 
 func is_server() -> bool:
 	return multiplayer.is_server()
@@ -68,12 +71,14 @@ func _on_peer_disconnected(id: int) -> void:
 	print("Peer disconnected: %d" % id)
 	player_info.erase(id)
 	player_disconnected.emit(id)
+	
 
 func _on_connected_to_server() -> void:
 	print("Connected to server!")
 	var my_id := multiplayer.get_unique_id()
 	player_info[my_id] = {"name": local_player_name}
 	connection_succeeded.emit()
+	in_lobby = true
 
 func _on_connection_failed() -> void:
 	print("Connection failed!")
@@ -85,12 +90,14 @@ func _on_server_disconnected() -> void:
 	multiplayer.multiplayer_peer = null
 	player_info.clear()
 	player_disconnected.emit(1)
+	in_lobby = false
 
 @rpc("any_peer", "reliable")
 func _register_player(player_name: String) -> void:
 	var sender_id := multiplayer.get_remote_sender_id()
 	player_info[sender_id] = {"name": player_name}
 	print("Registered player %s with id %d" % [player_name, sender_id])
+	player_connected.emit(sender_id)
 
 func get_player_count() -> int:
 	return player_info.size()

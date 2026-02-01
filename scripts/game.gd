@@ -54,6 +54,10 @@ func _ready() -> void:
 		# Count NPCs after they've spawned (give more time for NPC spawner)
 		get_tree().create_timer(2.0).timeout.connect(_count_npcs)
 
+func _process(delta: float) -> void:
+	if game_over:
+		$GameOverUI/MenuReturnLabel.text = "Returning to lobby in " + str(int($MenuTimer.time_left) + 1) + " second(s)"
+
 func _setup_npc_spawner() -> void:
 	# Instantiate the NPC spawner
 	npc_spawner = NPC_SPAWNER_SCENE.instantiate() as NPCSpawner
@@ -207,6 +211,8 @@ func _hacker_wins_no_guesses() -> void:
 		return
 	
 	game_over = true
+	$MenuTimer.start()
+	
 	_show_game_over.rpc("Hacker Wins!\nDetective out of guesses")
 	print("Hacker wins because detective ran out of guesses!")
 
@@ -215,6 +221,8 @@ func _detective_wins() -> void:
 		return
 	
 	game_over = true
+	$MenuTimer.start()
+	
 	_show_game_over.rpc("Detective Wins!")
 	print("Detective wins by unmasking the hacker!")
 
@@ -304,6 +312,8 @@ func _hacker_wins() -> void:
 		return
 	
 	game_over = true
+	$MenuTimer.start()
+	
 	_show_game_over.rpc("Hacker Wins!\nHacked %d%% of NPCs" % [int((float(hacked_npcs) / float(total_npcs)) * 100)])
 	print("Hacker wins by hacking %.1f%% of NPCs!" % [(float(hacked_npcs) / float(total_npcs)) * 100])
 
@@ -317,3 +327,8 @@ func _show_game_over(message: String) -> void:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	
 	game_over = true
+	$MenuTimer.start()
+
+
+func _on_menu_timer_timeout() -> void:
+	get_tree().change_scene_to_file("res://scenes/menu.tscn")

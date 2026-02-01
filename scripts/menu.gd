@@ -16,7 +16,16 @@ extends Control
 @onready var start_button: Button = $LobbyMenu/MarginContainer/VBoxContainer/StartButton
 
 func _ready() -> void:
-	_show_main_menu()
+	if MultiplayerManager.in_lobby:
+		_show_lobby()
+		if MultiplayerManager.is_server():
+			status_label.text = "Player joined! Ready to start."
+			start_button.visible = true
+		else:
+			status_label.text = "Connected to server!"
+			start_button.visible = false
+	else:
+		_show_main_menu()
 	
 	# Connect multiplayer signals
 	MultiplayerManager.server_created.connect(_on_server_created)
@@ -131,6 +140,9 @@ func _on_player_disconnected(_peer_id: int) -> void:
 	_update_player_list()
 	if MultiplayerManager.is_server():
 		status_label.text = "Player left. Waiting for player..."
+	
+	else:
+		_show_main_menu()
 
 func _update_player_list() -> void:
 	var text := "Players:\n"

@@ -63,6 +63,19 @@ text = "Detective Wins!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="MenuReturnLabel" type="Label" parent="GameOverUI" unique_id=1264936505]
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.6
+anchor_right = 0.5
+anchor_bottom = 0.6
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=745632571]
 stream = ExtResource("6_iywne")
 volume_db = -5.0
@@ -81,3 +94,9 @@ shape = SubResource("BoxShape3D_lnu2h")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1438119287]
 environment = SubResource("Environment_1")
+
+[node name="MenuTimer" type="Timer" parent="." unique_id=24196431]
+wait_time = 3.0
+one_shot = true
+
+[connection signal="timeout" from="MenuTimer" to="." method="_on_menu_timer_timeout"]
