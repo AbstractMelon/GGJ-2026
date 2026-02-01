@@ -54,6 +54,21 @@ text = "You are the DETECTIVE"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="GuessesLabel" type="Label" parent="HUD"]
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.1
+anchor_right = 0.5
+anchor_bottom = 0.1
+offset_left = -200.0
+offset_right = 200.0
+offset_bottom = 40.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 24
+text = "Guesses Left: 3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="InteractionPrompt" type="Label" parent="HUD"]
 anchors_preset = -1
 anchor_left = 0.42000002

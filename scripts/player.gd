@@ -9,6 +9,7 @@ enum Role { NONE, HACKER, DETECTIVE }
 @onready var interaction_ray: RayCast3D = $Camera3D/InteractionRay
 @onready var interaction_prompt: Label = $HUD/InteractionPrompt
 @onready var role_label: Label = $HUD/RoleLabel
+@onready var guesses_label: Label = $HUD/GuessesLabel
 
 var camera_rotation := Vector2.ZERO
 var _sync_timer := 0.0
@@ -162,6 +163,13 @@ func set_role(role: Role) -> void:
 	if is_multiplayer_authority():
 		_update_role_ui()
 
+@rpc("authority", "call_local", "reliable")
+func update_guesses(count: int) -> void:
+	if is_multiplayer_authority():
+		if guesses_label:
+			guesses_label.text = "Guesses Left: %d" % count
+			guesses_label.visible = player_role == Role.DETECTIVE
+
 func _update_role_ui() -> void:
 	if not role_label:
 		return
@@ -170,10 +178,13 @@ func _update_role_ui() -> void:
 		Role.HACKER:
 			role_label.text = "You are the HACKER"
 			role_label.modulate = Color.RED
+			if guesses_label: guesses_label.visible = false
 		Role.DETECTIVE:
 			role_label.text = "You are the DETECTIVE"
 			role_label.modulate = Color.CYAN
+			if guesses_label: guesses_label.visible = true
 		_:
 			role_label.text = ""
+			if guesses_label: guesses_label.visible = false
 	
 	role_label.visible = player_role != Role.NONE

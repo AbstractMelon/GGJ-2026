@@ -11,6 +11,7 @@ const NPC_SPAWNER_SCENE := preload("res://scenes/npc_spawner.tscn")
 var spawned_players := {}
 var hacker_id: int = -1
 var detective_id: int = -1
+var detective_guesses_remaining := 3
 var game_over := false
 
 # NPC Spawner reference
@@ -99,6 +100,8 @@ func _assign_roles() -> void:
 	if game_over:
 		return
 	
+	detective_guesses_remaining = 3
+	
 	var player_ids = spawned_players.keys()
 	if player_ids.size() < 2:
 		# Need at least 2 players
@@ -122,6 +125,10 @@ func _assign_roles() -> void:
 			player.set_role.rpc_id(player_id, role)
 	
 	print("Roles assigned - Hacker: %d, Detective: %d" % [hacker_id, detective_id])
+	
+	# Initial guess count sync
+	if spawned_players.has(detective_id):
+		spawned_players[detective_id].update_guesses.rpc_id(detective_id, detective_guesses_remaining)
 
 func handle_unmask_request(requester_id: int, target_robot_path: String) -> void:
 	if not multiplayer.is_server():
@@ -136,6 +143,11 @@ func handle_unmask_request(requester_id: int, target_robot_path: String) -> void
 		print("Requester %d is not detective %d, denying unmask" % [requester_id, detective_id])
 		return
 	
+	# Check if detective has guesses left
+	if detective_guesses_remaining <= 0:
+		print("Detective out of guesses")
+		return
+	
 	# Get target robot by node path
 	var target_robot = get_node_or_null(target_robot_path)
 	
@@ -143,7 +155,14 @@ func handle_unmask_request(requester_id: int, target_robot_path: String) -> void
 		print("Invalid target or already unmasked")
 		return
 	
-	print("Unmasking target robot: %s" % target_robot.name)
+	# Decrement guesses
+	detective_guesses_remaining -= 1
+	
+	# Notify detective of remaining guesses
+	if spawned_players.has(detective_id):
+		spawned_players[detective_id].update_guesses.rpc_id(detective_id, detective_guesses_remaining)
+		
+	print("Unmasking target robot: %s. Guesses remaining: %d" % [target_robot.name, detective_guesses_remaining])
 	# Unmask the target
 	target_robot.remove_mask.rpc()
 	
@@ -152,11 +171,24 @@ func handle_unmask_request(requester_id: int, target_robot_path: String) -> void
 	
 	# Check if detective unmasked the hacker (only applies to players)
 	# For players, their name is their peer_id
+	var unmasked_hacker = false
 	if target_robot is Player:
 		var target_id = target_robot.name.to_int()
 		if target_id == hacker_id:
+			unmasked_hacker = true
 			_detective_wins()
 	
+	if not unmasked_hacker and detective_guesses_remaining <= 0 and not game_over:
+		_hacker_wins_no_guesses()
+
+func _hacker_wins_no_guesses() -> void:
+	if not multiplayer.is_server():
+		return
+	
+	game_over = true
+	_show_game_over.rpc("Hacker Wins!\nDetective out of guesses")
+	print("Hacker wins because detective ran out of guesses!")
+
 func _detective_wins() -> void:
 	if not multiplayer.is_server():
 		return
