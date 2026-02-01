@@ -163,6 +163,13 @@ func set_role(role: Role) -> void:
 			return
 	
 	player_role = role
+	
+	# Detective walks faster
+	if player_role == Role.DETECTIVE:
+		move_speed = 6.5
+	else:
+		move_speed = 5.0
+		
 	if is_multiplayer_authority():
 		_update_role_ui()
 

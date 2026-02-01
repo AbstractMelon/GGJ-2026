@@ -3,9 +3,9 @@ class_name NPCSpawner
 
 const NPC_SCENE := preload("res://scenes/entites/npc.tscn")
 
-@export var npc_count: int = 10
-@export var spawn_area_min: Vector3 = Vector3(-50, 0.5, -15)
-@export var spawn_area_max: Vector3 = Vector3(20, 0.5, 15)
+@export var npc_count: int = 15
+@export var spawn_area_min: Vector3 = Vector3(-15, 0.5, -30)
+@export var spawn_area_max: Vector3 = Vector3(25, 0.5, 12)
 
 # Sync properties
 @export var sync_interval: float = 0.5  # How often to sync target positions
@@ -17,6 +17,7 @@ var npc_container: Node3D
 var npc_targets: Dictionary = {}
 
 func _ready() -> void:
+	add_to_group("npc_spawner")
 	# Create container for NPCs
 	npc_container = Node3D.new()
 	npc_container.name = "NPCs"

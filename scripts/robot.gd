@@ -326,18 +326,28 @@ func _transfer_hacker_attributes(hacker_head_idx: int, hacker_arms_idx: int, hac
 		var attr_type = attribute_types[i]
 		match attr_type:
 			"head":
+				if hacker_colors.size() > 0: 
+					current_colors[0] = hacker_colors[0]
 				_replace_part("RobotHead", HEADS, hacker_head_idx)
 				current_head_idx = hacker_head_idx
 			"arms":
+				if hacker_colors.size() > 1: 
+					current_colors[1] = hacker_colors[1]
 				_replace_part("RobotArms", ARMS, hacker_arms_idx)
 				current_arms_idx = hacker_arms_idx
 			"body":
+				if hacker_colors.size() > 2: 
+					current_colors[2] = hacker_colors[2]
 				_replace_part("RobotBody", BODIES, hacker_body_idx)
 				current_body_idx = hacker_body_idx
 			"bottom":
+				if hacker_colors.size() > 3: 
+					current_colors[3] = hacker_colors[3]
 				_replace_part("RobotBottom", BOTTOMS, hacker_bottom_idx)
 				current_bottom_idx = hacker_bottom_idx
 			"accessory":
+				if hacker_colors.size() > 4: 
+					current_colors[4] = hacker_colors[4]
 				_replace_accessory(hacker_accessory_idx)
 				current_accessory_idx = hacker_accessory_idx
 			"color":

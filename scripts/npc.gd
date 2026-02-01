@@ -30,7 +30,15 @@ func _ready() -> void:
 		randomize_target()
 
 func randomize_target() -> void:
-	navigation_agent.set_target_position(Vector3(randf_range(-16, 28), 0.5, randf_range(-28, 28)))
+	var spawner = get_tree().get_first_node_in_group("npc_spawner")
+	if spawner:
+		navigation_agent.set_target_position(Vector3(
+			randf_range(spawner.spawn_area_min.x, spawner.spawn_area_max.x),
+			spawner.spawn_area_min.y,
+			randf_range(spawner.spawn_area_min.z, spawner.spawn_area_max.z)
+		))
+	else:
+		navigation_agent.set_target_position(Vector3(randf_range(-15, 25), 0.5, randf_range(-30, 12)))
 
 func _apply_spawner_cosmetics() -> void:
 	if not has_meta("cosmetic_data"):
