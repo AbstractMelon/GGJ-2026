@@ -5,8 +5,7 @@
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_w8frs"]
 albedo_texture = ExtResource("2_w7c3h")
-uv1_scale = Vector3(3, 3, 3)
-uv2_scale = Vector3(3, 3, 3)
+uv1_scale = Vector3(7.5, 7.5, 7.5)
 
 [node name="Level" unique_id=1338814092 instance=ExtResource("1_2q6dc")]
 transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, 0, 0, 0)
