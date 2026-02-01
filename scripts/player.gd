@@ -8,8 +8,11 @@ enum Role { NONE, HACKER, DETECTIVE }
 @onready var camera: Camera3D = $Camera3D
 @onready var interaction_ray: RayCast3D = $Camera3D/InteractionRay
 @onready var interaction_prompt: Label = $HUD/InteractionPrompt
-@onready var role_label: Label = $HUD/RoleLabel
-@onready var guesses_label: Label = $HUD/GuessesLabel
+@onready var role_label: Label = $HUD/TopUI/VBoxContainer/RoleLabel
+@onready var guesses_label: Label = $HUD/TopUI/VBoxContainer/GuessesLabel
+@onready var infection_container: Control = $HUD/TopUI/VBoxContainer/InfectionUI
+@onready var infection_label: Label = $HUD/TopUI/VBoxContainer/InfectionUI/InfectionLabel
+@onready var infection_progress: ProgressBar = $HUD/TopUI/VBoxContainer/InfectionUI/InfectionProgress
 
 var camera_rotation := Vector2.ZERO
 var _sync_timer := 0.0
@@ -166,6 +169,19 @@ func update_guesses(count: int) -> void:
 		if guesses_label:
 			guesses_label.text = "Guesses Left: %d" % count
 			guesses_label.visible = player_role == Role.DETECTIVE
+			guesses_label.modulate = Color.CYAN if count > 1 else Color.ORANGE_RED
+
+@rpc("authority", "call_local", "reliable")
+func update_infection_progress(hacked: int, total: int, win_percentage: float) -> void:
+	if is_multiplayer_authority():
+		if infection_container:
+			infection_container.visible = player_role == Role.HACKER
+			var percent = (float(hacked) / max(total, 1)) * 100
+			infection_label.text = "Infection Progress: %.0f%%" % percent
+			# hacker needs win_percentage * total to win
+			infection_progress.max_value = total * win_percentage
+			infection_progress.value = hacked
+			infection_progress.modulate = Color.GREEN_YELLOW
 
 func _update_role_ui() -> void:
 	if not role_label:
@@ -176,12 +192,15 @@ func _update_role_ui() -> void:
 			role_label.text = "You are the HACKER"
 			role_label.modulate = Color.RED
 			if guesses_label: guesses_label.visible = false
+			if infection_container: infection_container.visible = true
 		Role.DETECTIVE:
 			role_label.text = "You are the DETECTIVE"
 			role_label.modulate = Color.CYAN
 			if guesses_label: guesses_label.visible = true
+			if infection_container: infection_container.visible = false
 		_:
 			role_label.text = ""
 			if guesses_label: guesses_label.visible = false
+			if infection_container: infection_container.visible = false
 	
 	role_label.visible = player_role != Role.NONE

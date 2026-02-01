@@ -38,48 +38,86 @@ collision_mask = 2
 
 [node name="HUD" type="CanvasLayer" parent="."]
 
-[node name="RoleLabel" type="Label" parent="HUD"]
-anchors_preset = -1
+[node name="Crosshair" type="ColorRect" parent="HUD"]
+anchors_preset = 8
 anchor_left = 0.5
-anchor_top = 0.05
+anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.05
-offset_left = -200.0
-offset_right = 200.0
-offset_bottom = 50.0
+anchor_bottom = 0.5
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 2.0
+offset_bottom = 2.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 0.501961)
+
+[node name="TopUI" type="MarginContainer" parent="HUD"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -250.0
+offset_right = 250.0
+offset_bottom = 120.0
+grow_horizontal = 2
+theme_override_constants/margin_top = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/TopUI"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="RoleLabel" type="Label" parent="HUD/TopUI/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 32
-text = "You are the DETECTIVE"
+text = "ROLE"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="GuessesLabel" type="Label" parent="HUD"]
-anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 0.1
-anchor_right = 0.5
-anchor_bottom = 0.1
-offset_left = -200.0
-offset_right = 200.0
-offset_bottom = 40.0
-grow_horizontal = 2
-theme_override_font_sizes/font_size = 24
+[node name="GuessesLabel" type="Label" parent="HUD/TopUI/VBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 20
 text = "Guesses Left: 3"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="InteractionPrompt" type="Label" parent="HUD"]
-anchors_preset = -1
-anchor_left = 0.42000002
-anchor_top = 0.934
-anchor_right = 0.58000004
-anchor_bottom = 0.96900004
-offset_left = 0.15997314
-offset_top = -0.23199463
-offset_right = -0.16003418
-offset_bottom = 0.08795166
-grow_horizontal = 2
-grow_vertical = 2
-text = "Press E to remove mask"
+[node name="InfectionUI" type="VBoxContainer" parent="HUD/TopUI/VBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="InfectionLabel" type="Label" parent="HUD/TopUI/VBoxContainer/InfectionUI"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 20
+text = "Robots Hacked: 0 / 0 (0%)"
 horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="InfectionProgress" type="ProgressBar" parent="HUD/TopUI/VBoxContainer/InfectionUI"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+show_percentage = false
+
+[node name="InteractionPrompt" type="Label" parent="HUD"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -100.0
+offset_right = 200.0
+offset_bottom = -50.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+text = "Press E to interact"
+horizontal_alignment = 1
+vertical_alignment = 1

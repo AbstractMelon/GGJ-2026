@@ -129,6 +129,9 @@ func _assign_roles() -> void:
 	# Initial guess count sync
 	if spawned_players.has(detective_id):
 		spawned_players[detective_id].update_guesses.rpc_id(detective_id, detective_guesses_remaining)
+	
+	# Initial hacker progress sync
+	_sync_hacker_progress()
 
 func handle_unmask_request(requester_id: int, target_robot_path: String) -> void:
 	if not multiplayer.is_server():
@@ -208,6 +211,7 @@ func _count_npcs() -> void:
 			if robot is NPC:
 				total_npcs += 1
 	print("Total NPCs counted: %d" % total_npcs)
+	_sync_hacker_progress()
 
 func handle_hack_request(requester_id: int, target_robot_path: String, hacker_robot_path: String) -> void:
 	if not multiplayer.is_server():
@@ -255,7 +259,12 @@ func handle_hack_request(requester_id: int, target_robot_path: String, hacker_ro
 	if target_robot is NPC:
 		hacked_npcs += 1
 		print("NPCs hacked: %d / %d (%.1f%%)" % [hacked_npcs, total_npcs, (float(hacked_npcs) / max(total_npcs, 1)) * 100])
+		_sync_hacker_progress()
 		_check_hacker_win()
+
+func _sync_hacker_progress() -> void:
+	if spawned_players.has(hacker_id):
+		spawned_players[hacker_id].update_infection_progress.rpc_id(hacker_id, hacked_npcs, total_npcs, HACK_WIN_PERCENTAGE)
 
 func _check_hacker_win() -> void:
 	if not multiplayer.is_server():
