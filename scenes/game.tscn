@@ -1,6 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://dbjc24t0legjp"]
+[gd_scene load_steps=7 format=3 uid="uid://dbjc24t0legjp"]
 
-[ext_resource type="Script" uid="uid://80kfrand5d44" path="res://scripts/game.gd" id="1_game"]
+[ext_resource type="Script" uid="uid://lpnsfjaqpraw" path="res://scripts/npc.gd" id="1_lnu2h"]
 [ext_resource type="PackedScene" uid="uid://byjbirpdumxdk" path="res://scenes/map.tscn" id="4_lbhrr"]
 [ext_resource type="AudioStream" uid="uid://bcmselcwx8fek" path="res://assets/music/Tensions.mp3" id="6_iywne"]
 
@@ -34,7 +34,7 @@ volumetric_fog_emission = Color(0.1, 0.05, 0.2, 1)
 volumetric_fog_emission_energy = 0.5
 
 [node name="Game" type="Node3D"]
-script = ExtResource("1_game")
+script = ExtResource("1_lnu2h")
 
 [node name="Players" type="Node3D" parent="."]
 
