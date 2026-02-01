@@ -69,11 +69,13 @@ func _spawn_npc_remote(npc_index: int, spawn_pos: Vector3, cosmetic_data: Dictio
 	var npc := NPC_SCENE.instantiate() as NPC
 	npc.name = "NPC_%d" % npc_index
 	
+	# Set meta BEFORE adding to tree (so _ready can check it)
+	npc.set_meta("skip_randomize", true)
+	npc.set_meta("cosmetic_data", cosmetic_data)
+	npc.set_meta("npc_index", npc_index)
+	
 	npc_container.add_child(npc, true)
 	npc.global_position = spawn_pos
-	
-	# Apply cosmetics
-	_apply_cosmetics_to_npc(npc, cosmetic_data)
 	
 	spawned_npcs.append(npc)
 	
@@ -82,81 +84,7 @@ func _spawn_npc_remote(npc_index: int, spawn_pos: Vector3, cosmetic_data: Dictio
 	
 	# Connect to NPC's movement for server-side tracking
 	if MultiplayerManager.is_server():
-		# Override the NPC's navigation to use synced targets
-		npc.set_meta("npc_index", npc_index)
 		npc.navigation_agent.target_reached.connect(_on_npc_target_reached.bind(npc_index))
-
-func _apply_cosmetics_to_npc(npc: NPC, cosmetic_data: Dictionary) -> void:
-	# Disable the automatic randomization in _ready
-	npc.set_meta("skip_randomize", true)
-	
-	# Apply the specific cosmetics after a frame (to ensure _ready has run)
-	await get_tree().process_frame
-	
-	# Set the part indices
-	npc.current_head_idx = cosmetic_data.get("head_idx", 0)
-	npc.current_arms_idx = cosmetic_data.get("arms_idx", 0)
-	npc.current_body_idx = cosmetic_data.get("body_idx", 0)
-	npc.current_bottom_idx = cosmetic_data.get("bottom_idx", 0)
-	npc.current_accessory_idx = cosmetic_data.get("accessory_idx", 0)
-	
-	# Convert colors array
-	var colors_array: Array[Color] = []
-	for color in cosmetic_data.get("colors", []):
-		if color is Color:
-			colors_array.append(color)
-		elif color is Array:
-			# In case it's transmitted as array
-			colors_array.append(Color(color[0], color[1], color[2], color[3] if color.size() > 3 else 1.0))
-	npc.current_colors = colors_array
-	
-	# Apply the parts using the stored indices
-	_apply_parts_to_npc(npc)
-	
-	# Apply colors
-	if colors_array.size() >= 5:
-		npc.ApplySkin(colors_array)
-
-func _apply_parts_to_npc(npc: NPC) -> void:
-	var skin = npc.get_node("RobotModel/Skin")
-	
-	# Store transforms
-	var head_transform = skin.get_node("RobotHead").transform
-	var arms_transform = skin.get_node("RobotArms").transform
-	var body_transform = skin.get_node("RobotBody").transform
-	var bottom_transform = skin.get_node("RobotBottom").transform
-	var mask_transform = skin.get_node("Mask").transform
-	
-	# Remove and replace parts
-	_replace_npc_part(skin, "RobotHead", Robot.HEADS[npc.current_head_idx], head_transform)
-	_replace_npc_part(skin, "RobotArms", Robot.ARMS[npc.current_arms_idx], arms_transform)
-	_replace_npc_part(skin, "RobotBody", Robot.BODIES[npc.current_body_idx], body_transform)
-	_replace_npc_part(skin, "RobotBottom", Robot.BOTTOMS[npc.current_bottom_idx], bottom_transform)
-	
-	# Replace accessory with proper transform
-	var accessory_scene = Robot.ACCESSORIES[npc.current_accessory_idx]
-	var old_accessory = skin.get_node_or_null("Accessory")
-	if old_accessory:
-		skin.remove_child(old_accessory)
-		old_accessory.free()
-	
-	var new_accessory = accessory_scene.instantiate()
-	new_accessory.name = "Accessory"
-	var accessory_filename = accessory_scene.resource_path.get_file().get_basename()
-	if Robot.ACCESSORY_TRANSFORMS.has(accessory_filename):
-		new_accessory.transform = Robot.ACCESSORY_TRANSFORMS[accessory_filename]
-	skin.add_child(new_accessory)
-
-func _replace_npc_part(skin: Node3D, part_name: String, part_scene: PackedScene, old_transform: Transform3D) -> void:
-	var old_part = skin.get_node_or_null(part_name)
-	if old_part:
-		skin.remove_child(old_part)
-		old_part.free()
-	
-	var new_part = part_scene.instantiate()
-	new_part.name = part_name
-	new_part.transform = old_transform
-	skin.add_child(new_part)
 
 # Server-side: Track when NPCs reach their target
 func _on_npc_target_reached(npc_index: int) -> void:

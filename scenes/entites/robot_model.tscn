@@ -125,9 +125,6 @@ transform = Transform3D(-6.556708e-09, 0, -0.14999999, 0, 0.14999999, 0, 0.14999
 [node name="RobotBottom" parent="Skin" instance=ExtResource("6_omsra")]
 transform = Transform3D(-6.5567085e-09, 0, -0.15, 0, 0.15, 0, 0.15, 0, -6.5567085e-09, 0.018, 0.451, -0.003)
 
-[node name="Accessory2" parent="Skin" instance=ExtResource("3_bowtie")]
-transform = Transform3D(-6.556708e-09, 0, 0.14999999, 0, 0.14999999, 0, -0.14999999, 0, -6.556708e-09, 0.018463492, 1.4035587, -0.23889923)
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_yqhfp")
