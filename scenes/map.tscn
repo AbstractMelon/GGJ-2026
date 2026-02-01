@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://byjbirpdumxdk"]
+[gd_scene format=3 uid="uid://byjbirpdumxdk"]
 
 [ext_resource type="PackedScene" uid="uid://c7rfhkaa7h6bj" path="res://scenes/level.tscn" id="1_4xfga"]
 
@@ -10,69 +10,86 @@ geometry_parsed_geometry_type = 1
 [sub_resource type="BoxShape3D" id="BoxShape3D_4xfga"]
 size = Vector3(3.4794617, 3.312622, 0.92578125)
 
-[node name="Map" type="NavigationRegion3D"]
+[node name="Map" type="NavigationRegion3D" unique_id=158138606]
 navigation_mesh = SubResource("NavigationMesh_f8cpn")
 
-[node name="entity_1_info_player_start" type="Marker3D" parent="."]
+[node name="entity_1_info_player_start" type="Marker3D" parent="." unique_id=2144922063]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -6.5, 1.25, -31.235939)
 
-[node name="entity_2_info_player_start" type="Marker3D" parent="."]
+[node name="entity_2_info_player_start" type="Marker3D" parent="." unique_id=728184644]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -7.5, 1.25, 9)
 
-[node name="entity_3_info_player_start" type="Marker3D" parent="."]
+[node name="entity_3_info_player_start" type="Marker3D" parent="." unique_id=1749545491]
 transform = Transform3D(1, 0, 1.7484555e-07, 0, 1, 0, -1.7484555e-07, 0, 1, -1.774724, 3.450616, -38.35141)
 
-[node name="Level" parent="." instance=ExtResource("1_4xfga")]
+[node name="Level" parent="." unique_id=1795923594 instance=ExtResource("1_4xfga")]
+transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, -0.023090363, 0.02695012, -0.014187813)
 
-[node name="Light" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.019569, 4.5412936, -16.919651)
+[node name="Light" type="OmniLight3D" parent="." unique_id=43103567]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.8013816, 4.71627, -0.71294415)
 light_energy = 4.0
 light_indirect_energy = 2.0
 light_size = 1.0
 shadow_enabled = true
 omni_range = 4096.0
 
-[node name="Light2" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6673851, 4.872592, -1.8485308)
+[node name="Light2" type="OmniLight3D" parent="." unique_id=348649093]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.084423, 4.7947116, -0.71294415)
 light_energy = 4.0
 light_indirect_energy = 2.0
 light_size = 1.0
 shadow_enabled = true
 omni_range = 4096.0
 
-[node name="Node3D" type="Node3D" parent="."]
+[node name="Light3" type="OmniLight3D" parent="." unique_id=366824166]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.6894517, 5.046878, 14.448437)
+light_energy = 4.0
+light_indirect_energy = 2.0
+light_size = 1.0
+shadow_enabled = true
+omni_range = 4096.0
+
+[node name="Light4" type="OmniLight3D" parent="." unique_id=723279775]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.7013297, 5.046878, 14.448437)
+light_energy = 4.0
+light_indirect_energy = 2.0
+light_size = 1.0
+shadow_enabled = true
+omni_range = 4096.0
+
+[node name="Node3D" type="Node3D" parent="." unique_id=1418566465]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.381456, -1.1920929e-07, -28.936644)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=1360371504]
 collision_layer = 4
 collision_mask = 4
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1534315538]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.322442, 1.156311, -24.6492)
 shape = SubResource("BoxShape3D_4xfga")
 
-[node name="StaticBody3D2" type="StaticBody3D" parent="."]
+[node name="StaticBody3D2" type="StaticBody3D" parent="." unique_id=23909267]
 collision_layer = 4
 collision_mask = 4
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D2"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D2" unique_id=307655825]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.322442, 1.156311, -27.380257)
 shape = SubResource("BoxShape3D_4xfga")
 
-[node name="StaticBody3D3" type="StaticBody3D" parent="."]
+[node name="StaticBody3D3" type="StaticBody3D" parent="." unique_id=222437647]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.122969, 0, 1.5949631)
 collision_layer = 4
 collision_mask = 4
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D3"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D3" unique_id=1832154859]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.322442, 1.156311, -24.6492)
 shape = SubResource("BoxShape3D_4xfga")
 
-[node name="StaticBody3D4" type="StaticBody3D" parent="."]
+[node name="StaticBody3D4" type="StaticBody3D" parent="." unique_id=1106348411]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.122969, 0, 1.5949631)
 collision_layer = 4
 collision_mask = 4
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D4"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D4" unique_id=637383354]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.322442, 1.156311, -27.380257)
 shape = SubResource("BoxShape3D_4xfga")
