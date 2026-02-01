@@ -14,10 +14,13 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 [application]
 
-config/name="GGJ 2026"
+config/name="Machine Masquerade"
+config/description="Stop the human uprising!s"
+config/version="1.0.0"
 run/main_scene="res://scenes/menu.tscn"
 config/features=PackedStringArray("4.6", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="uid://c1q46c2q8rpjc"
+config/windows_native_icon="res://assets/images/icon.ico"
 
 [autoload]
 
