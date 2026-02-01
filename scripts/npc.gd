@@ -147,10 +147,12 @@ func _physics_process(delta: float) -> void:
 		var target = navigation_agent.get_next_path_position()
 		target.y = position.y
 	
-		direction = position.direction_to(target)
-		
-		if target.distance_to(position) > 0.1:
-			look_at(target)
+		direction = position.direction_to(Vector3(target.x, position.y, target.z)).normalized()
+
+			
+		var target_rot: float = atan2(direction.x, direction.z) - PI
+		rotation.y = rotate_toward(rotation.y, target_rot, delta * (5 + randf() * 2 - 1))
+		direction = Vector3(sin(rotation.y + PI), 0.0, cos(rotation.y + PI)).normalized()
 	
 	if direction.length() > 0:
 		velocity = velocity.lerp(direction * move_speed, acceleration * delta)

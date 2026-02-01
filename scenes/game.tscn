@@ -81,11 +81,9 @@ grow_vertical = 2
 stream = ExtResource("6_iywne")
 volume_db = -5.0
 autoplay = true
-bus = &"Music"
 
 [node name="SFXPlayer" type="AudioStreamPlayer" parent="." unique_id=1805218745]
 volume_db = -2.0
-bus = &"SFX"
 
 [node name="Map" parent="." unique_id=836058189 instance=ExtResource("4_lbhrr")]
 
@@ -102,6 +100,6 @@ environment = SubResource("Environment_1")
 wait_time = 3.0
 one_shot = true
 
-[node name="PauseMenu" parent="." unique_id=2109648205 instance=ExtResource("7_pause")]
+[node name="PauseMenu" parent="." unique_id=1083979530 unique_id=2109648205 instance=ExtResource("7_pause")]
 
 [connection signal="timeout" from="MenuTimer" to="." method="_on_menu_timer_timeout"]
