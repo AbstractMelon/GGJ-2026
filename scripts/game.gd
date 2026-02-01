@@ -54,7 +54,7 @@ func _ready() -> void:
 		# Count NPCs after they've spawned (give more time for NPC spawner)
 		get_tree().create_timer(2.0).timeout.connect(_count_npcs)
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if game_over:
 		$GameOverUI/MenuReturnLabel.text = "Returning to lobby in " + str(int($MenuTimer.time_left) + 1) + " second(s)"
 
