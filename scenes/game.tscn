@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dbjc24t0legjp"]
+[gd_scene format=3 uid="uid://dbjc24t0legjp"]
 
 [ext_resource type="Script" uid="uid://80kfrand5d44" path="res://scripts/game.gd" id="1_lnu2h"]
 [ext_resource type="PackedScene" uid="uid://byjbirpdumxdk" path="res://scenes/map.tscn" id="4_lbhrr"]
@@ -32,21 +32,21 @@ glow_hdr_threshold = 0.8
 volumetric_fog_density = 0.02
 volumetric_fog_emission_energy = 0.5
 
-[node name="Game" type="Node3D"]
+[node name="Game" type="Node3D" unique_id=3414245]
 script = ExtResource("1_lnu2h")
 
-[node name="Players" type="Node3D" parent="."]
+[node name="Players" type="Node3D" parent="." unique_id=152896550]
 
-[node name="GameOverUI" type="CanvasLayer" parent="."]
+[node name="GameOverUI" type="CanvasLayer" parent="." unique_id=177777937]
 
-[node name="Panel" type="Panel" parent="GameOverUI"]
+[node name="Panel" type="Panel" parent="GameOverUI" unique_id=33270824]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="GameOverLabel" type="Label" parent="GameOverUI"]
+[node name="GameOverLabel" type="Label" parent="GameOverUI" unique_id=1577095079]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -63,21 +63,21 @@ text = "Detective Wins!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=745632571]
 stream = ExtResource("6_iywne")
 volume_db = -5.0
 autoplay = true
 
-[node name="SFXPlayer" type="AudioStreamPlayer" parent="."]
+[node name="SFXPlayer" type="AudioStreamPlayer" parent="." unique_id=1805218745]
 volume_db = -2.0
 
-[node name="Map" parent="." instance=ExtResource("4_lbhrr")]
+[node name="Map" parent="." unique_id=836058189 instance=ExtResource("4_lbhrr")]
 
-[node name="SpawnRegion" type="Node3D" parent="."]
+[node name="SpawnRegion" type="Node3D" parent="." unique_id=1343682123]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SpawnRegion"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SpawnRegion" unique_id=1387711299]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2140961, 0.5534319, 5.721573)
 shape = SubResource("BoxShape3D_lnu2h")
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1438119287]
 environment = SubResource("Environment_1")
