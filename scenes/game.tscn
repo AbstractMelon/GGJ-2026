@@ -72,4 +72,4 @@ stream = ExtResource("6_iywne")
 volume_db = -5.0
 autoplay = true
 
-[node name="TheMap" parent="." instance=ExtResource("4_lbhrr")]
+[node name="Map" parent="." instance=ExtResource("4_lbhrr")]

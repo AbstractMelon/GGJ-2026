@@ -7,4 +7,3 @@ script = ExtResource("1_spawner")
 npc_count = 15
 spawn_area_min = Vector3(-45, 0.5, -12)
 spawn_area_max = Vector3(15, 0.5, 12)
-sync_interval = 0.5
