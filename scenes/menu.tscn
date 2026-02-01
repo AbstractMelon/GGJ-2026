@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://brxbyxpd4j76f" path="res://scripts/menu.gd" id="1_menu"]
 [ext_resource type="AudioStream" uid="uid://c2pb8i4kxxy5w" path="res://assets/music/Space Conspircy.mp3" id="2_vjb58"]
+[ext_resource type="PackedScene" path="res://scenes/settings_menu.tscn" id="3_settings"]
 
 [node name="Menu" type="Control"]
 layout_mode = 3
@@ -120,6 +121,12 @@ custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "JOIN GAME"
+
+[node name="SettingsButton" type="Button" parent="MainMenu/ActionButtons"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "SETTINGS"
 
 [node name="Spacer" type="Control" parent="MainMenu/ActionButtons"]
 custom_minimum_size = Vector2(0, 10)
@@ -270,6 +277,12 @@ theme_override_colors/font_color = Color(0.4, 0.8, 1, 1)
 text = "Status..."
 horizontal_alignment = 1
 
+[node name="IPLabel" type="Label" parent="LobbyMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+text = "IP: 127.0.0.1"
+horizontal_alignment = 1
+
 [node name="HSeparator" type="HSeparator" parent="LobbyMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
@@ -334,9 +347,15 @@ horizontal_alignment = 2
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_vjb58")
 autoplay = true
+bus = &"Music"
+
+[node name="SettingsMenu" parent="." instance=ExtResource("3_settings")]
+visible = false
+layout_mode = 1
 
 [connection signal="pressed" from="MainMenu/ActionButtons/HostButton" to="." method="_on_host_button_pressed"]
 [connection signal="pressed" from="MainMenu/ActionButtons/JoinButton" to="." method="_on_join_button_pressed"]
+[connection signal="pressed" from="MainMenu/ActionButtons/SettingsButton" to="." method="_on_settings_button_pressed"]
 [connection signal="pressed" from="MainMenu/ActionButtons/QuitButton" to="." method="_on_quit_button_pressed"]
 [connection signal="pressed" from="HostMenu/MarginContainer/VBoxContainer/CreateServerButton" to="." method="_on_create_server_button_pressed"]
 [connection signal="pressed" from="HostMenu/MarginContainer/VBoxContainer/BackButton" to="." method="_on_host_back_button_pressed"]

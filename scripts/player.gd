@@ -52,13 +52,6 @@ func _input(event: InputEvent) -> void:
 	# Handle mouse look
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		_handle_mouse_look(event.relative)
-	
-	# Toggle mouse capture with Escape
-	if event.is_action_pressed("ui_cancel"):
-		if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-		else:
-			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func _handle_mouse_look(mouse_delta: Vector2) -> void:
 	camera_rotation.x -= mouse_delta.y * mouse_sensitivity
