@@ -3,17 +3,17 @@ extends Control
 # Main Menu - Handles hosting and joining games
 
 @onready var main_menu: VBoxContainer = $MainMenu
-@onready var host_menu: VBoxContainer = $HostMenu
-@onready var join_menu: VBoxContainer = $JoinMenu
-@onready var lobby_menu: VBoxContainer = $LobbyMenu
+@onready var host_menu: PanelContainer = $HostMenu
+@onready var join_menu: PanelContainer = $JoinMenu
+@onready var lobby_menu: PanelContainer = $LobbyMenu
 
-@onready var player_name_input: LineEdit = $MainMenu/PlayerNameInput
-@onready var port_input_host: LineEdit = $HostMenu/PortInput
-@onready var ip_input: LineEdit = $JoinMenu/IPInput
-@onready var port_input_join: LineEdit = $JoinMenu/PortInput
-@onready var status_label: Label = $LobbyMenu/StatusLabel
-@onready var player_list: Label = $LobbyMenu/PlayerList
-@onready var start_button: Button = $LobbyMenu/StartButton
+@onready var player_name_input: LineEdit = $MainMenu/PanelContainer/MarginContainer/VBoxContainer/PlayerNameInput
+@onready var port_input_host: LineEdit = $HostMenu/MarginContainer/VBoxContainer/PortInput
+@onready var ip_input: LineEdit = $JoinMenu/MarginContainer/VBoxContainer/IPInput
+@onready var port_input_join: LineEdit = $JoinMenu/MarginContainer/VBoxContainer/PortInput
+@onready var status_label: Label = $LobbyMenu/MarginContainer/VBoxContainer/StatusLabel
+@onready var player_list: Label = $LobbyMenu/MarginContainer/VBoxContainer/PlayerList
+@onready var start_button: Button = $LobbyMenu/MarginContainer/VBoxContainer/StartButton
 
 func _ready() -> void:
 	_show_main_menu()

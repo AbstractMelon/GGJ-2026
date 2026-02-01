@@ -19,20 +19,51 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.15, 0.15, 0.2, 1)
+color = Color(0.05, 0.05, 0.1, 1)
+
+[node name="BackgroundPattern" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0.02)
 
 [node name="Title" type="Label" parent="."]
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -200.0
-offset_top = 50.0
-offset_right = 200.0
-offset_bottom = 100.0
+anchors_preset = -1
+anchor_left = 0.17400001
+anchor_top = 0.096
+anchor_right = 0.82600003
+anchor_bottom = 0.24800001
+offset_left = 0.5519867
+offset_top = -17.208
+offset_right = -0.552063
+offset_bottom = -16.70401
 grow_horizontal = 2
-theme_override_font_sizes/font_size = 48
-text = "GGJ 2026"
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 12
+theme_override_font_sizes/font_size = 72
+text = "Machine Masquerade"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="Title"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -10.0
+offset_right = 200.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 18
+text = "There is a Hacker among us..."
 horizontal_alignment = 1
 
 [node name="MainMenu" type="VBoxContainer" parent="."]
@@ -42,40 +73,64 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -150.0
-offset_top = -100.0
-offset_right = 150.0
-offset_bottom = 100.0
+offset_left = -160.0
+offset_top = -120.0
+offset_right = 160.0
+offset_bottom = 150.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 15
 
-[node name="PlayerNameLabel" type="Label" parent="MainMenu"]
-layout_mode = 2
-text = "Player Name:"
-
-[node name="PlayerNameInput" type="LineEdit" parent="MainMenu"]
-layout_mode = 2
-placeholder_text = "Enter your name"
-
-[node name="HSeparator" type="HSeparator" parent="MainMenu"]
+[node name="PanelContainer" type="PanelContainer" parent="MainMenu"]
 layout_mode = 2
 
-[node name="HostButton" type="Button" parent="MainMenu"]
+[node name="MarginContainer" type="MarginContainer" parent="MainMenu/PanelContainer"]
 layout_mode = 2
-text = "Host Game"
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
 
-[node name="JoinButton" type="Button" parent="MainMenu"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu/PanelContainer/MarginContainer"]
 layout_mode = 2
-text = "Join Game"
+theme_override_constants/separation = 10
 
-[node name="HSeparator2" type="HSeparator" parent="MainMenu"]
+[node name="PlayerNameLabel" type="Label" parent="MainMenu/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "ENTER NAME"
+horizontal_alignment = 1
+
+[node name="PlayerNameInput" type="LineEdit" parent="MainMenu/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "Anonymous"
+alignment = 1
+
+[node name="ActionButtons" type="VBoxContainer" parent="MainMenu"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="HostButton" type="Button" parent="MainMenu/ActionButtons"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "HOST GAME"
+
+[node name="JoinButton" type="Button" parent="MainMenu/ActionButtons"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "JOIN GAME"
+
+[node name="Spacer" type="Control" parent="MainMenu/ActionButtons"]
+custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 
-[node name="QuitButton" type="Button" parent="MainMenu"]
+[node name="QuitButton" type="Button" parent="MainMenu/ActionButtons"]
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
-text = "Quit"
+text = "EXIT"
 
-[node name="HostMenu" type="VBoxContainer" parent="."]
+[node name="HostMenu" type="PanelContainer" parent="."]
 visible = false
 layout_mode = 1
 anchors_preset = 8
@@ -84,32 +139,47 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -150.0
-offset_top = -75.0
+offset_top = -100.0
 offset_right = 150.0
-offset_bottom = 75.0
+offset_bottom = 100.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="PortLabel" type="Label" parent="HostMenu"]
+[node name="MarginContainer" type="MarginContainer" parent="HostMenu"]
 layout_mode = 2
-text = "Port (default 7777):"
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
 
-[node name="PortInput" type="LineEdit" parent="HostMenu"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HostMenu/MarginContainer"]
 layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="PortLabel" type="Label" parent="HostMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Server Port:"
+
+[node name="PortInput" type="LineEdit" parent="HostMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "7777"
 placeholder_text = "7777"
+alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="HostMenu"]
+[node name="Control" type="Control" parent="HostMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 3
 
-[node name="CreateServerButton" type="Button" parent="HostMenu"]
+[node name="CreateServerButton" type="Button" parent="HostMenu/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
-text = "Create Server"
+text = "CONFIRM HOST"
 
-[node name="BackButton" type="Button" parent="HostMenu"]
+[node name="BackButton" type="Button" parent="HostMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Back"
+text = "BACK"
 
-[node name="JoinMenu" type="VBoxContainer" parent="."]
+[node name="JoinMenu" type="PanelContainer" parent="."]
 visible = false
 layout_mode = 1
 anchors_preset = 8
@@ -118,40 +188,57 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -150.0
-offset_top = -100.0
+offset_top = -120.0
 offset_right = 150.0
-offset_bottom = 100.0
+offset_bottom = 120.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="IPLabel" type="Label" parent="JoinMenu"]
+[node name="MarginContainer" type="MarginContainer" parent="JoinMenu"]
 layout_mode = 2
-text = "Server IP:"
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
 
-[node name="IPInput" type="LineEdit" parent="JoinMenu"]
+[node name="VBoxContainer" type="VBoxContainer" parent="JoinMenu/MarginContainer"]
 layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="IPLabel" type="Label" parent="JoinMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "IP Address:"
+
+[node name="IPInput" type="LineEdit" parent="JoinMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "127.0.0.1"
 placeholder_text = "127.0.0.1"
+alignment = 1
 
-[node name="PortLabel" type="Label" parent="JoinMenu"]
+[node name="PortLabel" type="Label" parent="JoinMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Port:"
 
-[node name="PortInput" type="LineEdit" parent="JoinMenu"]
+[node name="PortInput" type="LineEdit" parent="JoinMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
+text = "7777"
 placeholder_text = "7777"
+alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="JoinMenu"]
+[node name="Control" type="Control" parent="JoinMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 3
 
-[node name="ConnectButton" type="Button" parent="JoinMenu"]
+[node name="ConnectButton" type="Button" parent="JoinMenu/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
-text = "Connect"
+text = "CONNECT"
 
-[node name="BackButton" type="Button" parent="JoinMenu"]
+[node name="BackButton" type="Button" parent="JoinMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Back"
+text = "BACK"
 
-[node name="LobbyMenu" type="VBoxContainer" parent="."]
+[node name="LobbyMenu" type="PanelContainer" parent="."]
 visible = false
 layout_mode = 1
 anchors_preset = 8
@@ -159,46 +246,101 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -150.0
-offset_top = -100.0
-offset_right = 150.0
-offset_bottom = 100.0
+offset_left = -200.0
+offset_top = -150.0
+offset_right = 200.0
+offset_bottom = 150.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="StatusLabel" type="Label" parent="LobbyMenu"]
+[node name="MarginContainer" type="MarginContainer" parent="LobbyMenu"]
 layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LobbyMenu/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="StatusLabel" type="Label" parent="LobbyMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.8, 1, 1)
 text = "Status..."
 horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="LobbyMenu"]
+[node name="HSeparator" type="HSeparator" parent="LobbyMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="PlayerList" type="Label" parent="LobbyMenu"]
+[node name="PlayerList" type="Label" parent="LobbyMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 3
 text = "Players:"
 
-[node name="HSeparator2" type="HSeparator" parent="LobbyMenu"]
+[node name="HSeparator2" type="HSeparator" parent="LobbyMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="StartButton" type="Button" parent="LobbyMenu"]
+[node name="StartButton" type="Button" parent="LobbyMenu/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
-text = "Start Game"
+theme_override_font_sizes/font_size = 24
+text = "START GAME"
 
-[node name="BackButton" type="Button" parent="LobbyMenu"]
+[node name="BackButton" type="Button" parent="LobbyMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Leave"
+text = "LEAVE LOBBY"
+
+[node name="Footer" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -60.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="VersionLabel" type="Label" parent="Footer"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -30.0
+offset_right = 100.0
+offset_bottom = -7.0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 14
+text = "v1.0.0"
+
+[node name="AuthorsLabel" type="Label" parent="Footer"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -220.0
+offset_top = -30.0
+offset_right = -20.0
+offset_bottom = -7.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 14
+text = "Built for Global Game Jam 2026"
+horizontal_alignment = 2
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_vjb58")
 autoplay = true
 
-[connection signal="pressed" from="MainMenu/HostButton" to="." method="_on_host_button_pressed"]
-[connection signal="pressed" from="MainMenu/JoinButton" to="." method="_on_join_button_pressed"]
-[connection signal="pressed" from="MainMenu/QuitButton" to="." method="_on_quit_button_pressed"]
-[connection signal="pressed" from="HostMenu/CreateServerButton" to="." method="_on_create_server_button_pressed"]
-[connection signal="pressed" from="HostMenu/BackButton" to="." method="_on_host_back_button_pressed"]
-[connection signal="pressed" from="JoinMenu/ConnectButton" to="." method="_on_connect_button_pressed"]
-[connection signal="pressed" from="JoinMenu/BackButton" to="." method="_on_join_back_button_pressed"]
-[connection signal="pressed" from="LobbyMenu/StartButton" to="." method="_on_start_button_pressed"]
-[connection signal="pressed" from="LobbyMenu/BackButton" to="." method="_on_lobby_back_button_pressed"]
+[connection signal="pressed" from="MainMenu/ActionButtons/HostButton" to="." method="_on_host_button_pressed"]
+[connection signal="pressed" from="MainMenu/ActionButtons/JoinButton" to="." method="_on_join_button_pressed"]
+[connection signal="pressed" from="MainMenu/ActionButtons/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="HostMenu/MarginContainer/VBoxContainer/CreateServerButton" to="." method="_on_create_server_button_pressed"]
+[connection signal="pressed" from="HostMenu/MarginContainer/VBoxContainer/BackButton" to="." method="_on_host_back_button_pressed"]
+[connection signal="pressed" from="JoinMenu/MarginContainer/VBoxContainer/ConnectButton" to="." method="_on_connect_button_pressed"]
+[connection signal="pressed" from="JoinMenu/MarginContainer/VBoxContainer/BackButton" to="." method="_on_join_back_button_pressed"]
+[connection signal="pressed" from="LobbyMenu/MarginContainer/VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="LobbyMenu/MarginContainer/VBoxContainer/BackButton" to="." method="_on_lobby_back_button_pressed"]

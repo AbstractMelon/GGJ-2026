@@ -264,7 +264,10 @@ func handle_hack_request(requester_id: int, target_robot_path: String, hacker_ro
 
 func _sync_hacker_progress() -> void:
 	if spawned_players.has(hacker_id):
+		print("Syncing hacker progress to %d: %d/%d" % [hacker_id, hacked_npcs, total_npcs])
 		spawned_players[hacker_id].update_infection_progress.rpc_id(hacker_id, hacked_npcs, total_npcs, HACK_WIN_PERCENTAGE)
+	else:
+		print("Cannot sync hacker progress, hacker_id %d not in spawned_players" % hacker_id)
 
 func _check_hacker_win() -> void:
 	if not multiplayer.is_server():

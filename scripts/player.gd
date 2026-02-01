@@ -166,25 +166,32 @@ func set_role(role: Role) -> void:
 	if is_multiplayer_authority():
 		_update_role_ui()
 
-@rpc("authority", "call_local", "reliable")
+@rpc("any_peer", "call_local", "reliable")
 func update_guesses(count: int) -> void:
+	if multiplayer.get_remote_sender_id() != 1 and multiplayer.get_remote_sender_id() != 0:
+		return
 	if is_multiplayer_authority():
 		if guesses_label:
 			guesses_label.text = "Guesses Left: %d" % count
 			guesses_label.visible = player_role == Role.DETECTIVE
 			guesses_label.modulate = Color.CYAN if count > 1 else Color.ORANGE_RED
 
-@rpc("authority", "call_local", "reliable")
+@rpc("any_peer", "call_local", "reliable")
 func update_infection_progress(hacked: int, total: int, win_percentage: float) -> void:
+	if multiplayer.get_remote_sender_id() != 1 and multiplayer.get_remote_sender_id() != 0:
+		return
 	if is_multiplayer_authority():
+		print("Client %d received infection progress: %d/%d" % [multiplayer.get_unique_id(), hacked, total])
 		if infection_container:
 			infection_container.visible = player_role == Role.HACKER
 			var percent = (float(hacked) / max(total, 1)) * 100
 			infection_label.text = "Infection Progress: %.0f%%" % percent
 			# hacker needs win_percentage * total to win
-			infection_progress.max_value = total * win_percentage
+			infection_progress.max_value = max(total * win_percentage, 1)
 			infection_progress.value = hacked
-			infection_progress.modulate = Color.GREEN_YELLOW
+			print("Updated hacking bar: value=%f, max=%f" % [infection_progress.value, infection_progress.max_value])
+		else:
+			print("Warning: infection_container is null in update_infection_progress")
 
 func _update_role_ui() -> void:
 	if not role_label:
