@@ -13,14 +13,14 @@ size = Vector3(3.4794617, 3.312622, 0.92578125)
 [node name="Map" type="NavigationRegion3D" unique_id=158138606]
 navigation_mesh = SubResource("NavigationMesh_f8cpn")
 
-[node name="entity_1_info_player_start" type="Marker3D" parent="." unique_id=2144922063]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -6.5, 1.25, -31.235939)
-
-[node name="entity_2_info_player_start" type="Marker3D" parent="." unique_id=728184644]
+[node name="entity_1_info_player_start" type="Marker3D" parent="." unique_id=728184644]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -7.5, 1.25, 9)
 
-[node name="entity_3_info_player_start" type="Marker3D" parent="." unique_id=1749545491]
-transform = Transform3D(1, 0, 1.7484555e-07, 0, 1, 0, -1.7484555e-07, 0, 1, -1.774724, 3.450616, -38.35141)
+[node name="entity_2_info_player_start" type="Marker3D" parent="." unique_id=1749545491]
+transform = Transform3D(1, 0, 1.7484555e-07, 0, 1, 0, -1.7484555e-07, 0, 1, -1.774724, 1.6044576, -11.436861)
+
+[node name="entity_2_info_player_start" type="Marker3D" parent="entity_2_info_player_start" unique_id=375539025]
+transform = Transform3D(1, 0, 1.7484555e-07, 0, 1, 0, -1.7484555e-07, 0, 1, 16.36643, 0.43134928, 15.963583)
 
 [node name="Level" parent="." unique_id=1795923594 instance=ExtResource("1_4xfga")]
 transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, -0.023090363, 0.02695012, -0.014187813)

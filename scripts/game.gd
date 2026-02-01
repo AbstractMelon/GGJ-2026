@@ -17,6 +17,7 @@ var hacker_id: int = -1
 var detective_id: int = -1
 var detective_guesses_remaining := 3
 var game_over := false
+var _next_spawn_index := 0
 
 # NPC Spawner reference
 var npc_spawner: NPCSpawner = null
@@ -29,6 +30,7 @@ const HACK_WIN_PERCENTAGE := 0.7
 func _ready() -> void:
 	add_to_group("game")
 	spawn_points = $Map.find_children("*_info_player_start", "Marker3D", true)
+	
 	# Connect to multiplayer signals
 	MultiplayerManager.player_connected.connect(_on_player_connected)
 	MultiplayerManager.player_disconnected.connect(_on_player_disconnected)
@@ -37,13 +39,17 @@ func _ready() -> void:
 	if game_over_ui:
 		game_over_ui.visible = false
 	
-	# Spawn existing players (including ourselves)
-	for player_id in MultiplayerManager.get_all_player_ids():
-		_spawn_player(player_id)
-	
-	# If we're the server and only one player, spawn ourselves
-	if MultiplayerManager.is_server() and spawned_players.is_empty():
-		_spawn_player(1)
+	# Only the server handles initial configuration and spawning
+	if MultiplayerManager.is_server():
+		spawn_points.shuffle()
+		
+		# Spawn existing players (including ourselves)
+		for player_id in MultiplayerManager.get_all_player_ids():
+			_spawn_player_at_next_point(player_id)
+		
+		# Make sure that at least the server is spawned if no other players detected
+		if spawned_players.is_empty():
+			_spawn_player_at_next_point(1)
 	
 	# Create and add the NPC spawner
 	_setup_npc_spawner()
@@ -69,17 +75,41 @@ func _setup_npc_spawner() -> void:
 		npc_spawner.spawn_area = spawn_region
 
 func _on_player_connected(peer_id: int) -> void:
-	# Only the server initiates spawning for everyone
 	if multiplayer.is_server():
-		_spawn_player_remote.rpc(peer_id)
+		# Spawn the new player for everyone
+		_spawn_player_at_next_point(peer_id)
+		
+		# For the new player, tell them about all ALREADY spawned players
+		for existing_id in spawned_players:
+			if existing_id != peer_id:
+				var pos = spawned_players[existing_id].global_position
+				_spawn_player_remote.rpc_id(peer_id, existing_id, pos)
+		
 		# Reassign roles when a new player joins
 		_assign_roles()
 
 func _on_player_disconnected(peer_id: int) -> void:
 	_remove_player(peer_id)
 
-func _spawn_player(peer_id: int) -> void:
+func _spawn_player_at_next_point(peer_id: int) -> void:
+	if not multiplayer.is_server():
+		return
+	
+	if spawn_points.is_empty():
+		spawn_points = $Map.find_children("*_info_player_start", "Marker3D", true)
+	
+	var spawn_point = spawn_points[_next_spawn_index % spawn_points.size()]
+	_next_spawn_index += 1
+	var pos = spawn_point.global_position
+	
+	# RPC everyone to spawn this player at this position
+	_spawn_player_remote.rpc(peer_id, pos)
+
+func _spawn_player(peer_id: int, spawn_pos: Vector3) -> void:
 	if spawned_players.has(peer_id):
+		# Just in case, update position if it's us or we're server
+		if multiplayer.is_server() or peer_id == multiplayer.get_unique_id():
+			spawned_players[peer_id].global_position = spawn_pos
 		return
 	
 	var player := PLAYER_SCENE.instantiate()
@@ -87,14 +117,9 @@ func _spawn_player(peer_id: int) -> void:
 	
 	players_container.add_child(player, true)
 	spawned_players[peer_id] = player
+	player.global_position = spawn_pos
 	
-	# Get spawn position
-	var spawn_index := spawned_players.size() % spawn_points.size()
-	var spawn_point := spawn_points[spawn_index]
-	if spawn_point:
-		player.global_position = spawn_point.global_position
-	
-	print("Spawned player %d" % peer_id)
+	print("Spawned player %d at %s" % [peer_id, spawn_pos])
 
 func _remove_player(peer_id: int) -> void:
 	if spawned_players.has(peer_id):
@@ -103,8 +128,8 @@ func _remove_player(peer_id: int) -> void:
 		print("Removed player %d" % peer_id)
 
 @rpc("authority", "reliable", "call_local")
-func _spawn_player_remote(peer_id: int) -> void:
-	_spawn_player(peer_id)
+func _spawn_player_remote(peer_id: int, spawn_pos: Vector3) -> void:
+	_spawn_player(peer_id, spawn_pos)
 
 func _assign_roles() -> void:
 	if not multiplayer.is_server():
