@@ -6,12 +6,14 @@ extends Control
 @onready var host_menu: PanelContainer = $HostMenu
 @onready var join_menu: PanelContainer = $JoinMenu
 @onready var lobby_menu: PanelContainer = $LobbyMenu
+@onready var settings_menu: Control = $SettingsMenu
 
 @onready var player_name_input: LineEdit = $MainMenu/PanelContainer/MarginContainer/VBoxContainer/PlayerNameInput
 @onready var port_input_host: LineEdit = $HostMenu/MarginContainer/VBoxContainer/PortInput
 @onready var ip_input: LineEdit = $JoinMenu/MarginContainer/VBoxContainer/IPInput
 @onready var port_input_join: LineEdit = $JoinMenu/MarginContainer/VBoxContainer/PortInput
 @onready var status_label: Label = $LobbyMenu/MarginContainer/VBoxContainer/StatusLabel
+@onready var ip_label: Label = $LobbyMenu/MarginContainer/VBoxContainer/IPLabel
 @onready var player_list: Label = $LobbyMenu/MarginContainer/VBoxContainer/PlayerList
 @onready var start_button: Button = $LobbyMenu/MarginContainer/VBoxContainer/StartButton
 
@@ -20,12 +22,17 @@ func _ready() -> void:
 		_show_lobby()
 		if MultiplayerManager.is_server():
 			status_label.text = "Player joined! Ready to start."
+			ip_label.text = "Host IP: " + SettingsManager.get_ip_address()
+			ip_label.visible = true
 			start_button.visible = true
 		else:
 			status_label.text = "Connected to server!"
+			ip_label.visible = false
 			start_button.visible = false
 	else:
 		_show_main_menu()
+	
+	settings_menu.back_pressed.connect(_on_settings_back_pressed)
 	
 	# Connect multiplayer signals
 	MultiplayerManager.server_created.connect(_on_server_created)
@@ -41,25 +48,36 @@ func _show_main_menu() -> void:
 	host_menu.visible = false
 	join_menu.visible = false
 	lobby_menu.visible = false
+	settings_menu.visible = false
 
 func _show_host_menu() -> void:
 	main_menu.visible = false
 	host_menu.visible = true
 	join_menu.visible = false
 	lobby_menu.visible = false
+	settings_menu.visible = false
 
 func _show_join_menu() -> void:
 	main_menu.visible = false
 	host_menu.visible = false
 	join_menu.visible = true
 	lobby_menu.visible = false
+	settings_menu.visible = false
 
 func _show_lobby() -> void:
 	main_menu.visible = false
 	host_menu.visible = false
 	join_menu.visible = false
 	lobby_menu.visible = true
+	settings_menu.visible = false
 	_update_player_list()
+
+func _show_settings() -> void:
+	main_menu.visible = false
+	host_menu.visible = false
+	join_menu.visible = false
+	lobby_menu.visible = false
+	settings_menu.visible = true
 
 # Main Menu buttons
 func _on_host_button_pressed() -> void:
@@ -67,6 +85,12 @@ func _on_host_button_pressed() -> void:
 
 func _on_join_button_pressed() -> void:
 	_show_join_menu()
+
+func _on_settings_button_pressed() -> void:
+	_show_settings()
+
+func _on_settings_back_pressed() -> void:
+	_show_main_menu()
 
 func _on_quit_button_pressed() -> void:
 	get_tree().quit()
@@ -120,10 +144,13 @@ func _on_lobby_back_button_pressed() -> void:
 # Multiplayer callbacks
 func _on_server_created() -> void:
 	status_label.text = "Server created!\nWaiting for player to join..."
+	ip_label.text = "Host IP: " + SettingsManager.get_ip_address()
+	ip_label.visible = true
 	_update_player_list()
 
 func _on_connection_succeeded() -> void:
 	status_label.text = "Connected to server!"
+	ip_label.visible = false
 	_update_player_list()
 
 func _on_connection_failed() -> void:
