@@ -14,7 +14,8 @@ ground_horizon_color = Color(0.05, 0.02, 0.1, 1)
 sky_material = SubResource("ProceduralSkyMaterial_1")
 
 [sub_resource type="Environment" id="Environment_1"]
-background_energy_multiplier = 4.0
+background_mode = 2
+background_energy_multiplier = 2.0
 sky = SubResource("Sky_1")
 tonemap_mode = 2
 tonemap_exposure = 1.2
@@ -25,7 +26,6 @@ glow_strength = 0.6
 glow_bloom = 0.2
 glow_blend_mode = 0
 glow_hdr_threshold = 0.8
-volumetric_fog_enabled = true
 volumetric_fog_density = 0.02
 volumetric_fog_emission_energy = 0.5
 
@@ -33,9 +33,6 @@ volumetric_fog_emission_energy = 0.5
 script = ExtResource("1_lnu2h")
 
 [node name="Players" type="Node3D" parent="."]
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_1")
 
 [node name="GameOverUI" type="CanvasLayer" parent="."]
 
@@ -69,3 +66,6 @@ volume_db = -5.0
 autoplay = true
 
 [node name="Map" parent="." instance=ExtResource("4_lbhrr")]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_1")
