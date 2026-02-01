@@ -86,6 +86,9 @@ func _physics_process(delta: float) -> void:
 	
 	move_and_slide()
 
+func _process(delta: float) -> void:
+	$HUD/FPS.text = str(Engine.get_frames_per_second()) + " FPS"
+
 func _process_movement(delta: float) -> void:
 	# Get input direction
 	var input_dir := Vector2.ZERO

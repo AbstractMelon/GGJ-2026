@@ -1,0 +1,84 @@
+[gd_scene load_steps=2 format=3 uid="uid://c7rfhkaa7h6bj"]
+
+[ext_resource type="PackedScene" uid="uid://biooqy51hqhwh" path="res://assets/Level.fbx" id="1_2q6dc"]
+
+[node name="Level" instance=ExtResource("1_2q6dc")]
+transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, 0, 0, 0)
+
+[node name="Curtin-col" parent="." index="17"]
+visible = false
+
+[node name="Curtin1" parent="." index="23"]
+visible = false
+
+[node name="Curtin2" parent="." index="24"]
+visible = false
+
+[node name="Curtin3" parent="." index="25"]
+visible = false
+
+[node name="Curtin4" parent="." index="26"]
+visible = false
+
+[node name="Curtin5" parent="." index="27"]
+visible = false
+
+[node name="Fountin-col" parent="." index="51"]
+visible = false
+
+[node name="Pillar1" parent="." index="52"]
+visible = false
+
+[node name="Pillar10-col" parent="." index="54"]
+visible = false
+
+[node name="Pillar11-col" parent="." index="56"]
+visible = false
+
+[node name="Pillar12-col" parent="." index="58"]
+visible = false
+
+[node name="Pillar13-col" parent="." index="60"]
+visible = false
+
+[node name="Pillar14-col" parent="." index="62"]
+visible = false
+
+[node name="Pillar2" parent="." index="63"]
+visible = false
+
+[node name="Pillar3-col" parent="." index="65"]
+visible = false
+
+[node name="Pillar4-col" parent="." index="67"]
+visible = false
+
+[node name="Pillar5-col" parent="." index="69"]
+visible = false
+
+[node name="Pillar6-col" parent="." index="71"]
+visible = false
+
+[node name="Pillar7-col" parent="." index="73"]
+visible = false
+
+[node name="Pillar8-col" parent="." index="75"]
+visible = false
+
+[node name="Pillar9-col" parent="." index="77"]
+visible = false
+
+[node name="Stage" parent="." index="94"]
+visible = false
+
+[node name="Table-col" parent="." index="96"]
+visible = false
+
+[node name="Table2-col" parent="." index="98"]
+visible = false
+
+[node name="Table3-col" parent="." index="100"]
+visible = false
+
+[node name="Table4-col" parent="." index="102"]
+visible = false

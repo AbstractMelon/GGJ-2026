@@ -27,7 +27,7 @@ mesh = SubResource("CapsuleMesh_1")
 [node name="RobotModel" parent="." instance=ExtResource("8_robot_model")]
 
 [node name="NavigationAgent" type="NavigationAgent3D" parent="."]
-avoidance_enabled = true
+debug_enabled = true
 
 [node name="MoveTimer" type="Timer" parent="."]
 one_shot = true
